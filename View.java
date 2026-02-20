@@ -1,5 +1,5 @@
 public class View implements SimulationUpdateListener {
-    private TrafficSimulator simulator; 
+    private Simulation simulation; 
 
     public void onUpdate() {};
 }
