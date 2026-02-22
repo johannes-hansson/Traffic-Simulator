@@ -1,7 +1,7 @@
 public class Vehicle {
     
     //assigning variables
-    private double x;                                   //position coordinates
+    private double x;                                   //position coordinates on map
     private double y;
     private VehicleColor color;
     private double velocity;
@@ -9,7 +9,7 @@ public class Vehicle {
     private double direction; 
     
     protected Road currentRoad;
-   
+    //protected Lane currentLane;
     
 
     //constructor
