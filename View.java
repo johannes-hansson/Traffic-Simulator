@@ -1,5 +1,8 @@
 public class View implements SimulationUpdateListener {
-    private Simulation simulation; 
+    private Simulation simulation;
 
-    public void onUpdate() {};
+    @Override
+    public void onUpdate(Simulation simulation) {
+
+    }
 }

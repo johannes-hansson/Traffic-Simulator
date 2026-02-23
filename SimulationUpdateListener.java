@@ -1,3 +1,3 @@
 public interface SimulationUpdateListener {
-    public void onUpdate();
+    public void onUpdate(Simulation simulation);
 }
