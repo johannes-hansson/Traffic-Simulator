@@ -23,8 +23,8 @@ public class VehicleBehaviour {
                         double velocityThisVehicle = vehicles[i].velocity;
                         
 
-                        RoadPosition positionThisVehicle = vehicles[i].getVehiclePositionRoad();
-                        Road road = positionThisVehicle.getRoad();
+                        RoadPosition positionVehicle = vehicles[i].getVehiclePositionRoad();
+                        Road road = positionVehicle.getRoad();
                         int roadLength = road.getLength();
                         
                         //check if vehicle is in front
