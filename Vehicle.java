@@ -11,8 +11,20 @@ public class Vehicle {
         this.velocity = velocity;
     }
 
+    public int getVelocity() {
+        return this.velocity;
+    }
+
+    public void setVelocity(int velocity) {
+        this.velocity = velocity;
+    }
+
     public VehicleProperties getProperties() {
         return this.properties;
+    }
+
+    public void setPosition(RoadPosition position) {
+        this.position = position;
     }
 
     public RoadPosition getPosition() {

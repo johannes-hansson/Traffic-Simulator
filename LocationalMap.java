@@ -5,15 +5,19 @@ public class LocationalMap { //changed name for more clarity
     public boolean isOccupied(RoadPosition position) {
         return false;
     }
+
+    public int scanAheadOf(RoadPosition position, int cells) {
+        return cells;
+    }
+
     public void loadRoads(Road[] roads) {};
     public void addVehicle(Vehicle newVehicle, RoadPosition startPosition) {
         //create randomized spot for the spawn of the new vehicle on map
     };
     public void moveVehicle(RoadPosition from, RoadPosition to) {};
 
-    
 
-    public Vehicle[] getVehiclesOnRoad(Road road){  //get all vehicles that are on same road
+    public ArrayList<Vehicle> getVehiclesOnRoad(Road road) {  //get all vehicles that are on same road
         
         int n_vehicles = VehicleBehaviour.getVehicleAmount();
         int j=0;
