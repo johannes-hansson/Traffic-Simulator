@@ -13,7 +13,7 @@ public class LocationalMap { //changed name for more clarity
     public void moveVehicle(RoadPosition from, RoadPosition to) {};
 
     
-
+    
     public Vehicle[] getVehiclesOnRoad(Road road){  //get all vehicles that are on same road
         
         int n_vehicles = Simulation.getVehicleAmount();
