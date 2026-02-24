@@ -60,4 +60,8 @@ public class Simulation {
 
     public int getVehicleAmount(){
         return n_vehicles; }
+
+    public List<Vehicle> getVehicles(){
+        return vehicles;
+    }
 }
