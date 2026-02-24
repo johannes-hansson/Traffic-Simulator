@@ -3,6 +3,7 @@ public class Vehicle {
     private VehicleProperties properties;
     private RoadPosition position;
     private int velocity;
+    private Color color;
 
     //constructor
     Vehicle(VehicleProperties properties, RoadPosition position, int velocity){
@@ -11,7 +12,7 @@ public class Vehicle {
         this.velocity = velocity;
     }
 
-    public VehicleProperties getProperties() {
+    public VehicleProperties getProperties(){
         return this.properties;
     }
 
