@@ -27,16 +27,24 @@ public class LocationalMap {
     public void moveVehicle(RoadPosition from, RoadPosition to) {};
 
     public int scanAheadOf(RoadPosition position, int velocity){
-        int cellsBeforeVehicle = 0; //amount of empty cells before next vehicle
-        int cellsAhead = velocity;
-        
-        Road currentRoad = position.road();
-        int currentCell = position.cell();
+        List<Vehicle> vehicles = Simulation.getVehicles(); //<-different implmementation needed here
 
-        for(int i=0; i<cellsAhead; i++){
-                currentCell++;
-                if(currentCell )
+        int cellsBeforeVehicle = 0; //amount of empty cells before next vehicle
+        int cellsAhead = velocity;  //is not longer than existing road (defined in VehicleMovement)
+       
+        for(int currentCell=1; currentCell<cellsAhead; currentCell++){
+                
+            RoadPosition lookPosition = new RoadPosition(
+            position.road(), 
+            position.cell() + currentCell, 
+            position.lane()
+            );
+
+            if(isOccupied(vehicles, lookPosition) == false){
+                cellsBeforeVehicle++;
             }
+            lookPosition = null; 
+        }
 
         return cellsBeforeVehicle;
     };
