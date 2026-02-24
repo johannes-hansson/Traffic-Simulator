@@ -1,23 +1,38 @@
 public class Vehicle {
     
     //assigning variables
-    private VehicleProperties properties;
-    private RoadPosition position; 
-    private int velocity;
+    protected double x;                                   //position coordinates on map
+    protected double y;
+
+    protected VehicleColor color;
+    protected double velocity;
+    private double acceleration;
+    private double direction; 
     
+    protected RoadPosition roadPosition;
+    //protected Lane currentLane;
+    
+    protected double maxSpeed;
+
     //constructor
-    Vehicle(VehicleProperties properties, RoadPosition position){
-        this.properties = properties;
-        this.position = position;
-        this.velocity = 0; 
+    Vehicle(double velocity, VehicleColor color, double x, double y,
+                 double acceleration, double direction, RoadPosition position){
+        this.velocity = velocity;                   //start velocity
+        this.color = color;
+        this.x = x;
+        this.y = y;
+        this.acceleration = acceleration;
+        this.direction = direction; 
+        this.roadPosition = position;
     }
 
-    public RoadPosition getPosition() {
-        return this.position;
+    public RoadPosition getVehiclePositionRoad(){
+        return roadPosition;
     }
 
-    public VehicleProperties getProperties() {
-        return this.properties;
+    public void setPositionCoordinates(double x, double y){
+        this.x = x;
+        this.y = y;
     }
 
     public void displayDetailsVehicle(){
