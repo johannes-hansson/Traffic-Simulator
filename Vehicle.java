@@ -38,12 +38,7 @@ public class Vehicle {
     public void displayDetailsVehicle(){
         System.out.println("Vehicle details: ");
         System.out.println("Velocity: " + velocity);
-        System.out.println("Position: " + x + ", " + y);
-        System.out.println("Color: " + color);
-        System.out.println("Acceleration: " + acceleration);
-        System.out.println("Current direction (degrees): " + direction);
+        System.out.println("Road: " + this.position.getRoad());
+        System.out.println("Acceleration: " + this.properties.acceleration());
     }
-
-    //getter for all vehicles
-
 }
