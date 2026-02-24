@@ -1,4 +1,4 @@
-public class SpatialMap {
+public class LocationMap {
     public boolean isOccupied(RoadPosition position) {
         return false;
     }
