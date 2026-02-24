@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class LocationalMap { 
     
-    public boolean isOccupied(ArrayList<Vehicle> vehicles, RoadPosition position) {
+    public boolean isOccupied(RoadPosition position) {
+        List<Vehicle> vehicles = Simulation.getVehicles(); //<-different implmementation needed here
         for (Vehicle vehicle: vehicles){
-
             RoadPosition vehiclePosition = vehicle.getPosition(); 
 
             Road vehicleRoad = vehiclePosition.road();
@@ -27,25 +28,21 @@ public class LocationalMap {
     public void moveVehicle(RoadPosition from, RoadPosition to) {};
 
     public int scanAheadOf(RoadPosition position, int velocity){
-        List<Vehicle> vehicles = Simulation.getVehicles(); //<-different implmementation needed here
-
         int cellsBeforeVehicle = 0; //amount of empty cells before next vehicle
         int cellsAhead = velocity;  //is not longer than existing road (defined in VehicleMovement)
        
-        for(int currentCell=1; currentCell<cellsAhead; currentCell++){
-                
+        for(int currentCell=1; currentCell<cellsAhead; currentCell++){   
             RoadPosition lookPosition = new RoadPosition(
             position.road(), 
             position.cell() + currentCell, 
             position.lane()
             );
 
-            if(isOccupied(vehicles, lookPosition) == false){
+            if(isOccupied(lookPosition) == false){
                 cellsBeforeVehicle++;
             }
             lookPosition = null; 
         }
-
         return cellsBeforeVehicle;
     };
 
@@ -55,25 +52,20 @@ public class LocationalMap {
     };
     
     
-    public Vehicle[] getVehiclesOnRoad(Road road){  //get all vehicles that are on same road
-        
+    public List<Vehicle> getVehiclesOnRoad(Road road){  //get all vehicles that are on same road
         int n_vehicles = Simulation.getVehicleAmount();
-        int j=0;
+        List<Vehicle> vehicles = Simulation.getVehicles(); //<-different implmementation needed here
 
-        ArrayList<Vehicle> allVehicles = new ArrayList<>(); //then set to = getAllVehicles function
-        ArrayList<Vehicle> vehiclesOnRoad = new ArrayList<>();
+        List<Vehicle> allVehicles = new ArrayList<>(); //then set to = getAllVehicles function
+        List<Vehicle> vehiclesOnRoad = new ArrayList<>();
 
-        for(int i=0; i<n_vehicles; i++){
-            Vehicle currVehicle = allVehicles[i];
-            RoadPosition currPosition = currVehicle.getVehiclePositionRoad();
-            Road currRoad = currPosition.getRoad();
+        for (Vehicle vehicle: allVehicles){
+            RoadPosition currPosition = vehicle.getPosition();
+            Road currRoad = currPosition.road();
             
             if(currRoad == road){
-                j++;
-                vehiclesOnRoad[j] = allVehicles[i];    
-        }
-        
-        //---
-        return vehiclesOnRoad[];
+                vehiclesOnRoad.add(vehicle); }
+            }
+        return vehiclesOnRoad;
     }
 }
