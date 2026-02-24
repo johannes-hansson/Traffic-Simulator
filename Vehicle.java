@@ -9,9 +9,10 @@ public class Vehicle {
     private double acceleration;
     private double direction; 
     
-    protected RoadPosition currentRoadPosition;
+    protected RoadPosition roadPosition;
     //protected Lane currentLane;
     
+    protected double maxSpeed;
 
     //constructor
     Vehicle(double velocity, VehicleColor color, double x, double y,
@@ -22,11 +23,11 @@ public class Vehicle {
         this.y = y;
         this.acceleration = acceleration;
         this.direction = direction; 
-        this.currentRoadPosition = position;
+        this.roadPosition = position;
     }
 
     public RoadPosition getVehiclePositionRoad(){
-        return currentRoadPosition;
+        return roadPosition;
     }
 
     public void setPositionCoordinates(double x, double y){
@@ -43,6 +44,6 @@ public class Vehicle {
         System.out.println("Current direction (degrees): " + direction);
     }
 
-    
+    //getter for all vehicles
 
 }
