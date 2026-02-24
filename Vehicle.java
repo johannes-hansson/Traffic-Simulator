@@ -3,7 +3,7 @@ public class Vehicle {
     private VehicleProperties properties;
     private RoadPosition position;
     private int velocity;
-    private Color color;
+
 
     //constructor
     Vehicle(VehicleProperties properties, RoadPosition position, int velocity){
@@ -36,6 +36,5 @@ public class Vehicle {
         System.out.println("Vehicle details: ");
         System.out.println("Velocity: " + velocity);
         System.out.println("Road: " + this.position.getRoad());
-        System.out.println("Acceleration: " + this.properties.acceleration());
     }
 }

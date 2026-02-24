@@ -1,1 +1,1 @@
-public record VehicleProperties(int maxVelocity, int acceleration) {}
+public record VehicleProperties(int maxVelocity, int acceleration, int size, VehicleColor color) {}
