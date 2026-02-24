@@ -1,35 +1,23 @@
 public class RoadPosition {
     private Road road;
-    private int cell;
     private int lane;
+    private int cell;
 
-    public RoadPosition(Road road, int cell, int lane) {
-        this.road = road;
-        this.cell = cell;
-        this.lane = lane;
+    public Road getRoad(){
+        return road;
     }
 
-    public Road getRoad() {
-        return this.road;
+    public int getLane(){
+        return lane;
     }
 
-    public int getCell() {
-        return this.cell;
+    public int getCell(){
+        return cell;
     }
 
-    public int getLane() {
-        return this.lane;
-    }
+    public void setRoad(Road road){}
 
-    public void setRoad(Road road) {
-        this.road = road;
-    }
+    public void setLane(int Lane){}
 
-    public void setCell(int cell) {
-        this.cell = cell;
-    }
-
-    public void setLane(int lane) {
-        this.lane = lane;
-    }
+    public void setCell(int cell){}
 }
