@@ -10,6 +10,7 @@ public class Simulation {
     private int tick = 0;
     private int tickSpeedMs = 100;
     private Thread simThread;
+    private int n_vehicles; //amount of vehicles
 
     public Map getMap() {
         return map;
@@ -56,4 +57,7 @@ public class Simulation {
             listener.onUpdate(this);
         }
     }
+
+    public int getVehicleAmount(){
+        return n_vehicles; }
 }
