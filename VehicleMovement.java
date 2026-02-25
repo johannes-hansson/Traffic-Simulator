@@ -7,21 +7,22 @@ public class VehicleMovement {
         ///for loop for all vehicles here
         /// 
         //1. Acceleration
-        int velocity = VehicleBehaviour.accelerate(vehicle);
+            int velocity = VehicleBehaviour.accelerate(vehicle); //call from vehicleBehavior
+            vehicle.setVelocity(velocity);
 
         //2. Deacceleration
             RoadPosition position = vehicle.getPosition();
             Road road = position.road();
             int roadLength = road.getLength();
 
-            RoadPosition newPosition = new RoadPosition(
-                position.road(), 
-                position.cell() + velocity, 
-                position.lane()
-            );
+            int velocity = VehicleBehaviour.accelerate(vehicle)
+            vehicle.setVelocity(velocity);
+
+
         //3. Randomization
 
         //4. Movement
+        
         locationMap.moveVehicle(position, newPosition);
         vehicle.setPosition(newPosition);
     }
