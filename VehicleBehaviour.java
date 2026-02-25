@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class VehicleBehaviour {
     
@@ -19,7 +20,6 @@ public class VehicleBehaviour {
     }
 
     public int deaccelerate(Vehicle vehicle, LocationalMap locationMap) { //deaccelerate when vehicles in front
-    
         int velocity = vehicle.getVelocity();
         RoadPosition position = vehicle.getPosition();
 
@@ -32,6 +32,19 @@ public class VehicleBehaviour {
         velocity = locationMap.scanAheadOf(position, velocity); 
         //check if there is vehicle ahead and if can go the speed it wants
         //the new velocity is v = min(v, gap) where gap is the free cells between obstacles
+        return velocity;
+    }
+
+    public int randomisation(Vehicle vehicle, double p){
+        int velocity = vehicle.getVelocity();
+        Random random = new Random();
+        double randomDouble = random.nextDouble();  //generates a double between 0.0 and 1.0
+
+        if((velocity > 1)&&(0<=p)&&(p<=1)){     
+            if(randomDouble <= p){              //Bernoulli 
+                velocity--; //velocity gets les by one unit
+            }
+        }
         return velocity;
     }
             /* Nagel-schreckenberg-model

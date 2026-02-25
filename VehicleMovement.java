@@ -18,6 +18,8 @@ public class VehicleMovement {
             vehicle.setVelocity(velocity);
 
         //3. Randomization
+            double p = 0.5;    //50% chance for slow down by one unit
+            int velocity = VehicleBehaviour.randomisation(vehicle, p);
             
         //4. Movement
         RoadPosition newPosition = new RoadPosition(
@@ -28,7 +30,7 @@ public class VehicleMovement {
         locationMap.moveVehicle(position, newPosition);
         vehicle.setPosition(newPosition);
         }
-        
+
      /* Nagel-schreckenberg-model
             Every car agent i follows the rules: 
         1. Acceleration: vi <- min (vi+1,vmax), 
