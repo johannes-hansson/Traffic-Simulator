@@ -4,12 +4,18 @@ public class Vehicle {
     private RoadPosition position;
     private int velocity;
 
+    // Lane switch direction values:
+    //  0: Straight
+    //  1: Left
+    // -1: Right
+    private int laneSwitchDirection;
 
     //constructor
-    Vehicle(VehicleProperties properties, RoadPosition position, int velocity){
+    Vehicle(VehicleProperties properties, RoadPosition position){
         this.properties = properties;
         this.position = position;
-        this.velocity = velocity;
+        this.velocity = 0;
+        this.laneSwitchDirection = 0;
     }
 
     public int getVelocity() {
@@ -18,6 +24,14 @@ public class Vehicle {
 
     public void setVelocity(int velocity) {
         this.velocity = velocity;
+    }
+
+    public int getLaneSwitchDirection() {
+        return this.laneSwitchDirection;
+    }
+
+    public void setLaneSwitchDirection(int laneSwitchDirection) {
+        this.laneSwitchDirection = laneSwitchDirection;
     }
 
     public VehicleProperties getProperties() {
@@ -35,6 +49,6 @@ public class Vehicle {
     public void displayDetailsVehicle(){
         System.out.println("Vehicle details: ");
         System.out.println("Velocity: " + velocity);
-        System.out.println("Road: " + this.position.getRoad());
+        System.out.println("Road: " + this.position.road());
     }
 }

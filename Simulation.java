@@ -3,13 +3,33 @@ import java.util.List;
 
 public class Simulation {
     private Map map;
-    private LocationMap spatialMap;
     private boolean running = false;
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private ArrayList<Vehicle> vehicles;
     private List<SimulationUpdateListener> updateListeners = new ArrayList<>();
     private int tick = 0;
-    private int tickSpeedMs = 100;
+    private int tickSpeedMs = 1000;
     private Thread simThread;
+
+    private VehicleBehaviour vehicleBehaviour;
+    private VehicleMovement vehicleMovement;
+
+    public Simulation() {
+        this.map = new Map();
+        this.vehicles = new ArrayList<Vehicle>();
+
+        VehicleProperties properties = new VehicleProperties(
+            100,
+            5,
+            1,
+            VehicleColor.Red
+        );
+        RoadPosition position = new RoadPosition(this.map.getRoads()[0], 0, 0);
+        Vehicle vehicle1 = new Vehicle(properties, position);
+        this.vehicles.add(vehicle1);
+
+        this.vehicleBehaviour = new VehicleBehaviour();
+        this.vehicleMovement = new VehicleMovement();
+    }
 
     public Map getMap() {
         return map;
@@ -44,6 +64,9 @@ public class Simulation {
 
     private void step() {
         tick++;
+        this.vehicleBehaviour.process(this.vehicles);
+        this.vehicleMovement.process(this.vehicles);
+
         notifyListeners();
     }
 

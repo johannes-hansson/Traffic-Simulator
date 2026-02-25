@@ -7,7 +7,7 @@ public class Main{
 
         sim.start();
 
-        Thread.sleep(1000);
+        Thread.sleep(100000);
 
         sim.stop();
 
