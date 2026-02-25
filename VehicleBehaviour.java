@@ -19,7 +19,7 @@ public class VehicleBehaviour {
     }
 
     public int deaccelerate(Vehicle vehicle, LocationalMap locationMap) { //deaccelerate when vehicles in front
-        
+    
         int velocity = vehicle.getVelocity();
         RoadPosition position = vehicle.getPosition();
 
@@ -29,7 +29,6 @@ public class VehicleBehaviour {
         if (velocity > roadDistanceLeft) {      //check so speed of vehicle to move is not longer than roadDistance left
             velocity = roadDistanceLeft;
         }
-
         velocity = locationMap.scanAheadOf(position, velocity); 
         //check if there is vehicle ahead and if can go the speed it wants
         //the new velocity is v = min(v, gap) where gap is the free cells between obstacles
