@@ -136,7 +136,6 @@ public class Simulation {
         updateInfrastructure();      // traffic lights, intersections
         computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
         moveVehicles();              // apply movement
-        collectStatistics();         // future extension
 
         // Notify observers/UI/stats plugins
         notifyListeners();
