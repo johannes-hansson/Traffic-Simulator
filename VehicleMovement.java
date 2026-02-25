@@ -27,7 +27,8 @@ public class VehicleMovement {
             );
         locationMap.moveVehicle(position, newPosition);
         vehicle.setPosition(newPosition);
-    }
+        }
+        
      /* Nagel-schreckenberg-model
             Every car agent i follows the rules: 
         1. Acceleration: vi <- min (vi+1,vmax), 
@@ -35,7 +36,7 @@ public class VehicleMovement {
         3. Randomisation: with a certain probability p do  
          vi <- max (vi-1,0) 
         4. Movement: xi <- xi+vi  */
-        
+
     //Lane switching
     /*
     void PerformLaneSwitching(LaneSwitchDecision allLaneSwitches[], LocationalMap locationalMap){
