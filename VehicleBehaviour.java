@@ -1,12 +1,12 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class VehicleBehaviour {
     
-    public ArrayList<LaneSwithDecision> computeLaneSwitches() {
+    public List<LaneSwitchDecision> computeLaneSwitches() {
         return null;
     }
 
-    public void computeVelocities(ArrayList<Vehicle> vehicles) {
+    public void computeVelocities(List<Vehicle> vehicles) {
         for (Vehicle vehicle: vehicles) {
 
             VehicleProperties properties = vehicle.getProperties();

@@ -1,25 +1,24 @@
 class Car extends Vehicle { //subclass to vehicle
-      
-    private double maxVelocity; 
-    private int size;
 
     //Constructor
-    Car(double velocity, VehicleColor color, double x, double y, 
-            double acceleration, double direction, double maxVelocity, int size){
-       
-        super(velocity, color, x, y, acceleration, direction);   //Calls for the super class Vehicle
-        this.maxVelocity = maxVelocity;
-        this.size = size;
+    public Car(RoadPosition startPosition, int initialVelocity, VehicleColor color) {
+        super(
+                new VehicleProperties(
+                        5,
+                        1,
+                        1,
+                        color
+                ),
+                startPosition,
+                initialVelocity
+        );
     }
 
-    public void setMaxVelocity(double maxVelocity){
-        this.maxVelocity = maxVelocity;
+        @Override
+        public void displayDetailsVehicle () {
+            super.displayDetailsVehicle();
+            System.out.println("Max velocity: " + getProperties().maxVelocity());
+            System.out.println("Size (cells): " + getProperties().size());
+            System.out.println("Color: " + getProperties().color());
+        }
     }
-
-    @Override
-    public void displayDetailsVehicle(){
-        super.displayDetailsVehicle();
-        System.out.println("Max velocity: " + maxVelocity);
-        System.out.println("Size of vehicle (in cell): " + size);
-    }
-}
