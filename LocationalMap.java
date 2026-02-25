@@ -63,7 +63,7 @@ public class LocationalMap {
             RoadPosition currPosition = vehicle.getPosition();
             Road currRoad = currPosition.road();
             
-            if(currRoad == road){       // check if the vehicle is on the road from input
+            if(currRoad == road){       //check if the vehicle is on the road from input
                 vehiclesOnRoad.add(vehicle); } //add vehicle on the specified road to list of participants on road 
             }
         return vehiclesOnRoad;

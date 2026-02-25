@@ -2,30 +2,28 @@ import java.util.ArrayList;
 
 public class VehicleMovement {
 
-    public void move(ArrayList<Vehicle> vehicles, LocationalMap locationMap) {
+    public ArrayList<Vehicle> move(ArrayList<Vehicle> vehicles, LocationalMap locationMap) {
         for (Vehicle vehicle : vehicles) {
-            int velocity = vehicle.getVelocity();
-            RoadPosition position = vehicle.getPosition();
+        ///for loop for all vehicles here
+        /// 
+        //1. Acceleration
+        int velocity = VehicleBehaviour.accelerate(vehicle);
 
+        //2. Deacceleration
+            RoadPosition position = vehicle.getPosition();
             Road road = position.road();
             int roadLength = road.getLength();
-            int roadDistanceLeft = roadLength - position.cell();
-            if (velocity > roadDistanceLeft) {
-                velocity = roadDistanceLeft;
-            }
-
-            velocity = locationMap.scanAheadOf(position, velocity);
-            vehicle.setVelocity(velocity);
 
             RoadPosition newPosition = new RoadPosition(
                 position.road(), 
                 position.cell() + velocity, 
                 position.lane()
             );
+        //3. Randomization
 
-            locationMap.moveVehicle(position, newPosition);
-            vehicle.setPosition(newPosition);
-        }
+        //4. Movement
+        locationMap.moveVehicle(position, newPosition);
+        vehicle.setPosition(newPosition);
     }
     //Lane switching
     /*

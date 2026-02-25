@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Simulation {
     private Map map;
-    private LocationMap spatialMap;
+    private LocationalMap spatialMap;
     private boolean running = false;
     private List<Vehicle> vehicles = new ArrayList<>();
     private List<SimulationUpdateListener> updateListeners = new ArrayList<>();
