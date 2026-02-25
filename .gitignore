@@ -2,4 +2,12 @@
 .idea/
 *.iml
 out/
+
+# Compiled files
 *.class
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
