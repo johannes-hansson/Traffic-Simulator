@@ -35,6 +35,6 @@ public class Vehicle {
     public void displayDetailsVehicle(){
         System.out.println("Vehicle details: ");
         System.out.println("Velocity: " + velocity);
-        System.out.println("Road: " + this.position.getRoad());
+        System.out.println("Road: " + this.position.road());
     }
 }

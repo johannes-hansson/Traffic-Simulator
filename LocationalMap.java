@@ -13,7 +13,7 @@ public class LocationalMap {
             int vehicleLane = vehiclePosition.lane();
 
             if((vehicleRoad == position.road())&&   //check for any vehicle that exists on specific position 
-                (vehicleCell == position.cell())&&
+                (vehicleCell == position.cell())&&  
                 (vehicleLane == position.lane())){
                 return true;
             }
@@ -56,15 +56,15 @@ public class LocationalMap {
         int n_vehicles = Simulation.getVehicleAmount();
         List<Vehicle> vehicles = Simulation.getVehicles(); //<-different implmementation needed here
 
-        List<Vehicle> allVehicles = new ArrayList<>(); //then set to = getAllVehicles function
+        List<Vehicle> allVehicles = new ArrayList<>(); // set to = getAllVehicles function
         List<Vehicle> vehiclesOnRoad = new ArrayList<>();
 
-        for (Vehicle vehicle: allVehicles){
+        for(Vehicle vehicle: allVehicles){                  //for all vehicles
             RoadPosition currPosition = vehicle.getPosition();
             Road currRoad = currPosition.road();
             
-            if(currRoad == road){
-                vehiclesOnRoad.add(vehicle); }
+            if(currRoad == road){       // check if the vehicle is on the road from input
+                vehiclesOnRoad.add(vehicle); } //add vehicle on the specified road to list of participants on road 
             }
         return vehiclesOnRoad;
     }
