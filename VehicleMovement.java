@@ -2,24 +2,24 @@ import java.util.ArrayList;
 
 public class VehicleMovement {
 
-    public ArrayList<Vehicle> move(ArrayList<Vehicle> vehicles, LocationalMap locationMap) {
+    public ArrayList<Vehicle> move(ArrayList<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {
+        VehicleBehaviour vehicleBehaviour = new VehicleBehaviour();
+
         for (Vehicle vehicle : vehicles) {
         ///for loop for all vehicles here
             RoadPosition position = vehicle.getPosition();
-            Road road = position.road();
-            int roadLength = road.getLength();
         /// 
         //1. Acceleration
-            int velocity = VehicleBehaviour.accelerate(vehicle); //call from vehicleBehavior
+            int velocity = vehicleBehaviour.accelerate(vehicle); //call from vehicleBehavior
             vehicle.setVelocity(velocity);
 
         //2. Deacceleration
-            int velocity = VehicleBehaviour.deaccelerate(vehicle, locationMap)
+            velocity = vehicleBehaviour.deaccelerate(vehicle, locationMap, sim); //sim to get vehicle list in a built-in func (isOccupied)
             vehicle.setVelocity(velocity);
 
         //3. Randomization
-            double p = 0.5;    //50% chance for slow down by one unit
-            int velocity = VehicleBehaviour.randomisation(vehicle, p);
+            double p = 0.5;    //50% chance for vehicle to slow down by one unit
+            velocity = vehicleBehaviour.randomisation(vehicle, p);
             
         //4. Movement
         RoadPosition newPosition = new RoadPosition(
@@ -30,6 +30,8 @@ public class VehicleMovement {
         locationMap.moveVehicle(position, newPosition);
         vehicle.setPosition(newPosition);
         }
+        return vehicles;
+    }    
 
      /* Nagel-schreckenberg-model
             Every car agent i follows the rules: 
@@ -42,7 +44,7 @@ public class VehicleMovement {
     //Lane switching
     /*
     void PerformLaneSwitching(LaneSwitchDecision allLaneSwitches[], LocationalMap locationalMap){
-        
-    }
-    */
+      */  
+    
+    
 }

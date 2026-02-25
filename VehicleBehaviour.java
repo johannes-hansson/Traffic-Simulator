@@ -19,17 +19,17 @@ public class VehicleBehaviour {
             return prevVelocity;} 
     }
 
-    public int deaccelerate(Vehicle vehicle, LocationalMap locationMap) { //deaccelerate when vehicles in front
+    public int deaccelerate(Vehicle vehicle, LocationalMap locationMap, Simulation sim) { //deaccelerate when vehicles in front
         int velocity = vehicle.getVelocity();
         RoadPosition position = vehicle.getPosition();
 
         Road road = position.road();
         int roadLength = road.getLength();
         int roadDistanceLeft = roadLength - position.cell();
-        if (velocity > roadDistanceLeft) {      //check so speed of vehicle to move is not longer than roadDistance left
+        if (velocity > roadDistanceLeft) {      //check so speed of vehicle to move is not longer than end of road left
             velocity = roadDistanceLeft;
         }
-        velocity = locationMap.scanAheadOf(position, velocity); 
+        velocity = locationMap.scanAheadOf(position, velocity, sim); 
         //check if there is vehicle ahead and if can go the speed it wants
         //the new velocity is v = min(v, gap) where gap is the free cells between obstacles
         return velocity;
@@ -42,7 +42,7 @@ public class VehicleBehaviour {
 
         if((velocity > 1)&&(0<=p)&&(p<=1)){     
             if(randomDouble <= p){              //Bernoulli 
-                velocity--; //velocity gets les by one unit
+                velocity--; //velocity gets less by one unit
             }
         }
         return velocity;
@@ -56,12 +56,12 @@ public class VehicleBehaviour {
         4. Movement: xi <- xi+vi  */
 
     
-
+/*
     public void computeLaneSwitches(Vehicle[] vehicles, LocationalMap locationalMap, 
                 LaneSwitchDecision[] laneSwitchDecisions){
                     
                 
-                }
+                }*/
     
 
 }
