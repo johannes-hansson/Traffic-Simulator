@@ -5,7 +5,7 @@ public class Simulation {
     private Map map;
     private LocationalMap spatialMap;
     private boolean running = false;
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private List<SimulationUpdateListener> updateListeners = new ArrayList<>();
     private int tick = 0;
     private int tickSpeedMs = 100;
@@ -61,7 +61,7 @@ public class Simulation {
     public int getVehicleAmount(){
         return n_vehicles; }
 
-    public List<Vehicle> getVehicles(){
+    public ArrayList<Vehicle> getVehicles(){
         return vehicles;
     }
 }

@@ -26,7 +26,7 @@ public class VehicleBehaviour {
         Road road = position.road();
         int roadLength = road.getLength();
         int roadDistanceLeft = roadLength - position.cell();
-        if (velocity > roadDistanceLeft) {      //check so speed of vehicle to move is not longer than end of road left
+        if (velocity > roadDistanceLeft) {      //check so speed of vehicle to move is not longer than end of road
             velocity = roadDistanceLeft;
         }
         velocity = locationMap.scanAheadOf(position, velocity, sim); 
