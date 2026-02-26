@@ -39,6 +39,7 @@ public class View implements SimulationUpdateListener {
                 // Nu kan ett streck (vägen) ritas mellan currentPoint.getPosition() och nextBreakPoint.getPosition()
                 // med bredden width
             //}
+            
         }
     }
 }
