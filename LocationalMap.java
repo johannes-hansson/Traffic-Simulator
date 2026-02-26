@@ -1,10 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationalMap { 
+public class LocationalMap {
+
+    private Simulation simulation;
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
+    }
     
     public boolean isOccupied(RoadPosition position) {
-        List<Vehicle> vehicles = Simulation.getVehicles(); //<-different implmementation needed here
+        List<Vehicle> vehicles = simulation.getVehicles(); //<-different implmementation needed here
         for (Vehicle vehicle: vehicles){
             RoadPosition vehiclePosition = vehicle.getPosition(); 
 
@@ -47,14 +53,14 @@ public class LocationalMap {
     };
 
     public int scanBackOf(RoadPosition position, int velocity){
-        int cellsBehindVehicle; //amount of empty cells behind vehicle
+        int cellsBehindVehicle = 0; //amount of empty cells behind vehicle
         return cellsBehindVehicle;
     };
     
     
     public List<Vehicle> getVehiclesOnRoad(Road road){  //get all vehicles that are on same road
-        int n_vehicles = Simulation.getVehicleAmount();
-        List<Vehicle> vehicles = Simulation.getVehicles(); //<-different implmementation needed here
+        int n_vehicles = simulation.getVehicleAmount();
+        List<Vehicle> vehicles = simulation.getVehicles(); //<-different implmementation needed here
 
         List<Vehicle> allVehicles = new ArrayList<>(); // set to = getAllVehicles function
         List<Vehicle> vehiclesOnRoad = new ArrayList<>();

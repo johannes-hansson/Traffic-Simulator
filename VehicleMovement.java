@@ -1,8 +1,8 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class VehicleMovement {
 
-    public void move(ArrayList<Vehicle> vehicles, LocationalMap locationMap) {
+    public void move(List<Vehicle> vehicles, LocationalMap locationMap) {
         for (Vehicle vehicle : vehicles) {
             int velocity = vehicle.getVelocity();
             RoadPosition position = vehicle.getPosition();
