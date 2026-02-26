@@ -154,6 +154,11 @@ public class Simulation {
         vehicleMovement.move(vehicles, locationalMap);
     }
 
+    public int getVehicleAmount(){
+        return n_vehicles; }
+
+    public ArrayList<Vehicle> getVehicles(){
+        return vehicles;
     private void updateInfrastructure() {
         // TODO traffic lights, intersection logic
     }
