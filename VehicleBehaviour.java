@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class VehicleBehaviour {
     
-    public ArrayList<LaneSwithDecision> computeLaneSwitches() {
+    public List<LaneSwitchDecision> computeLaneSwitches() {
         return null;
     }
 

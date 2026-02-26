@@ -6,7 +6,7 @@ public class Vehicle {
 
 
     //constructor
-    Vehicle(VehicleProperties properties, RoadPosition position, int velocity){
+    public Vehicle(VehicleProperties properties, RoadPosition position, int velocity){
         this.properties = properties;
         this.position = position;
         this.velocity = velocity;

@@ -1,7 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationalMap { 
+public class LocationalMap {
+
+    private Simulation simulation;
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
+    }
     
     public boolean isOccupied(RoadPosition position, List<Vehicle> vehicles) {   
         for (Vehicle vehicle: vehicles){

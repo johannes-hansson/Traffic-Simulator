@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class Map {
 
-    private Node[] nodes;
-    private Road[] roads;
+    private ArrayList<Node> nodes;
+    private ArrayList<Road> roads;
 
     public Map() {
         MockNode node1 = new MockNode();
@@ -16,15 +18,21 @@ public class Map {
         node2.addOutgoingRoad(road2, MockNode.Direction.SOUTH);
         node1.addIncomingRoad(road2, MockNode.Direction.SOUTH);
 
-        this.nodes = new Node[] {node1, node2};
-        this.roads = new Road[] {road1, road2};
+        this.nodes = new ArrayList<>();
+        this.roads = new ArrayList<>();
+
+        this.nodes.add(node1);
+        this.nodes.add(node2);
+
+        this.roads.add(road1);
+        this.roads.add(road2);
     }
 
-    public Node[] getNodes() {
+    public ArrayList<Node> getNodes() {
         return this.nodes;
     }
 
-    public Road[] getRoads() {
+    public ArrayList<Road> getRoads() {
         return this.roads;
     }
     
