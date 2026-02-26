@@ -9,8 +9,7 @@ public class LocationalMap {
         this.simulation = simulation;
     }
     
-    public boolean isOccupied(RoadPosition position) {
-        List<Vehicle> vehicles = simulation.getVehicles(); //<-different implmementation needed here
+    public boolean isOccupied(RoadPosition position, List<Vehicle> vehicles) {   
         for (Vehicle vehicle: vehicles){
             RoadPosition vehiclePosition = vehicle.getPosition(); 
 
@@ -33,7 +32,9 @@ public class LocationalMap {
     };
     public void moveVehicle(RoadPosition from, RoadPosition to) {};
 
-    public int scanAheadOf(RoadPosition position, int velocity){
+    public int scanAheadOf(RoadPosition position, int velocity, Simulation sim){
+        List<Vehicle> allVehicles = sim.getVehicles();
+
         int cellsBeforeVehicle = 0; //amount of empty cells before next vehicle
         int cellsAhead = velocity;  //is not longer than existing road (defined in VehicleMovement)
        
@@ -44,7 +45,7 @@ public class LocationalMap {
             position.lane()
             );
 
-            if(isOccupied(lookPosition) == false){
+            if(isOccupied(lookPosition, allVehicles) == false){
                 cellsBeforeVehicle++;
             }
             lookPosition = null; 
@@ -58,18 +59,15 @@ public class LocationalMap {
     };
     
     
-    public List<Vehicle> getVehiclesOnRoad(Road road){  //get all vehicles that are on same road
-        int n_vehicles = simulation.getVehicleAmount();
-        List<Vehicle> vehicles = simulation.getVehicles(); //<-different implmementation needed here
-
-        List<Vehicle> allVehicles = new ArrayList<>(); // set to = getAllVehicles function
+    public List<Vehicle> getVehiclesOnRoad(Road road, Simulation sim){  //get all vehicles that are on same road
+        List<Vehicle> allVehicles = sim.getVehicles(); // set to = getAllVehicles function
         List<Vehicle> vehiclesOnRoad = new ArrayList<>();
 
         for(Vehicle vehicle: allVehicles){                  //for all vehicles
             RoadPosition currPosition = vehicle.getPosition();
             Road currRoad = currPosition.road();
             
-            if(currRoad == road){       // check if the vehicle is on the road from input
+            if(currRoad == road){       //check if the vehicle is on the road from input
                 vehiclesOnRoad.add(vehicle); } //add vehicle on the specified road to list of participants on road 
             }
         return vehiclesOnRoad;

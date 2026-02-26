@@ -2,35 +2,53 @@ import java.util.List;
 
 public class VehicleMovement {
 
+<<<<<<< HEAD
+    public ArrayList<Vehicle> move(ArrayList<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {
+        VehicleBehaviour vehicleBehaviour = new VehicleBehaviour();
+
+=======
     public void move(List<Vehicle> vehicles, LocationalMap locationMap) {
+>>>>>>> main
         for (Vehicle vehicle : vehicles) {
-            int velocity = vehicle.getVelocity();
+        ///for loop for all vehicles here
             RoadPosition position = vehicle.getPosition();
-
-            Road road = position.road();
-            int roadLength = road.getLength();
-            int roadDistanceLeft = roadLength - position.cell();
-            if (velocity > roadDistanceLeft) {
-                velocity = roadDistanceLeft;
-            }
-
-            velocity = locationMap.scanAheadOf(position, velocity);
+        /// 
+        //1. Acceleration
+            int velocity = vehicleBehaviour.accelerate(vehicle); //call from vehicleBehavior
             vehicle.setVelocity(velocity);
 
-            RoadPosition newPosition = new RoadPosition(
+        //2. Deacceleration
+            velocity = vehicleBehaviour.deaccelerate(vehicle, locationMap, sim); //sim to get vehicle list in a built-in func (isOccupied)
+            vehicle.setVelocity(velocity);
+
+        //3. Randomization
+            double p = 0.5;    //50% chance for vehicle to slow down by one unit
+            velocity = vehicleBehaviour.randomisation(vehicle, p);
+            
+        //4. Movement
+        RoadPosition newPosition = new RoadPosition(
                 position.road(), 
                 position.cell() + velocity, 
                 position.lane()
             );
-
-            locationMap.moveVehicle(position, newPosition);
-            vehicle.setPosition(newPosition);
+        locationMap.moveVehicle(position, newPosition);
+        vehicle.setPosition(newPosition);
         }
-    }
+        return vehicles;
+    }    
+
+     /* Nagel-schreckenberg-model
+            Every car agent i follows the rules: 
+        1. Acceleration: vi <- min (vi+1,vmax), 
+        2. Deceleration to avoid accidents: vi <- min (vi,gap), 
+        3. Randomisation: with a certain probability p do  
+         vi <- max (vi-1,0) 
+        4. Movement: xi <- xi+vi  */
+
     //Lane switching
     /*
     void PerformLaneSwitching(LaneSwitchDecision allLaneSwitches[], LocationalMap locationalMap){
-        
-    }
-    */
+      */  
+    
+    
 }
