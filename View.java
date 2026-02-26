@@ -10,36 +10,50 @@ public class View implements SimulationUpdateListener {
         // Hämta alla vägar från kartan
         ArrayList<Road> roads = map.getRoads();
 
-        // Gå igenom alla vägar
+        // Ett exempel på hur vägar kan ritas med hjälp av en
+        // RoadRender komponent som har lagts till till Road
         for (Road road : roads) {
-            // Road kommer har en metod getRoadRender() som returnerar
+            // Road har en metod getRoadRender() som returnerar
             // en RoadRender
 
-            // RoadRender render = road.getRoadRender()
+            RoadRender render = road.getRoadRender();
 
             // RoadRender har en metod getWidth() som returnerar
             // vägens bredd
 
-            // double width = render.getWidth()
+            double width = render.getWidth();
 
-            // Road renedr har en metod getBreakPoints() som returnerar
+            // Road render har en metod getBreakPoints() som returnerar
             // en ArrayList med BreakPoint
             // BreakPoint är en klass som innehåller information om vilka
             // punkter en väg ska ritas mellan
-            // BreakPoint har en metod getPosition() som returnerar dess koordinat
-            // Breakpoint har en metod getCell() som returnerar vilken cell på vägen
+            // BreakPoint har en metod x() som returnerar dess x-koordinat
+            // BreakPoint har en metod y() som returnerar dess y-koordinat
+            // Breakpoint har en metod cell() som returnerar vilken cell på vägen
             // den gäller för
 
-            // ArrayList<BreakPoint> breakPoints = render.getBreakPoints()
-            // for (int i = 0; i < breakPoints.length - 1; i++) {
-                // Här kan man rita ett streck från en breakpoint till nästa breakpoint
-                // BreakPoint currentPoint = breakPoints.get(i);
-                // BreakPoint nextBreakPoint = breakPoints.get(i + 1);
+            ArrayList<BreakPoint> breakPoints = render.getBreakPoints();
 
-                // Nu kan ett streck (vägen) ritas mellan currentPoint.getPosition() och nextBreakPoint.getPosition()
-                // med bredden width
-            //}
-            
+            // RoadRender har även en metod displayPoints för att skriva ut alla breakPoints
+            // render.displayPoints();
+
+            // Gå sedan igenom alla punkter förrutom den sista
+            // Rita ett streck från punkt i till punkt i+1 med bredd width
+            for (int i = 0; i < breakPoints.size() - 1; i++) {
+
+                BreakPoint currentPoint = breakPoints.get(i);
+                BreakPoint nextPoint = breakPoints.get(i + 1);
+
+                // Nu kan ett streck (vägen) ritas mellan currentPoint.x(), currentPoint.y()
+                // och nextPoint.x(), nextPoint.y() med bredden width
+
+                double xStart = currentPoint.x();
+                double yStart = currentPoint.y();
+                double xEnd = nextPoint.x();
+                double yEnd = nextPoint.y();
+
+                // drawLine(xStart, yStart, xEnd, yEnd, width);
+            }
         }
     }
 }

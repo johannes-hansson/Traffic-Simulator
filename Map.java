@@ -9,8 +9,21 @@ public class Map {
         MockNode node1 = new MockNode();
         MockNode node2 = new MockNode();
 
-        Road road1 = new Road(node2, 100, 2);
-        Road road2 = new Road(node1, 100, 2);
+        RoadRender render1 = new RoadRender(10, new BreakPoint[] {
+            new BreakPoint(0, 0, 0),
+            new BreakPoint(50, 0, 50),
+            new BreakPoint(50, 50, 100),
+            new BreakPoint(100, 50, 150),
+            new BreakPoint(100, 0, 200),
+            new BreakPoint(200, 0, 300)
+        });
+        RoadRender render2 = new RoadRender(10, new BreakPoint[] {
+            new BreakPoint(0, 100, 0),
+            new BreakPoint(99, 100, 99)
+        });
+
+        Road road1 = new Road(node2, 300, 2, render1);
+        Road road2 = new Road(node1, 100, 2, render2);
 
         node1.addOutgoingRoad(road1, MockNode.Direction.NORTH);
         node2.addIncomingRoad(road1, MockNode.Direction.NORTH);
