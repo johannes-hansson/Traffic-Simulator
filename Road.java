@@ -5,12 +5,29 @@ public class Road {
     private ArrayDeque<Vehicle> vehicleRegistry; // Registry for all vehicles currently on the road
     private Vehicle[][] lanes; // Cell map used for spacial lookups. First layer is each lane, second is the cells
     private Node endNode; // The node that the road leads into
+    private RoadRender render;
 
     public Road(Node endNode, int length, int laneCount) {
         this.vehicleRegistry = new ArrayDeque<>();
         this.lanes = new Vehicle[laneCount][length];
         this.endNode = endNode;
     }
+
+    public RoadRender getRoadRender() {
+        return this.render;
+    }
+
+    public Node getEndNode() {
+        return this.endNode;
+    }
+
+    public int getLength() {
+        return this.lanes[0].length;
+    };
+
+    public int getLanes() {
+        return this.lanes.length;
+    };
 
     // Adds the given vehicle to the vehicle registry and the cell array at the given position
     // Does not check if there is another vehicle at the position or if the given
@@ -76,16 +93,4 @@ public class Road {
         }
         return gap; 
     }
-
-    public Node getEndNode() {
-        return this.endNode;
-    }
-
-    public int getLength() {
-        return this.lanes[0].length;
-    };
-
-    public int getLanes() {
-        return this.lanes.length;
-    };
 }
