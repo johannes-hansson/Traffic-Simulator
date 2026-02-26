@@ -1,0 +1,1 @@
+public record LaneSwitchDecision(Vehicle vehicle, int direction) {}
