@@ -1,1 +1,1 @@
-public record RoadPosition (Road road, int cell, int lane) {};
+public record RoadPosition (Road road, int lane, int cell) {};

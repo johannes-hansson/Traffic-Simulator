@@ -2,7 +2,26 @@ import java.util.List;
 
 public class VehicleMovement {
 
+    /* 
+    Moves a vehicle from its current position to the given position
+    and sends an update to the affected roads about the position change,
+    so that the roads can update their internal lookup tables.
+
+    Does not check for collisions and will cause any vehicle it collides with
+    to be overwritten in the roads lookup table. This would cause that
+    vehicle to disapear from the lookup table which would lead to significant 
+    state corruption. The availability/vacancy of the given position thus always needs
+    to be confirmed before calling the method.
+
+    NOTE: For testing purposes, the method does check that the given position
+    is available before moving. This check will be removed for performance.
+    */
     private void moveVehicle(Vehicle vehicle, RoadPosition position) {
+        if (position.road().isOccupied(position.lane(), position.cell())) {
+            System.err.print("Attempted to move a vehicle to an occupied cell");
+            return;
+        }
+
         RoadPosition currentPosition = vehicle.getPosition();
 
         Road currentRoad = currentPosition.road();
@@ -20,11 +39,11 @@ public class VehicleMovement {
 
         // If the current road is not null, and the current road is different
         // from the new road, then the vehicle must have left the current road
-        boolean exitedCurrentRoad = (currentRoad != null) && (changedRoads == false);
+        boolean exitedCurrentRoad = (currentRoad != null) && (changedRoads == true);
 
         // If the new road is not null, and the new road is different
         // from the current road, then the vehicle must have entered the new road
-        boolean enteredNewRoad = (newRoad != null) && (changedRoads == false);
+        boolean enteredNewRoad = (newRoad != null) && (changedRoads == true);
 
         if (exitedCurrentRoad) {
             currentRoad.removeVehicleAt(currentPosition.lane(), currentPosition.cell());
@@ -48,11 +67,42 @@ public class VehicleMovement {
         }
 
         vehicle.setPosition(position);
-        
+    }
+
+    private void processVehicle(Vehicle vehicle) {
+        int velocity = vehicle.getVelocity();
+        if (velocity == 0) {
+            return;
+        }
+
+        RoadPosition position = vehicle.getPosition();
+        Road road = position.road();
+        Road.ScanResult scanResult = road.scanCells(position.lane(), position.cell(), velocity);
+
+        if (scanResult.endOfRoadReached()) {
+            System.out.println("Vehicle reached the end of the road");
+        }
+
+        if (scanResult.wasBlocked()) {
+            System.out.println("Warning: Vehicle had a velocity that would have caused a collision");
+        }
+
+        int distance = scanResult.distance();
+        if (distance == 0) return;
+
+        RoadPosition newPosition = new RoadPosition(
+            road,
+            position.lane(),
+            position.cell() + distance
+        );
+
+        this.moveVehicle(vehicle, newPosition);
     }
 
     public void process(List<Vehicle> vehicles) {
-
+        for (Vehicle vehicle : vehicles) {
+            this.processVehicle(vehicle);
+        }
     }
 
     public void move(List<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {
