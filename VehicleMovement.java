@@ -77,7 +77,7 @@ public class VehicleMovement {
 
         RoadPosition position = vehicle.getPosition();
 
-        // State variables that will be continuously updated and have their final value applied
+        // State variables that will be continuously updated and have their final values applied
         Road currentRoad = position.road();
         int currentLane = position.lane();
         int currentCell = position.cell();
