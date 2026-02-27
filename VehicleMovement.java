@@ -115,6 +115,9 @@ public class VehicleMovement {
             }
 
             // Make the turn
+            // This part currently has a bug that will occur if another vehicle is on the first cell of the new road
+            // The bug will allow the vehicle to still enter the new road despite the blocking vehicle
+            // and will, in worst case, overwrite the existing vehicle
             System.out.println("Vehicle turned from road " + currentRoad.name + " to road " + roadToEnter.name);
             currentRoad = roadToEnter;
             currentLane = laneToEnter;
