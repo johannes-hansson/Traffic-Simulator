@@ -1,4 +1,4 @@
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class MockNode implements Node {
 
@@ -77,6 +77,10 @@ public class MockNode implements Node {
     }
 
     private Connection getConnectionFromIncoming(Road incoming) {
+        if (incoming == null) {
+            return null;
+        }
+
         for (int i = 0; i < this.connections.length; i++) {
             Connection connection = this.connections[i];
             if (connection.getInRoad() == incoming) {
@@ -87,6 +91,10 @@ public class MockNode implements Node {
     }
 
     private Connection getConnectionFromOutgoing(Road outgoing) {
+        if (outgoing == null) {
+            return null;
+        }
+
         for (int i = 0; i < this.connections.length; i++) {
             Connection connection = this.connections[i];
             if (connection.getOutRoad() == outgoing) {
@@ -124,14 +132,14 @@ public class MockNode implements Node {
     }
 
     // Given the entry road, returns a vector containing all roads a car can turn onto
-    public Vector<Road> getAvailableTurns(Road incoming) {
+    public ArrayList<Road> getAvailableTurns(Road incoming) {
         Connection connection = this.getConnectionFromIncoming(incoming);
         // Check that the incoming road has a connection
         // If not, it is not connected to the intersection
         if (connection == null) return null;
 
         int incomingDirection = connection.getDirection();
-        Vector<Road> avilableTurns = new Vector<>();
+        ArrayList<Road> avilableTurns = new ArrayList<>();
         for (int direction = 0; direction < this.connections.length; direction++) {
             // U-turns are presumed to be unallowed
             // ignore the outgoing road of the same connection as the incoming
@@ -174,7 +182,7 @@ public class MockNode implements Node {
 
         // Check that both the incoming and the outgoing road has a connection
         // If not, they are not connected to the intersection
-        if (incomingConnection == null || outgoingConnection == null) return null;
+        if (incomingConnection == null || outgoingConnection == null) return new int[][] {};
 
         int incomingLanes = incoming.getLanes();
         int outgoingLanes = outgoing.getLanes();
@@ -191,7 +199,7 @@ public class MockNode implements Node {
         if (turnDirection == TurnDirection.RIGHT) return new int[][] {{0, 0}};
         if (turnDirection == TurnDirection.LEFT) return new int[][] {{incomingLanes-1, 0}};
 
-        return null;
+        return new int[][] {};
     };
 
     public boolean requestTurn(Road incoming, Road outgoing) {

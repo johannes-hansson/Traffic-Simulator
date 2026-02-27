@@ -9,15 +9,11 @@ public class Main{
 
         VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
         RoadPosition position = new RoadPosition(roads.get(0), 0, 0);
-        RoadPosition position2 = new RoadPosition(roads.get(0), 0, 10);
-        Vehicle vehicle = new Vehicle(properties, position, 24);
-        Vehicle vehicel2 = new Vehicle(properties, position2, 10);
+        Vehicle vehicle = new Vehicle(properties, position, 10);
         roads.get(0).enterVehicle(vehicle, 0, 0);
-        roads.get(0).enterVehicle(vehicle, 0, 10);
         vehicles.add(vehicle);
-        vehicles.add(vehicel2);
 
-        for (int i=0; i<40; i++) {
+        for (int i=0; i<100; i++) {
             movement.process(vehicles);
         }
 

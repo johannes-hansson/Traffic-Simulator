@@ -9,11 +9,14 @@ public class Road {
     private Node endNode; // The node that the road leads into
     private RoadRender render;
 
-    public Road(Node endNode, int length, int laneCount, RoadRender render) {
+    public String name; // Temporary field to distinguish roads
+
+    public Road(Node endNode, int length, int laneCount, RoadRender render, String name) {
         this.vehicleRegistry = new ArrayDeque<>();
         this.lanes = new Vehicle[laneCount][length];
         this.endNode = endNode;
         this.render = render;
+        this.name = name;
     }
 
     public RoadRender getRoadRender() {
@@ -43,7 +46,6 @@ public class Road {
     // Moves the vehicle at the given position to the new position in the cell array
     // Does not check that the given position has a vehicle, or that the new position is empty
     public void moveVehicle(int fromLane, int fromCell, int toLane, int toCell) {
-        System.out.println("Moving vehicle from lane " + Integer.toString(fromLane) + " cell " + Integer.toString(fromCell) + " to lane " + Integer.toString(toLane) + " cell " + Integer.toString(toCell));
         if (fromLane == toLane && fromCell == toCell) {
             return;
         }

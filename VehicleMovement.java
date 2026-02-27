@@ -18,7 +18,7 @@ public class VehicleMovement {
     */
     private void moveVehicle(Vehicle vehicle, RoadPosition position) {
         if (position.road().isOccupied(position.lane(), position.cell())) {
-            System.err.print("Attempted to move a vehicle to an occupied cell");
+            System.err.println("Attempted to move a vehicle to an occupied cell");
             return;
         }
 
@@ -76,25 +76,66 @@ public class VehicleMovement {
         }
 
         RoadPosition position = vehicle.getPosition();
-        Road road = position.road();
-        Road.ScanResult scanResult = road.scanCells(position.lane(), position.cell(), velocity);
 
-        if (scanResult.endOfRoadReached()) {
-            System.out.println("Vehicle reached the end of the road");
+        // State variables that will be continuously updated and have their final value applied
+        Road currentRoad = position.road();
+        int currentLane = position.lane();
+        int currentCell = position.cell();
+
+        Road.ScanResult scanResult = currentRoad.scanCells(currentLane, currentCell, velocity);
+        int distanceTravelled = scanResult.distance();
+        currentCell += scanResult.distance();
+
+        // If the scan reaches the end of the current road, find a
+        // road to turn to and, if possible, make the turn and rerun the scan
+        while (scanResult.endOfRoadReached()) {
+            Node node = currentRoad.getEndNode();
+            Road roadToEnter = vehicle.getDesiredTurn(node, currentRoad);
+
+            // Check that the turn to the new road can be made
+            boolean canTurn = node.requestTurn(currentRoad, roadToEnter);
+            if (canTurn == false) {
+                System.out.println("Vehicle requested a turn that it cannot currently make");
+                break;
+            }
+
+            // Check that the turn can be made from the current lane
+            // and check what lane on the new road that the current lane leads to
+            int laneToEnter = -1;
+            int[][] laneMap = node.getLaneMap(currentRoad, roadToEnter);
+            for (int i = 0; i < laneMap.length; i++) {
+                if (laneMap[i][0] == currentLane) {
+                    laneToEnter = laneMap[i][1];
+                    break;
+                }
+            }
+            if (laneToEnter == -1) {
+                System.out.println("Vehicle requested a turn that it could not make from its current lane");
+                break;
+            }
+
+            // Make the turn
+            System.out.println("Vehicle turned from road " + currentRoad.name + " to road " + roadToEnter.name);
+            currentRoad = roadToEnter;
+            currentLane = laneToEnter;
+            scanResult = currentRoad.scanCells(currentLane, 0, velocity - distanceTravelled);
+            currentCell = scanResult.distance();
+            distanceTravelled += scanResult.distance();
         }
 
         if (scanResult.wasBlocked()) {
             System.out.println("Warning: Vehicle had a velocity that would have caused a collision");
         }
 
-        int distance = scanResult.distance();
-        if (distance == 0) return;
+        if (distanceTravelled == 0) return;
 
         RoadPosition newPosition = new RoadPosition(
-            road,
-            position.lane(),
-            position.cell() + distance
+            currentRoad,
+            currentLane,
+            currentCell
         );
+
+        System.out.println("Vehicle moved to cell " + Integer.toString(currentCell));
 
         this.moveVehicle(vehicle, newPosition);
     }

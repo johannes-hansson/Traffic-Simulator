@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Vehicle {
     
     private VehicleProperties properties;
@@ -10,6 +12,14 @@ public class Vehicle {
         this.properties = properties;
         this.position = position;
         this.velocity = velocity;
+    }
+
+    public Road getDesiredTurn(Node node, Road from) {
+        ArrayList<Road> turns = node.getAvailableTurns(from);
+        if (turns.size() == 0) {
+            return null;
+        }
+        return turns.get(0);
     }
 
     public int getVelocity() {
