@@ -14,12 +14,11 @@ public class Vehicle {
         this.velocity = velocity;
     }
 
-    public Road getDesiredTurn(Node node, Road from) {
-        ArrayList<Road> turns = node.getAvailableTurns(from);
-        if (turns.size() == 0) {
+    public Road chooseRoad(ArrayList<Road> roads) {
+        if (roads.size() == 0) {
             return null;
         }
-        return turns.get(0);
+        return roads.get(0);
     }
 
     public int getVelocity() {

@@ -72,7 +72,7 @@ public class Road {
         return this.lanes[lane][cell] != null;
     }
 
-    public ScanResult scanCells(int lane, int start, int distance) {
+    public ScanResult scanCells(int lane, int start, int distance, boolean includeStart) {
         final int roadLength = this.getLength();
 
         if (start < 0 || start >= roadLength) {
@@ -90,7 +90,11 @@ public class Road {
         boolean wasBlocked = false;
         boolean endOfRoadReached = false;
 
-        int startingCell = start + 1;
+        int startingCell = start;
+        if (includeStart == false) {
+            startingCell += 1;
+        }
+
         for (int currentCell = startingCell; currentCell < startingCell + distance; currentCell++) {
 
             // Check if the end of the road has been reached

@@ -82,7 +82,7 @@ public class VehicleMovement {
         int currentLane = position.lane();
         int currentCell = position.cell();
 
-        Road.ScanResult scanResult = currentRoad.scanCells(currentLane, currentCell, velocity);
+        Road.ScanResult scanResult = currentRoad.scanCells(currentLane, currentCell, velocity, false);
         int distanceTravelled = scanResult.distance();
         currentCell += scanResult.distance();
 
@@ -90,7 +90,7 @@ public class VehicleMovement {
         // road to turn to and, if possible, make the turn and rerun the scan
         while (scanResult.endOfRoadReached()) {
             Node node = currentRoad.getEndNode();
-            Road roadToEnter = vehicle.getDesiredTurn(node, currentRoad);
+            Road roadToEnter = vehicle.chooseRoad(node.getAvailableTurns(currentRoad));
 
             // Check that the turn to the new road can be made
             boolean canTurn = node.requestTurn(currentRoad, roadToEnter);
@@ -115,14 +115,16 @@ public class VehicleMovement {
             }
 
             // Make the turn
-            // This part currently has a bug that will occur if another vehicle is on the first cell of the new road
-            // The bug will allow the vehicle to still enter the new road despite the blocking vehicle
-            // and will, in worst case, overwrite the existing vehicle
+            scanResult = roadToEnter.scanCells(laneToEnter, 0, velocity - distanceTravelled, true);
+            if (scanResult.wasBlocked()) {
+                System.out.println("The first cell of a new road was blocked");
+                break;
+            }
+
             System.out.println("Vehicle turned from road " + currentRoad.name + " to road " + roadToEnter.name);
             currentRoad = roadToEnter;
             currentLane = laneToEnter;
-            scanResult = currentRoad.scanCells(currentLane, 0, velocity - distanceTravelled);
-            currentCell = scanResult.distance();
+            currentCell = scanResult.distance() - 1;
             distanceTravelled += scanResult.distance();
         }
 
