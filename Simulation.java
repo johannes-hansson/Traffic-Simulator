@@ -134,7 +134,7 @@ public class Simulation {
         tick++;
 
         updateInfrastructure();      // traffic lights, intersections
-        computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
+        // computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
         moveVehicles();              // apply movement
 
         // Notify observers/UI/stats plugins
@@ -144,21 +144,16 @@ public class Simulation {
     private void computeVehicleBehaviour() {
         if (vehicleBehaviour == null) return;
 
-        vehicleBehaviour.computeVelocities(vehicles);
+        // vehicleBehaviour.computeVelocities(vehicles);
         // future:
         // List<LaneSwitchDecision> decisions = vehicleBehaviour.computeLaneSwitches(...)
     }
 
     private void moveVehicles() {
         if (vehicleMovement == null) return;
-        vehicleMovement.move(vehicles, locationalMap);
+        vehicleMovement.move(vehicles, locationalMap, this);
     }
 
-    public int getVehicleAmount(){
-        return n_vehicles; }
-
-    public ArrayList<Vehicle> getVehicles(){
-        return vehicles;
     private void updateInfrastructure() {
         // TODO traffic lights, intersection logic
     }

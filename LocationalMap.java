@@ -38,7 +38,7 @@ public class LocationalMap {
         int cellsBeforeVehicle = 0; //amount of empty cells before next vehicle
         int cellsAhead = velocity;  //is not longer than existing road (defined in VehicleMovement)
        
-        for(int currentCell=1; currentCell<cellsAhead; currentCell++){   
+        for(int currentCell=1; currentCell <= cellsAhead; currentCell++){
             RoadPosition lookPosition = new RoadPosition(
             position.road(), 
             position.cell() + currentCell, 

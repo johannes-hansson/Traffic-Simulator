@@ -2,13 +2,9 @@ import java.util.List;
 
 public class VehicleMovement {
 
-<<<<<<< HEAD
-    public ArrayList<Vehicle> move(ArrayList<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {
-        VehicleBehaviour vehicleBehaviour = new VehicleBehaviour();
+    public void move(List<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {
+            VehicleBehaviour vehicleBehaviour = new VehicleBehaviour();
 
-=======
-    public void move(List<Vehicle> vehicles, LocationalMap locationMap) {
->>>>>>> main
         for (Vehicle vehicle : vehicles) {
         ///for loop for all vehicles here
             RoadPosition position = vehicle.getPosition();
@@ -24,6 +20,7 @@ public class VehicleMovement {
         //3. Randomization
             double p = 0.5;    //50% chance for vehicle to slow down by one unit
             velocity = vehicleBehaviour.randomisation(vehicle, p);
+            vehicle.setVelocity(velocity);
             
         //4. Movement
         RoadPosition newPosition = new RoadPosition(
@@ -31,10 +28,10 @@ public class VehicleMovement {
                 position.cell() + velocity, 
                 position.lane()
             );
+
         locationMap.moveVehicle(position, newPosition);
         vehicle.setPosition(newPosition);
         }
-        return vehicles;
     }    
 
      /* Nagel-schreckenberg-model

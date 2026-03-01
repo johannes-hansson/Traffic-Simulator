@@ -11,7 +11,12 @@ public class Road {
         this.vehicleRegistry = new ArrayDeque<>();
         this.lanes = new Vehicle[laneCount][length];
         this.endNode = endNode;
-    }
+    } //Constructor without render
+
+    public Road(Node endNode, int length, int laneCount, RoadRender render) {
+        this(endNode, length, laneCount);  // calls the other constructor before setting this.render = render
+        this.render = render;
+    } //Constructor with render
 
     public RoadRender getRoadRender() {
         return this.render;
