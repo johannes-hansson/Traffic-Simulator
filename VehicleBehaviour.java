@@ -1,6 +1,11 @@
 import java.util.List;
 import java.util.Random;
 
+/** Encapsulates decision-making logic for vehicles during a tick.
+ * Responsibilities include computing speed changes (acceleration/deceleration),
+ * randomization (Nagel–Schreckenberg), and eventually lane-switch decisions.
+ * This class should be pure decision logic (calculate results), while VehicleMovement
+ * performs the actual state updates. */
 public class VehicleBehaviour {
     
     public List<LaneSwitchDecision> computeLaneSwitches() {

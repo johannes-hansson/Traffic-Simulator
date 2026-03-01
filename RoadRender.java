@@ -5,7 +5,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.paint.Color;
  */
 
-
+/** Lightweight data model describing how a road should be rendered.
+ * Stores width and a sequence of BreakPoint's that define the polyline geometry. */
 // Visuell representation av en väg
 public class RoadRender {
     ArrayList<BreakPoint> breakPoints; // Punkter som vägen ritas mellan

@@ -7,8 +7,13 @@ public class Main{
         sim.setVehicleBehaviour(new VehicleBehaviour());
         sim.setMap(new Map());
         Road road = sim.getMap().getRoads().get(0);
-        RoadPosition start = new RoadPosition(road, 0, 0);
+
+        // Demo setup: 2 vehicles
+        RoadPosition start = new RoadPosition(road, 10, 0);
         sim.addVehicle(new Car(start, 0, VehicleColor.Red), start);
+        RoadPosition start2 = new RoadPosition(road, 8, 0);
+        sim.addVehicle(new Car(start2, 3, VehicleColor.blue), start2);
+
         sim.setTickSpeedMs(100);
 
         sim.addUpdateListener(s -> System.out.println("tick = " + s.getTick()));
@@ -22,8 +27,13 @@ public class Main{
         });
 
         sim.addUpdateListener(s -> {
-            Vehicle v = s.getVehicles().get(0);
-            System.out.println("cell=" + v.getPosition().cell() + " vel=" + v.getVelocity());
+            for (Vehicle v : s.getVehicles()) {
+                System.out.println(
+                        v.getProperties().color() +
+                                " cell=" + v.getPosition().cell() +
+                                " vel=" + v.getVelocity()
+                );
+            }
         });
 
         sim.start();

@@ -1,3 +1,7 @@
+/** Base class for all vehicle agents in the simulation.
+ * Stores immutable vehicle properties (type parameters) and mutable state such as
+ * current position and velocity.
+ * Subclasses (e.g., Car, Bus, Truck) typically configure different VehicleProperties */
 public class Vehicle {
     
     private VehicleProperties properties;

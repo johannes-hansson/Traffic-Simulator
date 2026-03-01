@@ -1,5 +1,10 @@
 import java.util.List;
 
+/** Applies vehicle movement for a tick by updating each vehicle's RoadPosition
+ * This class is responsible for the "state mutation" step: positions are updated and
+ * the spatial/locational map is informed about moves.
+ * In the planned architecture, movement is applied after behaviour has determined
+ * desired velocities and lane decisions. */
 public class VehicleMovement {
 
     public void move(List<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {

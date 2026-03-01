@@ -1,5 +1,7 @@
 import java.util.Vector;
 
+/** Simple test/dummy node implementation used to build small maps quickly during development.
+ * Provides deterministic behaviour for unit tests and early integration tests. */
 public class MockNode implements Node {
 
     private enum TurnDirection {
