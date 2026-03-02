@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class VehicleBehaviour {
 
-
     public int accelerate(Vehicle vehicle) { //Acceleration: vi <- min (vi+1,vmax)
         VehicleProperties properties = vehicle.getProperties();
         int prevVelocity = vehicle.getVelocity();
@@ -22,7 +21,7 @@ public class VehicleBehaviour {
         int lane = road.getLanes();
 
         //check for amount of free cells before vehicle (the free cells cant be longer than end of road)
-        int gap = road.getGap(lane, position.cell());
+        int gap = road.getGap(lane, position.cell() + 1);
         //check if there is enough space for going current speed 
         if(velocity > gap){
             return velocity = gap;
