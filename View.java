@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
@@ -5,27 +6,31 @@ import java.util.ArrayList;
 public class View implements SimulationUpdateListener {
 
     private Pane root; // drawing surface
-    public View(Pane root){
+
+    public View(Pane root) {
         this.root = root;
     }
 
     @Override
-    public void onUpdate(Simulation simulation){
-        root.getChildren().clear(); // behövs???
+    public void onUpdate(Simulation simulation) {
 
-        Map map = simulation.getMap(); // get map from simulation
+        Platform.runLater(() -> {
 
-        ArrayList<Road> roads = map.getRoads(); // get all roads
+            root.getChildren().clear(); // behövs???
 
-        for (Road road : roads){ // draw each road via roadrender
-            RoadRender render = road.getRoadRender();
-            render.draw(root); // draws between the breakpoints
-        }
+            Map map = simulation.getMap(); // get map from simulation
 
-        // here we can add drawing cars and traffic lights etc
+            ArrayList<Road> roads = map.getRoads(); // get all roads
+
+            for (Road road : roads) { // draw each road via roadrender
+                RoadRender render = road.getRoadRender();
+                render.draw(root); // draws between the breakpoints
+            }
+
+            // here we can add drawing cars and traffic lights etc
+        });
     }
 }
-
 
 
 

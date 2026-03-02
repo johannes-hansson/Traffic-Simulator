@@ -3,9 +3,9 @@ import java.util.Random;
 
 public class VehicleBehaviour {
     
-    public List<LaneSwitchDecision> computeLaneSwitches() {
-        return null;
-    }
+    //public List<LaneSwitchDecision> computeLaneSwitches() {
+   //     return null;
+   // }
 
     public int accelerate(Vehicle vehicle) { //Acceleration: vi <- min (vi+1,vmax)
         VehicleProperties properties = vehicle.getProperties();

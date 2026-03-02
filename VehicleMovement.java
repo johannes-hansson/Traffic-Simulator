@@ -1,14 +1,11 @@
 import java.util.List;
+import java.util.ArrayList;
 
 public class VehicleMovement {
 
-<<<<<<< HEAD
     public ArrayList<Vehicle> move(ArrayList<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {
         VehicleBehaviour vehicleBehaviour = new VehicleBehaviour();
 
-=======
-    public void move(List<Vehicle> vehicles, LocationalMap locationMap) {
->>>>>>> main
         for (Vehicle vehicle : vehicles) {
         ///for loop for all vehicles here
             RoadPosition position = vehicle.getPosition();
