@@ -1,11 +1,7 @@
-import java.util.ArrayList;
 import java.util.Random;
 
 public class VehicleBehaviour {
-    
-    public List<LaneSwitchDecision> computeLaneSwitches() {
-        return null;
-    }
+
 
     public int accelerate(Vehicle vehicle) { //Acceleration: vi <- min (vi+1,vmax)
         VehicleProperties properties = vehicle.getProperties();
@@ -18,27 +14,27 @@ public class VehicleBehaviour {
         else{
             return prevVelocity;} 
     }
-
-    public int deaccelerate(Vehicle vehicle, LocationalMap locationMap, Simulation sim) { //deaccelerate when vehicles in front
+ 
+    public int deaccelerate(Vehicle vehicle) { //deaccelerate when vehicles in front
         int velocity = vehicle.getVelocity();
         RoadPosition position = vehicle.getPosition();
-
         Road road = position.road();
-        int roadLength = road.getLength();
-        int roadDistanceLeft = roadLength - position.cell();
-        if (velocity > roadDistanceLeft) {      //check so speed of vehicle to move is not longer than end of road
-            velocity = roadDistanceLeft;
+        int lane = road.getLanes();
+
+        //check for amount of free cells before vehicle (the free cells cant be longer than end of road)
+        int gap = road.getGap(lane, position.cell());
+        //check if there is enough space for going current speed 
+        if(velocity > gap){
+            return velocity = gap;
         }
-        velocity = locationMap.scanAheadOf(position, velocity, sim); 
-        //check if there is vehicle ahead and if can go the speed it wants
-        //the new velocity is v = min(v, gap) where gap is the free cells between obstacles
+        //the new velocity is v = min(v, gap) where gap is the free cells until next vehicle
         return velocity;
     }
 
     public int randomisation(Vehicle vehicle, double p){
         int velocity = vehicle.getVelocity();
         Random random = new Random();
-        double randomDouble = random.nextDouble();  //generates a double between 0.0 and 1.0
+        double randomDouble = random.nextDouble();  //generates a random double between 0.0 and 1.0
 
         if((velocity > 1)&&(0<=p)&&(p<=1)){     
             if(randomDouble <= p){              //Bernoulli 
@@ -47,7 +43,28 @@ public class VehicleBehaviour {
         }
         return velocity;
     }
-            /* Nagel-schreckenberg-model
+    
+    public int computeVelocities(Vehicle vehicle){
+        int velocity; 
+
+    /// Nagel-schreckenberg-model
+    //1. Acceleration
+        velocity = accelerate(vehicle); 
+        vehicle.setVelocity(velocity);
+
+    //2. Deacceleration
+        velocity = deaccelerate(vehicle); 
+        vehicle.setVelocity(velocity);
+
+    //3. Randomization
+        double p = 0.5;    //50% chance for vehicle to slow down by one unit
+        velocity = randomisation(vehicle, p);
+        vehicle.setVelocity(velocity);
+
+    return velocity;
+    }
+        
+    /* Nagel-schreckenberg-model
             Every car agent i follows the rules: 
         1. Acceleration: vi <- min (vi+1,vmax), 
         2. Deceleration to avoid accidents: vi <- min (vi,gap), 
@@ -55,13 +72,6 @@ public class VehicleBehaviour {
          vi <- max (vi-1,0) 
         4. Movement: xi <- xi+vi  */
 
-    
-/*
-    public void computeLaneSwitches(Vehicle[] vehicles, LocationalMap locationalMap, 
-                LaneSwitchDecision[] laneSwitchDecisions){
-                    
-                
-                }*/
     
 
 }
