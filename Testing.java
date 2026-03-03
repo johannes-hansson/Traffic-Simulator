@@ -9,22 +9,37 @@ import java.util.ArrayList;
 
 public class Testing {
     
-    private Vehicle vehicle;
+    private Vehicle vehicle1;
+    private Vehicle vehicle2;
     private ArrayList<Vehicle> vehicles;
     private VehicleProperties properties;   //maxVelocity, acceleration, size, VehicleColor color
     private RoadPosition pos;   //road cell lane
-    
+    private Road road; 
+
     @Before //each test
     void setUp(){
         VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
-        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        Node node = null; 
+        Road road = new Road(node, 20, 1);// Node endNode, int length, int laneCount
+
+        RoadPosition pos1 = new RoadPosition();
+        RoadPosition pos2 = new RoadPosition(
+            pos1.road(), 
+            pos1.cell()+2, 
+            pos1.lane()
+        );
 
 
-        for(int i=1; i<5; i++){
+        Vehicle vehicle1 = new Vehicle(properties, pos1, 5);
+        Vehicle vehicle2 = new Vehicle(properties, pos2, 3);
+
+
+        /*for(int i=1; i<5; i++){
         Vehicle vehicle = new Vehicle(properties, pos, 5);
         vehicles.add(vehicle);
         //assertEquals( )
-        }
+        }*/
+
     }
 
     @After
