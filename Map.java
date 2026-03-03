@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/** Represents the road network used by the simulation.
+ * Owns the collection of Node's (intersections/endpoints) and Road's and
+ * is responsible for assembling a connected topology. */
 public class Map {
 
     private ArrayList<Node> nodes;

@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/** Helper component for spatial queries and bookkeeping of vehicle positions.
+ * Provides collision-related queries such as "is a cell occupied?" and "scan ahead".
+ * Design note: This is intended to evolve into a proper spatial index (e.g., per-road lane grid),
+ * so that behaviour/movement can query occupancy efficiently without scanning all vehicles. */
 public class LocationalMap {
 
     private Simulation simulation;
@@ -38,7 +42,7 @@ public class LocationalMap {
         int cellsBeforeVehicle = 0; //amount of empty cells before next vehicle
         int cellsAhead = velocity;  //is not longer than existing road (defined in VehicleMovement)
        
-        for(int currentCell=1; currentCell<cellsAhead; currentCell++){   
+        for(int currentCell=1; currentCell <= cellsAhead; currentCell++){
             RoadPosition lookPosition = new RoadPosition(
             position.road(), 
             position.cell() + currentCell, 

@@ -1,5 +1,10 @@
 import java.util.List;
 
+/** Applies vehicle movement for a tick by updating each vehicle's RoadPosition
+ * This class is responsible for the "state mutation" step: positions are updated and
+ * the spatial/locational map is informed about moves.
+ * In the planned architecture, movement is applied after behaviour has determined
+ * desired velocities and lane decisions. */
 public class VehicleMovement {
 
     /* 
@@ -169,6 +174,7 @@ public class VehicleMovement {
         //3. Randomization
             double p = 0.5;    //50% chance for vehicle to slow down by one unit
             velocity = vehicleBehaviour.randomisation(vehicle, p);
+            vehicle.setVelocity(velocity);
             
         //4. Movement
         RoadPosition newPosition = new RoadPosition(
@@ -176,6 +182,7 @@ public class VehicleMovement {
                 position.cell() + velocity, 
                 position.lane()
             );
+
         locationMap.moveVehicle(position, newPosition);
         vehicle.setPosition(newPosition);
         }

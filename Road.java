@@ -1,5 +1,8 @@
 import java.util.ArrayDeque;
 
+/** Represents a directed road segment with one or more lanes and a fixed length in cells.
+ * Stores vehicles both in a registry (for iteration) and in a lane/cell grid (for fast lookups).
+ * The road can scan for vehicles in a cell interval and provides gap computation for behaviour logic. */
 public class Road {
 
     public record ScanResult(int distance, boolean wasBlocked, boolean endOfRoadReached) {}
