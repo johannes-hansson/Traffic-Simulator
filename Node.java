@@ -1,7 +1,7 @@
-import java.util.Vector;
+import java.util.ArrayList;
 
 public interface Node {
-    public Vector<Road> getAvailableTurns(Road incoming);
+    public ArrayList<Road> getAvailableTurns(Road incoming);
     public int[][] getLaneMap(Road incoming, Road outgoing);
     public boolean requestTurn(Road incoming, Road outgoing);
 }

@@ -22,8 +22,8 @@ public class Map {
             new BreakPoint(99, 100, 99)
         });
 
-        Road road1 = new Road(node2, 300, 2, render1);
-        Road road2 = new Road(node1, 100, 2, render2);
+        Road road1 = new Road(node2, 300, 2, render1, "Road 1");
+        Road road2 = new Road(node1, 100, 2, render2, "Road 2");
 
         node1.addOutgoingRoad(road1, MockNode.Direction.NORTH);
         node2.addIncomingRoad(road1, MockNode.Direction.NORTH);
