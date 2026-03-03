@@ -13,7 +13,7 @@ public class Simulation {
     private final Object pauseLock = new Object();
     private VehicleMovement vehicleMovement;
     private VehicleBehaviour vehicleBehaviour;
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private List<SimulationUpdateListener> updateListeners = new ArrayList<>();
     private int tick = 0;
     private int tickSpeedMs = 100;
@@ -152,8 +152,10 @@ public class Simulation {
     private void step() {
         tick++;
 
-        updateInfrastructure();      // traffic lights, intersections
-        // computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
+
+       // updateInfrastructure();      // traffic lights, intersections
+        computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
+
         moveVehicles();              // apply movement
 
         // Notify observers/UI/stats plugins
@@ -163,19 +165,30 @@ public class Simulation {
     private void computeVehicleBehaviour() {
         if (vehicleBehaviour == null) return;
 
-        // vehicleBehaviour.computeVelocities(vehicles);
+       // vehicleBehaviour.computeVelocities(vehicles);
         // future:
         // List<LaneSwitchDecision> decisions = vehicleBehaviour.computeLaneSwitches(...)
     }
 
     private void moveVehicles() {
         if (vehicleMovement == null) return;
-        vehicleMovement.move(vehicles, locationalMap, this);
+      
+       // vehicleMovement.move(vehicles, locationalMap);
     }
 
-    private void updateInfrastructure() {
-        // TODO traffic lights, intersection logic
+    public Simulation(){ // la till för att kunna run och se view
+        this.map = new Map();
     }
+
+    //public int getVehicleAmount(){
+    //    return n_vehicles; }
+
+    //public ArrayList<Vehicle> getVehicles(){
+    //    return vehicles;
+    //private void updateInfrastructure() {
+
+        // TODO traffic lights, intersection logic
+    //}
 
     // TODO: delegate statistics collection to SimulationStatistics
 }
