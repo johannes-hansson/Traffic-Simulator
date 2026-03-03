@@ -1,9 +1,63 @@
+import java.util.ArrayList;
+
 public class Main{
     public static void main(String []args) throws InterruptedException {
+        Map map = new Map();
+        VehicleMovement movement = new VehicleMovement();
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        ArrayList<Road> roads = map.getRoads();
+
+        VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
+        RoadPosition position = new RoadPosition(roads.get(0), 0, 0);
+        RoadPosition position2 = new RoadPosition(roads.get(1), 0, 0);
+
+        Vehicle vehicle = new Vehicle(properties, position, 10);
+        Vehicle vehicle2 = new Vehicle(properties, position2, 0);
+        roads.get(0).enterVehicle(vehicle, 0, 0);
+        roads.get(1).enterVehicle(vehicle2, 0, 0);
+        vehicles.add(vehicle);
+        vehicles.add(vehicle2);
+
+        for (int i=0; i<100; i++) {
+            movement.process(vehicles);
+        }
+
+        /*
         Simulation sim = new Simulation();
+        SimulationStatistics stats = new SimulationStatistics();
+        sim.setLocationalMap(new LocationalMap());
+        sim.setVehicleMovement(new VehicleMovement());
+        sim.setVehicleBehaviour(new VehicleBehaviour());
+        sim.setMap(new Map());
+        Road road = sim.getMap().getRoads().get(0);
+
+        // Demo setup: 2 vehicles
+        RoadPosition start = new RoadPosition(road, 10, 0);
+        sim.addVehicle(new Car(start, 0, VehicleColor.Red), start);
+        RoadPosition start2 = new RoadPosition(road, 8, 0);
+        sim.addVehicle(new Car(start2, 3, VehicleColor.blue), start2);
+
         sim.setTickSpeedMs(100);
 
         sim.addUpdateListener(s -> System.out.println("tick = " + s.getTick()));
+        sim.addUpdateListener(stats);
+
+        sim.addUpdateListener(s -> {
+            var latest = stats.getLatest();
+            if (latest != null && latest.tick() % 5 == 0) { //printing statistics each 5 ticks
+                System.out.println(latest);
+            }
+        });
+
+        sim.addUpdateListener(s -> {
+            for (Vehicle v : s.getVehicles()) {
+                System.out.println(
+                        v.getProperties().color() +
+                                " cell=" + v.getPosition().cell() +
+                                " vel=" + v.getVelocity()
+                );
+            }
+        });
 
         sim.start();
 
@@ -22,5 +76,6 @@ public class Main{
         sim.stop();
 
         System.out.println("Stopped at tick: " + sim.getTick());
+        */
     }
 }

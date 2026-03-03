@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+/** Base class for all vehicle agents in the simulation.
+ * Stores immutable vehicle properties (type parameters) and mutable state such as
+ * current position and velocity.
+ * Subclasses (e.g., Car, Bus, Truck) typically configure different VehicleProperties */
 public class Vehicle {
     
     private VehicleProperties properties;
@@ -10,6 +15,13 @@ public class Vehicle {
         this.properties = properties;
         this.position = position;
         this.velocity = velocity;
+    }
+
+    public Road chooseRoad(ArrayList<Road> roads) {
+        if (roads.size() == 0) {
+            return null;
+        }
+        return roads.get(0);
     }
 
     public int getVelocity() {

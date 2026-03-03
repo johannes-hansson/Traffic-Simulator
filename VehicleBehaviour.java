@@ -20,6 +20,7 @@ public class VehicleBehaviour {
         Road road = position.road();
         int lane = road.getLanes();
 
+        
         //check for amount of free cells before vehicle (the free cells cant be longer than end of road)
         int gap = road.getGap(lane, position.cell() + 1);
         //check if there is enough space for going current speed 

@@ -1,3 +1,6 @@
+/** High-level coordinator that wires together core components (Simulation, View, Controls, Statistics)
+ * and manages application lifecycle concerns (startup, shutdown, user-driven state transitions).
+ * Intended as the boundary between the simulation kernel and the UI/application layer */
 public class SimulationManager {
     private final Simulation simulation;
 
