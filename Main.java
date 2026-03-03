@@ -46,9 +46,7 @@ public class Main extends Application{
 
             simulation.setTickSpeedMs(100);
             simulation.start();
-
         }
-
 
         public static void main (String[]args){
             launch(args); // start javafx
