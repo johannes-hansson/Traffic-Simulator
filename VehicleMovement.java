@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.ArrayList;
 
 /** Applies vehicle movement for a tick by updating each vehicle's RoadPosition
  * This class is responsible for the "state mutation" step: positions are updated and
@@ -7,6 +7,9 @@ import java.util.List;
  * desired velocities and lane decisions. */
 public class VehicleMovement {
 
+<<<<<<< HEAD
+    public ArrayList<Vehicle> move(ArrayList<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {
+=======
     /* 
     Moves a vehicle from its current position to the given position
     and sends an update to the affected roads about the position change,
@@ -157,6 +160,7 @@ public class VehicleMovement {
     }
 
     public void move(List<Vehicle> vehicles, LocationalMap locationMap, Simulation sim) {
+>>>>>>> main
         VehicleBehaviour vehicleBehaviour = new VehicleBehaviour();
 
         for (Vehicle vehicle : vehicles) {
