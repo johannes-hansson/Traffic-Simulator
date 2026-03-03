@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/** Simulation is the core component of the traffic simulator.
+ * It maintains the current simulation state including vehicles,
+ * map and mobility model. It is responsible for executing
+ * simulation ticks and notifying update listeners. */
 public class Simulation {
     private Map map;
     private LocationalMap locationalMap;
@@ -67,6 +71,8 @@ public class Simulation {
         }
     }
 
+    /** Registers an observer/listener that will receive SimulationUpdateListener.onUpdate(Simulation)
+     * after every tick */
     public void addUpdateListener(SimulationUpdateListener listener) {
         updateListeners.add(listener);
     }
@@ -77,8 +83,11 @@ public class Simulation {
         }
     }
 
+    /** Starts the simulation loop in a separate thread if not already running.
+     * The loop executes step() repeatedly with a sleep delay based on tickSpeedMs. */
     public void start() {
         if (running) return; //Security for not starting twice
+        validateConfiguration();
         running = true;
         simThread = new Thread(() -> { // A new thread that can tick simultaneously parallel
             while (running) {
@@ -108,6 +117,14 @@ public class Simulation {
         simThread.start();
     }
 
+    private void validateConfiguration() {
+        if (map == null) throw new IllegalStateException("Map not set");
+        if (locationalMap == null) throw new IllegalStateException("LocationalMap not set");
+        if (vehicleMovement == null) throw new IllegalStateException("VehicleMovement not set");
+    }
+
+    /** Stops the simulation loop and wakes the thread if it is sleeping or paused.
+     * After stop, the simulation is no longer running until start() is called again. */
     public void stop() {
         running = false;
         if (simThread != null) {
@@ -130,11 +147,15 @@ public class Simulation {
         }
     }
 
+    /** Executes one simulation tick: updates infrastructure, computes behaviour, moves vehicles,
+     * then notifies all listeners. */
     private void step() {
         tick++;
 
+
        // updateInfrastructure();      // traffic lights, intersections
         computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
+
         moveVehicles();              // apply movement
 
         // Notify observers/UI/stats plugins
@@ -151,10 +172,11 @@ public class Simulation {
 
     private void moveVehicles() {
         if (vehicleMovement == null) return;
+      
        // vehicleMovement.move(vehicles, locationalMap);
     }
 
-    public Simulation(){ // malin la till för att kunna run och se view
+    public Simulation(){ // la till för att kunna run och se view
         this.map = new Map();
     }
 
@@ -164,6 +186,7 @@ public class Simulation {
     //public ArrayList<Vehicle> getVehicles(){
     //    return vehicles;
     //private void updateInfrastructure() {
+
         // TODO traffic lights, intersection logic
     //}
 

@@ -3,6 +3,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 
+
 public class View implements SimulationUpdateListener {
 
     private Pane root; // drawing surface
@@ -37,6 +38,10 @@ public class View implements SimulationUpdateListener {
 
 
 /*
+
+ View component that observes the simulation and visualizes the current state.
+ Intended as a plugin registered via Simulation.addUpdateListener(SimulationUpdateListener). */
+
 public class View implements SimulationUpdateListener {
 
     @Override
