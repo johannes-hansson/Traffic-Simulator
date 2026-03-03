@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox; // vertical elements
 import javafx.stage.Modality; // how the popup acts, like being infront the other window
 import javafx.stage.Stage;
+import javafx.geometry.Pos; // positions
 
 public class Main extends Application{
 
@@ -14,18 +15,19 @@ public class Main extends Application{
 
         // create popup window
         Stage popup = new Stage(); // new window
-        VBox popupRoot = new VBox(10); // vertical layout with 10 pixels between elements
-        popupRoot.setStyle("-fx-padding: 20;");
+        VBox popupRoot = new VBox(20); // vertical layout with 10 pixels between elements
+        popupRoot.setAlignment(Pos.BASELINE_CENTER); // centre the button in the window
         Button startButton = new Button("Start simulation");
         popupRoot.getChildren().add(startButton);
 
-        Scene popupScene = new Scene(popupRoot, 200, 100);
+
+        Scene popupScene = new Scene(popupRoot, 800, 600);
         popup.setTitle("Traffic simulator");
         popup.setScene(popupScene);
-        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.initModality(Modality.APPLICATION_MODAL); // so you have to press the button before the main window opens
         popup.show();
 
-
+        // main window
         Pane root = new Pane(); // create new stage
         Simulation simulation = new Simulation(); // create simulation
         View view = new View(root);// create view, connect too root
