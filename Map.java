@@ -12,48 +12,29 @@ public class Map {
         MockNode node1 = new MockNode();
         MockNode node2 = new MockNode();
 
-        RoadRender render1 = new RoadRender(10, new BreakPoint[] {
-           /*
-            new BreakPoint(0, 0, 0),
-            new BreakPoint(50, 0, 50),
-            new BreakPoint(50, 50, 100),
-            new BreakPoint(100, 50, 150),
-            new BreakPoint(100, 0, 200),
-            new BreakPoint(200, 0, 300) */
-
-            new BreakPoint(100,100,0), // start vänster hörn
-            new BreakPoint(100,250,150),
-            new BreakPoint(700,250,750),
-            new BreakPoint(700,100,900),
-            new BreakPoint(500,100,1100),
-            new BreakPoint(500,500,1500),
-            new BreakPoint(700,500,1700),
-            new BreakPoint(700,350,1850),
-            new BreakPoint(100,350,2450),
-            new BreakPoint(100,500,2600),
-            new BreakPoint(300,500,2800),
-            new BreakPoint(300,100,3000),
-            new BreakPoint(100,100,3200),
-
-
+        RoadRender render1 = new RoadRender(20, new BreakPoint[] {
+            new BreakPoint(50, 250, 0),
+            new BreakPoint(50, 50, 200),
+            new BreakPoint(500, 50, 650),
+            new BreakPoint(500, 250, 850)
         });
-        /* RoadRender render2 = new RoadRender(10, new BreakPoint[] {
-            new BreakPoint(0, 100, 0),
-            new BreakPoint(99, 100, 99)
-        }); */
+        RoadRender render2 = new RoadRender(20, new BreakPoint[] {
+                new BreakPoint(500, 300, 0),
+                new BreakPoint(500, 500, 200),
+                new BreakPoint(50, 500, 650),
+                new BreakPoint(50, 300, 850)
+        });
 
 
-        Road road1 = new Road(node2, 3200, 2);
-        road1.setRoadRender(render1);
-        /* Road road2 = new Road(node1, 100, 2);
-        road2.setRoadRender(render2);*/
+        Road road1 = new Road(node2, 850, 2, render1, "Road 1");
+        Road road2 = new Road(node1, 850, 2, render2, "Road 2");
 
 
         node1.addOutgoingRoad(road1, MockNode.Direction.NORTH);
         node2.addIncomingRoad(road1, MockNode.Direction.NORTH);
 
-        /* node2.addOutgoingRoad(road2, MockNode.Direction.SOUTH);
-        node1.addIncomingRoad(road2, MockNode.Direction.SOUTH);*/
+        node2.addOutgoingRoad(road2, MockNode.Direction.SOUTH);
+        node1.addIncomingRoad(road2, MockNode.Direction.SOUTH);
 
         this.nodes = new ArrayList<>();
         this.roads = new ArrayList<>();
@@ -62,7 +43,7 @@ public class Map {
         this.nodes.add(node2);
 
         this.roads.add(road1);
-        // this.roads.add(road2);
+        this.roads.add(road2);
     }
 
     public ArrayList<Node> getNodes() {

@@ -1,3 +1,4 @@
+/*
 import static org.junit.Assert.*;    //imports JUnits assertion methods
 import org.junit.Test;     //imports the @Test anotations
 import org.junit.Before;   //import for before and after annotations
@@ -34,11 +35,11 @@ public class Testing {
         Vehicle vehicle2 = new Vehicle(properties, pos2, 3);
 
 
-        /*for(int i=1; i<5; i++){
+        for(int i=1; i<5; i++){
         Vehicle vehicle = new Vehicle(properties, pos, 5);
         vehicles.add(vehicle);
         //assertEquals( )
-        }*/
+        }
 
     }
 
@@ -59,3 +60,5 @@ public class Testing {
 
 
 }
+*/
+

@@ -13,7 +13,6 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) {
-
         // create popup window
         Stage popup = new Stage(); // new window
         VBox popupRoot = new VBox(20); // vertical layout with 10 pixels between elements
@@ -39,22 +38,21 @@ public class Main extends Application{
             showSimulationWindow(primaryStage, root, simulation, view);
         });
     }
-        private void showSimulationWindow (Stage stage, Pane root, Simulation simulation, View view){
-            view.onUpdate(simulation);
 
-            Scene scene = new Scene(root, 800, 600);
-            stage.setTitle("Traffic simulator demo");
-            stage.setScene(scene);
-            stage.show();
+    private void showSimulationWindow (Stage stage, Pane root, Simulation simulation, View view){
+        Scene scene = new Scene(root, 800, 600);
+        stage.setTitle("Traffic simulator demo");
+        stage.setScene(scene);
+        stage.show();
 
-            simulation.setTickSpeedMs(100);
-            simulation.start();
-        }
-
-        public static void main (String[]args){
-            launch(args); // start javafx
-        }
+        simulation.setTickSpeedMs(100);
+        simulation.start();
     }
+
+    public static void main (String[]args) {
+        launch(args); // start javafx
+    }
+}
 
 
 
@@ -143,7 +141,3 @@ public class Main{
         System.out.println("Stopped at tick: " + sim.getTick());
 
     } */
-
-    }
-}
-

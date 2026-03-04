@@ -20,16 +20,29 @@ public class Simulation {
     private Thread simThread;
     private int n_vehicles; //amount of vehicles
 
+    public Simulation() {
+        this.map = new Map();
+        this.vehicleBehaviour = new VehicleBehaviour();
+        this.vehicleMovement = new VehicleMovement();
+
+        List<Road> roads = this.map.getRoads();
+
+        VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
+        VehicleProperties properties2 = new VehicleProperties(30, 2, 1, VehicleColor.blue);
+        RoadPosition position = new RoadPosition(roads.get(0), 0, 0);
+        RoadPosition position2 = new RoadPosition(roads.get(1), 0, 0);
+
+        Vehicle vehicle = new Vehicle(properties, position, 0);
+        Vehicle vehicle2 = new Vehicle(properties2, position2, 0);
+        roads.get(0).enterVehicle(vehicle, 0, 0);
+        roads.get(1).enterVehicle(vehicle2, 0, 0);
+        vehicles.add(vehicle);
+        vehicles.add(vehicle2);
+    }
+
     //Setters
     public void setMap(Map map) {
         this.map = map;
-    }
-
-    public void setLocationalMap(LocationalMap locationalMap) {
-        this.locationalMap = locationalMap;
-        if (this.locationalMap != null) {
-            this.locationalMap.setSimulation(this);
-        }
     }
 
     public void setVehicleMovement(VehicleMovement vehicleMovement) {
@@ -119,7 +132,6 @@ public class Simulation {
 
     private void validateConfiguration() {
         if (map == null) throw new IllegalStateException("Map not set");
-        if (locationalMap == null) throw new IllegalStateException("LocationalMap not set");
         if (vehicleMovement == null) throw new IllegalStateException("VehicleMovement not set");
     }
 
@@ -152,11 +164,8 @@ public class Simulation {
     private void step() {
         tick++;
 
-
-       // updateInfrastructure();      // traffic lights, intersections
-        computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
-
-        moveVehicles();              // apply movement
+        this.vehicleBehaviour.process(this.vehicles);
+        this.vehicleMovement.process(this.vehicles);
 
         // Notify observers/UI/stats plugins
         notifyListeners();
@@ -174,10 +183,6 @@ public class Simulation {
         if (vehicleMovement == null) return;
       
        // vehicleMovement.move(vehicles, locationalMap);
-    }
-
-    public Simulation(){ // la till för att kunna run och se view
-        this.map = new Map();
     }
 
     //public int getVehicleAmount(){

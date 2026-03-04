@@ -1,9 +1,8 @@
 import java.util.ArrayList;
-
-/* import javafx.scene.layout.Pane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.paint.Color;
- */
+import java.util.List;
 
 /** Lightweight data model describing how a road should be rendered.
  * Stores width and a sequence of BreakPoint's that define the polyline geometry. */
@@ -38,8 +37,7 @@ public class RoadRender {
         return this.breakPoints;
     }
 
-    /* public void draw(Pane root) {
-
+    public void draw(Pane root, List<Vehicle> vehicles) {
         // Draw between each pair of points
         for (int i = 0; i < breakPoints.size() - 1; i++){
             BreakPoint p1 = breakPoints.get(i); // get first point (start)
@@ -54,13 +52,44 @@ public class RoadRender {
             roadSegment.setStroke(Color.DARKGRAY); // color of road
 
             root.getChildren().add(roadSegment);
-
-            root = Pane = drawing surface / empty box
-            getChildren = all that is within the box
-            add = adds our lines
-
         }
 
-    } */
+        for (Vehicle vehicle : vehicles) {
+            VehicleProperties properties = vehicle.getProperties();
+            RoadPosition position = vehicle.getPosition();
 
+            int lowerBreakPointIndex = 0;
+            int upperBreakPointIndex = this.breakPoints.size() - 1;
+
+            while (upperBreakPointIndex - lowerBreakPointIndex > 1) {
+                int middleBreakPointIndex = (int)Math.floor((upperBreakPointIndex + lowerBreakPointIndex) / 2);
+                BreakPoint middleBreakPoint = this.breakPoints.get(middleBreakPointIndex);
+                if (middleBreakPoint.cell() >= position.cell()) {
+                    upperBreakPointIndex = middleBreakPointIndex;
+                } else {
+                    lowerBreakPointIndex = middleBreakPointIndex;
+                }
+            }
+
+            BreakPoint lowerBreakPoint = this.breakPoints.get(lowerBreakPointIndex);
+            BreakPoint upperBreakPoint = this.breakPoints.get(upperBreakPointIndex);
+
+            int breakPointDistance = upperBreakPoint.cell() - lowerBreakPoint.cell();
+            int distanceFromLowerBreakPoint = position.cell() - lowerBreakPoint.cell();
+            double gamma = (double)distanceFromLowerBreakPoint / (double)breakPointDistance;
+
+            int x = (int)(upperBreakPoint.x() * gamma + lowerBreakPoint.x() * (1 - gamma));
+            int y = (int)(upperBreakPoint.y() * gamma + lowerBreakPoint.y() * (1 - gamma));
+
+            Line vehicleSegment = new Line( // here we create the line
+                    x, y,
+                    x, y
+            );
+
+            vehicleSegment.setStrokeWidth(20); // width of road
+            vehicleSegment.setStroke(Color.RED); // color of road
+
+            root.getChildren().add(vehicleSegment);
+        }
+    }
 }

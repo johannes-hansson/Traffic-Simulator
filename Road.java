@@ -1,4 +1,6 @@
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Represents a directed road segment with one or more lanes and a fixed length in cells.
  * Stores vehicles both in a registry (for iteration) and in a lane/cell grid (for fast lookups).
@@ -41,6 +43,14 @@ public class Road {
     public int getLanes() {
         return this.lanes.length;
     };
+
+    public List<Vehicle> getVehicles() {
+        ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+        for (Vehicle vehicle : this.vehicleRegistry) {
+            vehicles.add(vehicle);
+        }
+        return vehicles;
+    }
 
     // Adds the given vehicle to the vehicle registry and the cell array at the given position
     // Does not check if there is another vehicle at the position or if the given
@@ -121,42 +131,5 @@ public class Road {
 
         ScanResult result = new ScanResult(distanceTravelled, wasBlocked, endOfRoadReached);
         return result;
-    }
-
-    // Returns the first vehicle found on lane from the inclusive range start to end
-    // Requires that the provided end point is within range of the road
-    public Vehicle _scanCells(int lane, int start, int end) {
-        if (start < 0 || start > end || end >= this.getLength()) {
-            System.err.println("Invalid range provided for scan");
-            return null;
-        }
-
-        if (lane < 0 || lane >= this.getLanes()) {
-            System.err.println("Lane provided for scan is out of range");
-            return null;
-        }
-
-        for (int currentCell = start; currentCell <= end; currentCell++) {
-            if (this.lanes[lane][currentCell] != null) {
-                return this.lanes[lane][currentCell];
-            }
-        }
-
-        return null;
-    }
-
-    // Returns the amount of free cells ahead of start
-    public int getGap(int lane, int cell) {
-        int gap = 0;
-        int start = cell + 1;
-        int roadLength = this.getLength();
-        while (start + gap < roadLength) {
-            if (this.lanes[lane][start + gap] == null) {
-                gap++;
-            } else {
-                break;
-            }
-        }
-        return gap; 
     }
 }
