@@ -20,8 +20,8 @@ public class Testing {
     void setUp(){
         VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
         Node node = null; 
-        Road road = new Road(node, 20, 1);// Node endNode, int length, int laneCount
-
+        // RoadRender(int width, BreakPoint[] breakPoints)
+        Road road = new Road(node, 20, 1, [2]);// Node endNode, int length, int laneCount, RoadRender render, String name
         RoadPosition pos1 = new RoadPosition();
         RoadPosition pos2 = new RoadPosition(
             pos1.road(), 
@@ -29,17 +29,14 @@ public class Testing {
             pos1.lane()
         );
 
-
         Vehicle vehicle1 = new Vehicle(properties, pos1, 5);
         Vehicle vehicle2 = new Vehicle(properties, pos2, 3);
-
 
         /*for(int i=1; i<5; i++){
         Vehicle vehicle = new Vehicle(properties, pos, 5);
         vehicles.add(vehicle);
         //assertEquals( )
         }*/
-
     }
 
     @After
