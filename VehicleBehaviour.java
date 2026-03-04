@@ -1,6 +1,24 @@
 import java.util.Random;
+import java.util.List;
 
 public class VehicleBehaviour {
+
+    static final double brakeProbability = 0.5;
+
+    public void processVehicle(Vehicle vehicle) {
+        RoadPosition currentPosition = vehicle.getPosition();
+
+        int desiredVelocity = this.accelerate(vehicle);
+        int safeVelocity = this.deaccelerate(vehicle, currentPosition.lane(), desiredVelocity);
+        int finalVelocity = this.applyRandomizedBrake(safeVelocity, VehicleBehaviour.brakeProbability);
+        vehicle.setVelocity(finalVelocity);
+    }
+
+    public void process(List<Vehicle> vehicles) {
+        for (Vehicle vehicle : vehicles) {
+            this.processVehicle(vehicle);
+        }
+    }
     
     // Takes a node that the vehicle has reached and computes 
     // amount of cells the vehicle can travel after the node
@@ -37,11 +55,11 @@ public class VehicleBehaviour {
 
         // If the vehicle is able to make the turn, scan the following road
         Road.ScanResult scanResult = roadToEnter.scanCells(laneToEnter, 0, maxDistance, true);
-
+        
         // If the scan reached the end of the road, call the method recursively
         // to get the free distance on the next road
         if (scanResult.endOfRoadReached()) {
-            return this.getFreeDistanceAfterTurn(
+            return scanResult.distance() + this.getFreeDistanceAfterTurn(
                 roadToEnter, 
                 laneToEnter, 
                 vehicle, 
@@ -58,35 +76,37 @@ public class VehicleBehaviour {
         int newVelocity = prevVelocity + properties.acceleration(); 
     
         if(newVelocity < properties.maxVelocity()) { //acceleration cant pass over max speed of vehicle
-            return newVelocity;}
-
-        else{
-            return prevVelocity;} 
+            return newVelocity;
+        } else {
+            return properties.maxVelocity();
+        } 
     }
 
-    public int deaccelerate(Vehicle vehicle, LocationalMap locationMap, Simulation sim) { //deaccelerate when vehicles in front
-        int velocity = vehicle.getVelocity();
+    public int deaccelerate(Vehicle vehicle, int currentLane, int velocity) { //deaccelerate when vehicles in front
         RoadPosition position = vehicle.getPosition();
-
         Road road = position.road();
-        int roadLength = road.getLength();
-        int roadDistanceLeft = roadLength - position.cell();
-        if (velocity > roadDistanceLeft) {      //check so speed of vehicle to move is not longer than end of road
-            velocity = roadDistanceLeft;
+
+        Road.ScanResult scanResult = road.scanCells(currentLane, position.cell(), velocity, false);
+        int gap = scanResult.distance();
+        if (scanResult.endOfRoadReached()) {
+            int remainingDistance = velocity - gap;
+            gap += this.getFreeDistanceAfterTurn(
+                road, 
+                currentLane, 
+                vehicle, 
+                remainingDistance
+            );
         }
-        velocity = locationMap.scanAheadOf(position, velocity, sim); 
-        //check if there is vehicle ahead and if can go the speed it wants
-        //the new velocity is v = min(v, gap) where gap is the free cells between obstacles
-        return velocity;
+
+        return gap;
     }
 
-    public int randomisation(Vehicle vehicle, double p){
-        int velocity = vehicle.getVelocity();
+    public int applyRandomizedBrake(int velocity, double probability) {
         Random random = new Random();
         double randomDouble = random.nextDouble();  //generates a double between 0.0 and 1.0
 
-        if((velocity > 1)&&(0<=p)&&(p<=1)){     
-            if(randomDouble <= p){              //Bernoulli 
+        if((velocity > 1)&&(0<=probability)&&(probability<=1)){     
+            if(randomDouble <= probability){              //Bernoulli 
                 velocity--; //velocity gets less by one unit
             }
         }
