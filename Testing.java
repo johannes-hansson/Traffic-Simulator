@@ -4,7 +4,7 @@ import org.junit.Before;   //import for before and after annotations
 import org.junit.After;
 import java.util.ArrayList;
 
-//make sure JUnit is downloaded to your lib
+//make sure JUnit 4 is downloaded to your lib
 //With vscode that has "Test Runner for Java" installed -> right click on a function name -> press source action -> generate tests -> enable test libraries -> JUnit 
 
 public class Testing {
@@ -32,11 +32,6 @@ public class Testing {
         Vehicle vehicle1 = new Vehicle(properties, pos1, 5);
         Vehicle vehicle2 = new Vehicle(properties, pos2, 3);
 
-        /*for(int i=1; i<5; i++){
-        Vehicle vehicle = new Vehicle(properties, pos, 5);
-        vehicles.add(vehicle);
-        //assertEquals( )
-        }*/
     }
 
     @After
