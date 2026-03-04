@@ -24,14 +24,11 @@ public class VehicleBehaviour {
         Road road = position.road();
         int lane = road.getLanes();
 
-        
-        //check for amount of free cells before vehicle (the free cells cant be longer than end of road)
-        int gap = road.getGap(lane, position.cell() + 1);
-        //check if there is enough space for going current speed 
-        if(velocity > gap){
-            return velocity = gap;
-        }
-        //the new velocity is v = min(v, gap) where gap is the free cells until next vehicle
+        //scan the road (get the free gap between in front of vehicle/intersection)
+        Road.ScanResult scanResult = road.scanCells(lane, position.cell(), velocity, false);
+        velocity = scanResult.distance();
+       
+        //the new velocity is v = min(v, gap) where gap is the free cells until next vehicle__
         return velocity;
     }
 
