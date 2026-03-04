@@ -27,7 +27,7 @@ public class Road {
     }
 
     public void setRoadRender(RoadRender render){
-        this.render = render; // malin som gjort för att kunna göra view
+        this.render = render; //  som gjort för att kunna göra view
     }
 
     public Node getEndNode() {

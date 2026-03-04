@@ -17,7 +17,7 @@ public class Testing {
     private Road road; 
 
     @Before //each test
-    void setUp(){
+   /* public void setUp(){
         VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
         Node node = null; 
         Road road = new Road(node, 20, 1);// Node endNode, int length, int laneCount
@@ -38,9 +38,9 @@ public class Testing {
         Vehicle vehicle = new Vehicle(properties, pos, 5);
         vehicles.add(vehicle);
         //assertEquals( )
-        }*/
+        }
 
-    }
+    }*/
 
     @After
     void destroy(){

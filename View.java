@@ -1,12 +1,16 @@
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+
 import java.util.ArrayList;
+
 
 
 
 public class View implements SimulationUpdateListener {
 
     private Pane root; // drawing surface
+    private boolean roadsDrawn = false;
 
     public View(Pane root) {
         this.root = root;
@@ -17,15 +21,39 @@ public class View implements SimulationUpdateListener {
 
         Platform.runLater(() -> {
 
-            root.getChildren().clear(); // behövs???
+            // root.getChildren().clear(); // behövs???
 
             Map map = simulation.getMap(); // get map from simulation
 
             ArrayList<Road> roads = map.getRoads(); // get all roads
 
-            for (Road road : roads) { // draw each road via roadrender
+            if(!roadsDrawn){
+                for (Road road : roads){
+                    road.getRoadRender().draw(root);
+                }
+                roadsDrawn = true;
+            }
+            /*for (Road road : roads) { // draw each road via roadrender
                 RoadRender render = road.getRoadRender();
                 render.draw(root); // draws between the breakpoints
+            }*/
+
+            for (Vehicle vehicle : simulation.getVehicles()){
+                Rectangle r = vehicle.getGraphic(); // get the rectangle that represents the car
+
+                if(!root.getChildren().contains(r)){ // check if r already exist, otherwise add
+                    root.getChildren().add(r);
+                }
+
+                // get cars current position
+                Road road = vehicle.getPosition().road();
+                int cell = vehicle.getPosition().cell();
+                BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
+
+                // move rectangle to new position
+                r.setX(position.x() - r.getWidth()/2);
+                r.setY(position.y() - r.getHeight()/2);
+
             }
 
             // here we can add drawing cars and traffic lights etc
@@ -40,7 +68,7 @@ public class View implements SimulationUpdateListener {
 /*
 
  View component that observes the simulation and visualizes the current state.
- Intended as a plugin registered via Simulation.addUpdateListener(SimulationUpdateListener). */
+ Intended as a plugin registered via Simulation.addUpdateListener(SimulationUpdateListener).
 
 public class View implements SimulationUpdateListener {
 

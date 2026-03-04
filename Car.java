@@ -8,8 +8,8 @@ class Car extends Vehicle { //subclass to vehicle
                 new VehicleProperties(
                         5,
                         1,
-                        1,
-                        color
+                        1
+                        //color
                 ),
                 startPosition,
                 initialVelocity
@@ -21,6 +21,6 @@ class Car extends Vehicle { //subclass to vehicle
             super.displayDetailsVehicle();
             System.out.println("Max velocity: " + getProperties().maxVelocity());
             System.out.println("Size (cells): " + getProperties().size());
-            System.out.println("Color: " + getProperties().color());
+            //System.out.println("Color: " + getProperties().color());
         }
     }
