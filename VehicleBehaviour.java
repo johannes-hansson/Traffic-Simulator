@@ -41,7 +41,12 @@ public class VehicleBehaviour {
         // If the scan reached the end of the road, call the method recursively
         // to get the free distance on the next road
         if (scanResult.endOfRoadReached()) {
-            return this.getFreeDistanceAfterTurn(roadToEnter, laneToEnter, vehicle, maxDistance - scanResult.distance());
+            return this.getFreeDistanceAfterTurn(
+                roadToEnter, 
+                laneToEnter, 
+                vehicle, 
+                maxDistance - scanResult.distance()
+            );
         }
 
         return scanResult.distance();
@@ -52,7 +57,7 @@ public class VehicleBehaviour {
         int prevVelocity = vehicle.getVelocity();
         int newVelocity = prevVelocity + properties.acceleration(); 
     
-        if(newVelocity < properties.maxVelocity()){ //acceleration cant pass over max speed of vehicle
+        if(newVelocity < properties.maxVelocity()) { //acceleration cant pass over max speed of vehicle
             return newVelocity;}
 
         else{
