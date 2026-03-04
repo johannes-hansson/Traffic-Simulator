@@ -1,10 +1,50 @@
-import java.util.ArrayList;
 import java.util.Random;
 
 public class VehicleBehaviour {
     
-    public List<LaneSwitchDecision> computeLaneSwitches() {
-        return null;
+    // Takes a node that the vehicle has reached and computes 
+    // amount of cells the vehicle can travel after the node
+    // Returns 0 if the vehicle can not enter the node
+    public int getFreeDistanceAfterTurn(
+        Road road,
+        int lane,
+        Vehicle vehicle,
+        int maxDistance
+    ) {
+
+        Node node = road.getEndNode();
+        Road roadToEnter = vehicle.chooseRoad(node.getAvailableTurns(road));
+
+        boolean canTurn = node.requestTurn(road, roadToEnter);
+        if (canTurn == false) {
+            return 0;
+        }
+
+        // If the lane to enter is not reassigned from -1, 
+        // the turn cannot be made from the current lane
+        int laneToEnter = -1; 
+
+        int[][] laneMap = node.getLaneMap(road, roadToEnter);
+        for (int i = 0; i < laneMap.length; i++) {
+            if (laneMap[i][0] == lane) {
+                laneToEnter = laneMap[i][1];
+                break;
+            }
+        }
+        if (laneToEnter == -1) {
+            return 0;
+        }
+
+        // If the vehicle is able to make the turn, scan the following road
+        Road.ScanResult scanResult = roadToEnter.scanCells(laneToEnter, 0, maxDistance, true);
+
+        // If the scan reached the end of the road, call the method recursively
+        // to get the free distance on the next road
+        if (scanResult.endOfRoadReached()) {
+            return this.getFreeDistanceAfterTurn(roadToEnter, laneToEnter, vehicle, maxDistance - scanResult.distance());
+        }
+
+        return scanResult.distance();
     }
 
     public int accelerate(Vehicle vehicle) { //Acceleration: vi <- min (vi+1,vmax)
