@@ -1,5 +1,7 @@
 import java.util.Random;
 
+import Road.ScanResult;
+
 public class VehicleBehaviour {
     
     //public List<LaneSwitchDecision> computeLaneSwitches() {
