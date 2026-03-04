@@ -6,6 +6,11 @@ import java.util.List;
  * map and mobility model. It is responsible for executing
  * simulation ticks and notifying update listeners. */
 public class Simulation {
+
+    // Different possible speed modes
+    public enum SpeedMode { SLOW, NORMAL, FAST }
+
+    private SpeedMode speedMode = SpeedMode.NORMAL;
     private Map map;
     private LocationalMap locationalMap;
     private boolean running = false;
@@ -20,7 +25,31 @@ public class Simulation {
     private Thread simThread;
     private int n_vehicles; //amount of vehicles
 
+    // Empty constructor
+    public Simulation() {}
+
+    // Constructor for creating default components
+    public static Simulation createDefault() {
+        Simulation sim = new Simulation();
+        sim.setMap(new Map());
+        sim.setLocationalMap(new LocationalMap());
+        sim.setVehicleBehaviour(new VehicleBehaviour());
+        sim.setVehicleMovement(new VehicleMovement());
+        sim.setSpeedMode(SpeedMode.NORMAL);
+        return sim;
+    }
+
     //Setters
+
+    public void setSpeedMode(SpeedMode mode){
+    this.speedMode = mode;
+        switch (mode) {
+            case SLOW -> setTickSpeedMs(250);
+            case NORMAL -> setTickSpeedMs(100);
+            case FAST -> setTickSpeedMs(25);
+        }
+    }
+
     public void setMap(Map map) {
         this.map = map;
     }
@@ -46,6 +75,11 @@ public class Simulation {
     }
 
     //Getters
+
+    public SpeedMode getSpeedMode() {
+        return speedMode;
+    }
+
     public Map getMap() {
         return map;
     }
@@ -121,6 +155,7 @@ public class Simulation {
         if (map == null) throw new IllegalStateException("Map not set");
         if (locationalMap == null) throw new IllegalStateException("LocationalMap not set");
         if (vehicleMovement == null) throw new IllegalStateException("VehicleMovement not set");
+        if (vehicleBehaviour == null) throw new IllegalStateException("VehicleBehaviour not set");
     }
 
     /** Stops the simulation loop and wakes the thread if it is sleeping or paused.
@@ -176,15 +211,6 @@ public class Simulation {
        // vehicleMovement.move(vehicles, locationalMap);
     }
 
-    public Simulation(){ // la till för att kunna run och se view
-        this.map = new Map();
-    }
-
-    //public int getVehicleAmount(){
-    //    return n_vehicles; }
-
-    //public ArrayList<Vehicle> getVehicles(){
-    //    return vehicles;
     //private void updateInfrastructure() {
 
         // TODO traffic lights, intersection logic
