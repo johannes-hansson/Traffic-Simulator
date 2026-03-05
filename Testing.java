@@ -21,7 +21,7 @@ public class Testing {
         VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
         Node node = null; 
         // RoadRender(int width, BreakPoint[] breakPoints)
-        Road road = new Road(node, 20, 1, [2]);// Node endNode, int length, int laneCount, RoadRender render, String name
+        //Road road = new Road(node, 20, 1, [2]);// Node endNode, int length, int laneCount, RoadRender render, String name
         RoadPosition pos1 = new RoadPosition();
         RoadPosition pos2 = new RoadPosition(
             pos1.road(), 
