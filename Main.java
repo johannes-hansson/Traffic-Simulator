@@ -39,22 +39,22 @@ public class Main extends Application{
             showSimulationWindow(primaryStage, root, simulation, view);
         });
     }
-        private void showSimulationWindow (Stage stage, Pane root, Simulation simulation, View view){
-            view.onUpdate(simulation);
+    private void showSimulationWindow (Stage stage, Pane root, Simulation simulation, View view){
+        view.onUpdate(simulation);
 
-            Scene scene = new Scene(root, 800, 600);
-            stage.setTitle("Traffic simulator demo");
-            stage.setScene(scene);
-            stage.show();
+        Scene scene = new Scene(root, 800, 600);
+        stage.setTitle("Traffic simulator demo");
+        stage.setScene(scene);
+        stage.show();
 
-            simulation.setTickSpeedMs(100);
-            simulation.start();
-        }
+        simulation.setTickSpeedMs(100);
+        simulation.start();
+    }
 
         public static void main (String[]args){
             launch(args); // start javafx
         }
-    }
+
 
 
 
@@ -145,5 +145,5 @@ public class Main{
     } */
 
     }
-}
+
 
