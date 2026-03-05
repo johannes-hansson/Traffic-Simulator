@@ -51,7 +51,7 @@ public class RoadRender {
             );
 
             roadSegment.setStrokeWidth(width); // width of road
-            roadSegment.setStroke(Color.DARKGRAY); // color of road
+            roadSegment.setStroke(Color.LIGHTGRAY); // color of road
 
             root.getChildren().add(roadSegment);
 

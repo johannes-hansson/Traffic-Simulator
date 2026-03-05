@@ -62,10 +62,10 @@ public class Main extends Application{
         popupRoot.getChildren().addAll(chooseVehicles,numCarsField,startButton,cancelButton1);
 
         // create buttons for main stage
-        Button cancelButton2 = new Button("Cancel");
+        Button exitButton = new Button("Exit simulation");
         // add button
-        uiLayer.getChildren().add(cancelButton2);
-        StackPane.setAlignment(cancelButton2,Pos.TOP_RIGHT);
+        root.getChildren().add(exitButton);
+        StackPane.setAlignment(exitButton,Pos.TOP_RIGHT);
 
         // button behaviors:
         EventHandler<ActionEvent> pressStart = new EventHandler<ActionEvent>() { // behavior for start button
@@ -74,16 +74,13 @@ public class Main extends Application{
                 try {
                     int nCars = Integer.parseInt(numCarsField.getText());
 
-                    Map map = new Map();
                     simulation.setMap(new Map());
                     simulation.setVehicleMovement(new VehicleMovement());
                     simulation.setVehicleBehaviour(new VehicleBehaviour());
-                    createVehicles(simulation,nCars,vehicleLayer);
+
                     popup.close();// close popup when pressing button
+                    createVehicles(simulation,nCars,vehicleLayer);
                     showSimulationWindow(primaryStage, root, simulation, view); // start simulation
-
-
-
 
                 }
                 catch (NumberFormatException e){
@@ -99,7 +96,7 @@ public class Main extends Application{
             }
         };
 
-        EventHandler<ActionEvent> pressCancel2 = new EventHandler<ActionEvent>() {
+        EventHandler<ActionEvent> pressExit = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -116,7 +113,7 @@ public class Main extends Application{
 
         startButton.setOnAction(pressStart); // start pressStart when button is pressed
         cancelButton1.setOnAction(pressCancel1); // start pressCancel1 when ca
-        cancelButton2.setOnAction(pressCancel2);
+        exitButton.setOnAction(pressExit);
 
 
         // Start popup window
@@ -143,14 +140,18 @@ public class Main extends Application{
         }
 
         private void createVehicles(Simulation simulation, int numberCars, Pane simulationPane){
+
             Random rand = new Random();
             ArrayList<Road> roads = simulation.getMap().getRoads();
+            System.out.println("Number of roads: " + roads.size());
 
             for(int i=0; i < numberCars; i++){
 
                 Road road = roads.get(rand.nextInt(roads.size())); // random road
-                int cell = rand.nextInt(road.getRoadRender().getBreakPoints().size()); // random cell on road
+                int cell = rand.nextInt(road.getLength());
                 int lane = rand.nextInt(road.getLanes());// random lane on cell on road
+
+                System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
 
                 RoadPosition startPosition = new RoadPosition(road, cell, lane);
                 VehicleProperties properties = new VehicleProperties(10,1,1);
@@ -160,18 +161,24 @@ public class Main extends Application{
                 Rectangle carRectangle = new Rectangle(4,8);
                 carRectangle.setFill(Color.RED);
 
-                car.setGraphic(carRectangle); // connect to the graphics
-                simulation.addVehicle(car, startPosition); // add car to simulation
-                simulationPane.getChildren().add(carRectangle);
-
                 // place car att right position based on breakpoints
-                BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
+                //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
+                BreakPoint position = road.getRoadRender().getBreakPoints().get(cell % road.getRoadRender().getBreakPoints().size());
                 carRectangle.setX(position.x() - carRectangle.getWidth()/2); // so it gets in the middle of the cell
                 carRectangle.setY(position.y() - carRectangle.getHeight()/2); // so it gets in the middle of the cell
+                System.out.println("Position: " + position.x() + " " + position.y());
 
-                System.out.println("vehicles created: " + simulation.getVehicles().size());
+                car.setGraphic(carRectangle); // connect to the graphics
+                if (!road.isOccupied(lane, cell)) {
+                    simulation.addVehicle(car, startPosition); // add car to simulation
+                    simulationPane.getChildren().add(carRectangle);
+                }
+
 
             }
+            System.out.println("vehicles created: " + numberCars);
+
+
         }
 
         public static void main (String[]args){

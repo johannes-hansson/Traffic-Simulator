@@ -43,7 +43,7 @@ public class Map {
         }); */
 
 
-        Road road1 = new Road(node2, 3200, 2, render1, "väg1");
+        Road road1 = new Road(node2, 3200, 1, render1, "väg1");
         road1.setRoadRender(render1);
         /* Road road2 = new Road(node1, 100, 2);
         road2.setRoadRender(render2);*/
