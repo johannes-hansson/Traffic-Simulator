@@ -23,8 +23,6 @@ public class View implements SimulationUpdateListener {
 
         Platform.runLater(() -> {
 
-            // root.getChildren().clear(); // behövs???
-
             Map map = simulation.getMap(); // get map from simulation
 
             ArrayList<Road> roads = map.getRoads(); // get all roads
@@ -42,9 +40,12 @@ public class View implements SimulationUpdateListener {
 
             for (Vehicle vehicle : simulation.getVehicles()){
                 Rectangle r = vehicle.getGraphic(); // get the rectangle that represents the car
-
+                if (r == null){
+                    System.out.println("Vehicle graphic is null for vehicle at cell " + vehicle.getPosition().cell());
+                }
                 if(!vehicleLayer.getChildren().contains(r)){ // check if r already exist, otherwise add
                     vehicleLayer.getChildren().add(r);
+
                 }
 
                 // get cars current position
@@ -60,9 +61,11 @@ public class View implements SimulationUpdateListener {
                 int cell = vehicle.getPosition().cell();
 
                 ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
+                if (points.size() < 2) continue;
 
                 BreakPoint p1 = points.get(0);
                 BreakPoint p2 = points.get(1);
+
 
                 for(int i = 0; i < points.size()-1; i++){
                     if(cell >= points.get(i).cell() && cell <= points.get(i+1).cell()){

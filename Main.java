@@ -123,9 +123,10 @@ public class Main extends Application{
                 statsRoot.setAlignment(Pos.CENTER);
 
                 Label statsLabel = new Label("Simulation statistics:");
+                statsLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // bigger text for title
 
-                TextArea statsArea = new TextArea();
-                statsArea.setPrefSize(400,200);
+                TextArea statsArea = new TextArea(); // create text are for statistics
+                statsArea.setPrefSize(300,100);
 
                 // change these stats later
                 statsArea.setText(
@@ -136,11 +137,16 @@ public class Main extends Application{
                 Button restartButton = new Button("Restart program");
                 Button exitButton = new Button("Exit");
 
-                statsRoot.getChildren().addAll(statsLabel, statsArea, restartButton, exitButton);
+                // this makes the buttons line up nest to each other
+                javafx.scene.layout.HBox buttonRow = new javafx.scene.layout.HBox(20);
+                buttonRow.setAlignment(Pos.CENTER);
+                buttonRow.getChildren().addAll(restartButton, exitButton);
 
-                Scene statsScene = new Scene(statsRoot, 450, 300);
+                statsRoot.getChildren().addAll(statsLabel, statsArea, buttonRow);
+
+                Scene statsScene = new Scene(statsRoot, 600, 200);
                 statsStage.setScene(statsScene);
-                statsStage.setTitle("Simulation ended");
+                statsStage.setTitle("Stopped simulation");
 
                 statsStage.initModality(Modality.APPLICATION_MODAL);
                 statsStage.show();
@@ -149,11 +155,16 @@ public class Main extends Application{
                 EventHandler<ActionEvent> pressRestart = new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        statsStage.close(); // close stats window
+                        primaryStage.close(); // close simulation window
+
                         Platform.runLater(() -> {
-                            new Main().start(new Stage());
+                            try {
+                                new Main().start(new Stage()); // start program again
+                            } catch (Exception e) {
+                                System.err.println("Error: " + e.getMessage()); // in case of error at restart, print error message
+                            }
                         });
-                        primaryStage.close();
-                        statsStage.close();
                     }
                 };
 
@@ -186,7 +197,7 @@ public class Main extends Application{
             stage.setTitle("Traffic simulator demo");
             stage.setScene(scene);
             stage.show();
-            view.onUpdate(simulation);
+            //view.onUpdate(simulation);
 
             simulation.setTickSpeedMs(100);
             simulation.start();
@@ -201,14 +212,18 @@ public class Main extends Application{
             for(int i=0; i < numberCars; i++){
 
                 Road road = roads.get(rand.nextInt(roads.size())); // random road
-                int cell = rand.nextInt(road.getLength());
+                //int cell = rand.nextInt(road.getLength());
                 int lane = rand.nextInt(road.getLanes());// random lane on cell on road
+
+                ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
+                if(points.size() < 2) continue; // om det inte finns tillräckligt med punkter, hoppa över
+
+                int maxCell = points.get(points.size() - 1).cell(); // högsta cell på vägen
+                int cell = rand.nextInt(maxCell); // säkerställer att cellen är inom breakpoints
 
                 RoadPosition startPosition = new RoadPosition(road, cell, lane);
                 VehicleProperties properties = new VehicleProperties(10,1,1);
                 Vehicle car = new Vehicle(properties, startPosition, 0);
-
-                ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
 
 
 
@@ -261,9 +276,13 @@ public class Main extends Application{
                 System.out.println("Position: " + xPos + " " + yPos);
 
                 car.setGraphic(carRectangle); // connect to the graphics
+
+
                 if (!road.isOccupied(lane, cell)) {
-                    simulation.addVehicle(car, startPosition); // add car to simulation
-                    simulationPane.getChildren().add(carRectangle);
+                    Platform.runLater(() -> {
+                        simulation.addVehicle(car, startPosition); // add car
+                        simulationPane.getChildren().add(carRectangle); // add rectangle for car
+                    });
                 }
 
 
