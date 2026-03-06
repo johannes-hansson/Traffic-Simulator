@@ -187,7 +187,6 @@ public class Simulation {
 
     private void validateConfiguration() {
         if (map == null) throw new IllegalStateException("Map not set");
-        if (locationalMap == null) throw new IllegalStateException("LocationalMap not set");
         if (vehicleMovement == null) throw new IllegalStateException("VehicleMovement not set");
         if (vehicleBehaviour == null) throw new IllegalStateException("VehicleBehaviour not set");
     }
