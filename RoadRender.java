@@ -51,16 +51,16 @@ public class RoadRender {
             );
 
             roadSegment.setStrokeWidth(width); // width of road
-            roadSegment.setStroke(Color.DARKGRAY); // color of road
+            roadSegment.setStroke(Color.LIGHTGRAY); // color of road
 
             root.getChildren().add(roadSegment);
 
-           /*  root = Pane = drawing surface / empty box
+            /*root = Pane = drawing surface / empty box
             getChildren = all that is within the box
             add = adds our lines*/
 
         }
 
-    } 
+    }
 
 }

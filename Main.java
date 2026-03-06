@@ -1,13 +1,25 @@
+//import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.random.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox; // vertical elements
 import javafx.stage.Modality; // how the popup acts, like being infront the other window
 import javafx.stage.Stage;
 import javafx.geometry.Pos; // positions
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class Main extends Application{
 
@@ -16,40 +28,250 @@ public class Main extends Application{
 
         // create popup window
         Stage popup = new Stage(); // new window
-        VBox popupRoot = new VBox(20); // vertical layout with 10 pixels between elements
-        popupRoot.setAlignment(Pos.BASELINE_CENTER); // centre the button in the window
+        VBox popupRoot = new VBox(5); // vertical layout with 10 pixels between elements
+        popupRoot.setAlignment(Pos.BASELINE_CENTER); // centre the elements in the window
+
+        // create main window
+        StackPane root = new StackPane(); // create new stage
+
+        Pane roadLayer = new Pane(); // layer for roads
+        Pane vehicleLayer = new Pane(); // layer for vehicles
+        Pane uiLayer = new Pane();// Layer for the user interface, buttons
+
+        root.getChildren().addAll(roadLayer,vehicleLayer,uiLayer);
+
+        //Pane simulationPane = new Pane();
+
+
+
+        Simulation simulation = new Simulation(); // create simulation
+        View view = new View(roadLayer, vehicleLayer);// create view, connect too root
+        simulation.addUpdateListener(view); // add view as listener to simulation
+        // VBox rootLayout = new VBox(10);
+
+
+        // create buttons for popup
         Button startButton = new Button("Start simulation");
-        popupRoot.getChildren().add(startButton);
+        Button cancelButton1 = new Button("Cancel");
+
+        // choose amount of cars
+        Label chooseVehicles = new Label("How many vehicles should participate in the simulation?");
+        TextField numCarsField = new TextField();
+        numCarsField.setPromptText("Write a number between 500 and 1000");
+        // add everything to the popup window
+        popupRoot.getChildren().addAll(chooseVehicles,numCarsField,startButton,cancelButton1);
+
+        // create buttons for main stage
+        Button stopButton = new Button("Stop simulation");
+        // add button
+        root.getChildren().add(stopButton);
+        StackPane.setAlignment(stopButton,Pos.TOP_RIGHT);
+
+        // button behaviors:
+        EventHandler<ActionEvent> pressStart = new EventHandler<ActionEvent>() { // behavior for start button
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    int nCars = Integer.parseInt(numCarsField.getText());
+
+                    simulation.setMap(new Map());
+                    simulation.setVehicleMovement(new VehicleMovement());
+                    simulation.setVehicleBehaviour(new VehicleBehaviour());
+
+                    popup.close();// close popup when pressing button
+                    createVehicles(simulation,nCars,vehicleLayer);
+                    showSimulationWindow(primaryStage, root, simulation, view); // start simulation
+
+                }
+                catch (NumberFormatException e){
+                    System.out.println("Enter a valid number");
+                }
+            }
+        };
+
+        EventHandler<ActionEvent> pressCancel1 = new EventHandler<ActionEvent>() { // behavior for cancel on popup
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                popup.close(); // close popup
+            }
+        };
+
+        EventHandler<ActionEvent> pressExit = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Exit");
+                alert.setHeaderText("You're about to exit!");
+                alert.setContentText("Do you want to exit the simulation?");
+
+                if(alert.showAndWait().get()== ButtonType.OK){
+                    simulation.stop();
+                    Platform.exit();
+                }
+            }
+        };
 
 
+        EventHandler<ActionEvent> pressStop = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                simulation.stop(); // stop simulation
+
+                // create popup window
+                Stage statsStage = new Stage();
+                VBox statsRoot = new VBox(10);
+                statsRoot.setAlignment(Pos.CENTER);
+
+                Label statsLabel = new Label("Simulation statistics:");
+
+                TextArea statsArea = new TextArea();
+                statsArea.setPrefSize(400,200);
+
+                // change these stats later
+                statsArea.setText(
+                        "Simulation finished\n" + "Ticks: " + simulation.getTick() + "\n" + "Vehicles: " + simulation.getVehicles().size()
+                );
+                statsArea.setEditable(false); // make so you cant write in teh box
+
+                Button restartButton = new Button("Restart program");
+                Button exitButton = new Button("Exit");
+
+                statsRoot.getChildren().addAll(statsLabel, statsArea, restartButton, exitButton);
+
+                Scene statsScene = new Scene(statsRoot, 450, 300);
+                statsStage.setScene(statsScene);
+                statsStage.setTitle("Simulation ended");
+
+                statsStage.initModality(Modality.APPLICATION_MODAL);
+                statsStage.show();
+
+                // restart program
+                EventHandler<ActionEvent> pressRestart = new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Platform.runLater(() -> {
+                            new Main().start(new Stage());
+                        });
+                        primaryStage.close();
+                        statsStage.close();
+                    }
+                };
+
+                // restart program
+                restartButton.setOnAction(pressRestart);
+                // exit program
+                exitButton.setOnAction(pressExit);
+            }
+        };
+
+        startButton.setOnAction(pressStart); // start pressStart when button is pressed
+        cancelButton1.setOnAction(pressCancel1); // start pressCancel1 when ca
+        stopButton.setOnAction(pressStop);
+
+
+        // Start popup window
         Scene popupScene = new Scene(popupRoot, 800, 600);
         popup.setTitle("Traffic simulator");
         popup.setScene(popupScene);
         popup.initModality(Modality.APPLICATION_MODAL); // so you have to press the button before the main window opens
         popup.show();
 
-        // main window
-        Pane root = new Pane(); // create new stage
-        Simulation simulation = new Simulation(); // create simulation
-        View view = new View(root);// create view, connect too root
-        simulation.addUpdateListener(view); // add view as listener to simulation
 
-        startButton.setOnAction(e -> {
-            popup.close(); // close popup when pressing button
-            showSimulationWindow(primaryStage, root, simulation, view);
-        });
     }
-    private void showSimulationWindow (Stage stage, Pane root, Simulation simulation, View view){
-        view.onUpdate(simulation);
+        // function that starts the simulation window
+        private void showSimulationWindow (Stage stage, Pane root, Simulation simulation, View view){
+            //view.onUpdate(simulation);
 
-        Scene scene = new Scene(root, 800, 600);
-        stage.setTitle("Traffic simulator demo");
-        stage.setScene(scene);
-        stage.show();
+            Scene scene = new Scene(root, 800, 600);
+            stage.setTitle("Traffic simulator demo");
+            stage.setScene(scene);
+            stage.show();
+            view.onUpdate(simulation);
 
         simulation.setTickSpeedMs(100);
         simulation.start();
     }
+
+        private void createVehicles(Simulation simulation, int numberCars, Pane simulationPane){
+
+            Random rand = new Random();
+            ArrayList<Road> roads = simulation.getMap().getRoads();
+            System.out.println("Number of roads: " + roads.size());
+
+            for(int i=0; i < numberCars; i++){
+
+                Road road = roads.get(rand.nextInt(roads.size())); // random road
+                int cell = rand.nextInt(road.getLength());
+                int lane = rand.nextInt(road.getLanes());// random lane on cell on road
+
+                RoadPosition startPosition = new RoadPosition(road, cell, lane);
+                VehicleProperties properties = new VehicleProperties(10,1,1);
+                Vehicle car = new Vehicle(properties, startPosition, 0);
+
+                ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
+
+
+
+                System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
+
+                BreakPoint p1 = points.get(0);
+                BreakPoint p2 = points.get(1);
+
+                for(int j = 0; j < points.size() - 1; j++){
+                    if(cell >= points.get(j).cell() && cell <= points.get(j+1).cell()){
+                        p1 = points.get(j);
+                        p2 = points.get(j+1);
+                        break;
+                    }
+                }
+
+                //double t = (double)(cell - p1.cell()) / (p2.cell() - p1.cell());
+                double cellDiff = (p2.cell() - p1.cell());
+                double t = 0;
+
+                if(cellDiff != 0){
+                    t = (double)(cell - p1.cell()) / cellDiff;
+                }
+
+                t = Math.max(0, Math.min(1, t));
+
+                double xPos = p1.x() + (p2.x() - p1.x()) * t;
+                double yPos = p1.y() + (p2.y() - p1.y()) * t;
+
+                // the visual rectangle
+
+
+
+                Rectangle carRectangle = new Rectangle(4,8);
+                carRectangle.setFill(Color.RED);
+
+                carRectangle.setX(xPos - carRectangle.getWidth()/2);
+                carRectangle.setY(yPos - carRectangle.getHeight()/2);
+
+                // place car att right position based on breakpoints
+                //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
+
+                //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell % road.getRoadRender().getBreakPoints().size());
+
+               // carRectangle.setX(position.x() - carRectangle.getWidth()/2); // so it gets in the middle of the cell
+               // carRectangle.setY(position.y() - carRectangle.getHeight()/2); // so it gets in the middle of the cell
+
+                //carRectangle.setTranslateX(xPos);
+               // carRectangle.setTranslateY(yPos);
+                System.out.println("Position: " + xPos + " " + yPos);
+
+                car.setGraphic(carRectangle); // connect to the graphics
+                if (!road.isOccupied(lane, cell)) {
+                    simulation.addVehicle(car, startPosition); // add car to simulation
+                    simulationPane.getChildren().add(carRectangle);
+                }
+
+
+            }
+            System.out.println("vehicles created: " + numberCars);
+
+
+        }
 
         public static void main (String[]args){
             launch(args); // start javafx
@@ -142,8 +364,8 @@ public class Main{
 
         System.out.println("Stopped at tick: " + sim.getTick());
 
-    } */
-
     }
 
+    }
+}*/
 
