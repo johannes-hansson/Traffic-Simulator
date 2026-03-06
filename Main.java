@@ -188,9 +188,9 @@ public class Main extends Application{
             stage.show();
             view.onUpdate(simulation);
 
-            simulation.setTickSpeedMs(100);
-            simulation.start();
-        }
+        simulation.setTickSpeedMs(100);
+        simulation.start();
+    }
 
         private void createVehicles(Simulation simulation, int numberCars, Pane simulationPane){
 
@@ -276,7 +276,7 @@ public class Main extends Application{
         public static void main (String[]args){
             launch(args); // start javafx
         }
-    }
+
 
 
 
