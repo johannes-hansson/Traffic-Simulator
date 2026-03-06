@@ -13,48 +13,59 @@ public class Testing {
     private Vehicle vehicle2;
     private ArrayList<Vehicle> vehicles;
     private VehicleProperties properties;   //maxVelocity, acceleration, size, VehicleColor color
-    private RoadPosition pos;   //road cell lane
+    private RoadPosition pos1;   //road cell lane
+    private RoadPosition pos2;
+    private RoadPosition pos3;
     private Road road; 
+    private VehicleBehaviour beh;
+    private VehicleMovement move;
 
     @Before //each test
-   /* public void setUp(){
-        VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
+   public void setUp(){
+        beh = new VehicleBehaviour();
+        vehicles = new ArrayList<>();
+
+        properties = new VehicleProperties(10, 1, 1);
         Node node = null; 
-        // RoadRender(int width, BreakPoint[] breakPoints)
-        //Road road = new Road(node, 20, 1, [2]);// Node endNode, int length, int laneCount, RoadRender render, String name
-        RoadPosition pos1 = new RoadPosition();
-        RoadPosition pos2 = new RoadPosition(
-            pos1.road(), 
-            pos1.cell()+2, 
-            pos1.lane()
-        );
+        road = new Road(node, 20, 1, null, "TestRoad");
 
-        Vehicle vehicle1 = new Vehicle(properties, pos1, 5);
-        Vehicle vehicle2 = new Vehicle(properties, pos2, 3);
+        pos1 = new RoadPosition(road, 1, 1);
+        pos2 = new RoadPosition(road, 1, 5);
+        pos3 = new RoadPosition(road, 1, 4);
 
+        vehicle1 = new Vehicle(properties, pos1, 5);
+        vehicle2 = new Vehicle(properties, pos2, 3);
 
-        /*for(int i=1; i<5; i++){
-        Vehicle vehicle = new Vehicle(properties, pos, 5);
-        vehicles.add(vehicle);
-        //assertEquals( )
-        }
-
-    }*/
+        vehicles.add(vehicle1);
+        vehicles.add(vehicle2);
+    }
 
     @After
-    void destroy(){
-        for (Vehicle vehicle : vehicles){
-        vehicle = null;
-        }
+    public void destroy(){
+        vehicles.clear();
     }
 
     @Test
-    void testAccelerate(){
+    public void testAccelerate(){
+        int prev_velocity = vehicle1.getVelocity();
+        int newVelocity = beh.accelerate(vehicle1);
+        assertTrue(prev_velocity+1 == newVelocity);
     }
 
     @Test
-    void testDeaccelerate(){
+    public void testDeaccelerate(){ //deaccelerate needs to get its latest update to work
+        int prev_velocity = vehicle1.getVelocity();
+        int newVelocity = beh.deaccelerate(vehicle1);
+        assertTrue(prev_velocity >= newVelocity);
     }
+
+    @Test
+    public void testRandomisation(){
+        int prev_velocity = vehicle1.getVelocity();
+        int newVelocity = beh.randomisation(vehicle1, 0.5);
+        assertTrue(prev_velocity-1 ==  newVelocity || prev_velocity == newVelocity);
+    }
+
 
 
 }
