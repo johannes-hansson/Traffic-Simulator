@@ -38,14 +38,15 @@ public class Simulation {
         return sim;
     }
 
-    // Constructor for creating a simulation with 2 vehicles and statistics for testing
+    /** Creates a ready-to-run demo simulation with two vehicles,
+     * statistics collection and debug listeners for quick testing. */
     public static Simulation createDemoWithStats() {
         Simulation sim = createDefault();
 
         // add vehicles
         Road road = sim.getMap().getRoads().get(0);
-        RoadPosition start1 = new RoadPosition(road, 10, 0);
-        RoadPosition start2 = new RoadPosition(road, 8, 0);
+        RoadPosition start1 = new RoadPosition(road, 0, 10);
+        RoadPosition start2 = new RoadPosition(road, 0, 8);
 
         sim.addVehicle(new Car(start1, 0, VehicleColor.Red), start1);
         sim.addVehicle(new Car(start2, 3, VehicleColor.blue), start2);
@@ -61,12 +62,14 @@ public class Simulation {
             if (latest != null && latest.tick() % 5 == 0) System.out.println(latest);
         });
         sim.addUpdateListener(s -> {
+            int i = 1;
             for (Vehicle v : s.getVehicles()) {
                 System.out.println(
-                        v.getProperties().color() +
+                                "vehicle" + i +
                                 " cell=" + v.getPosition().cell() +
                                 " vel=" + v.getVelocity()
                 );
+                i++;
             }
         });
 
