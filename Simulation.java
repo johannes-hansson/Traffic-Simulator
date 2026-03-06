@@ -47,7 +47,7 @@ public class Simulation {
 
     //Getters
     public Map getMap() {
-        return map;
+        return this.map;
     }
 
     public int getTick() {
@@ -66,9 +66,9 @@ public class Simulation {
         vehicles.add(newVehicle);
         n_vehicles = vehicles.size();
 
-        if (locationalMap != null) {
+       /* if (locationalMap != null) {
             locationalMap.addVehicle(newVehicle, startPosition);
-        }
+        }*/
     }
 
     /** Registers an observer/listener that will receive SimulationUpdateListener.onUpdate(Simulation)
@@ -173,7 +173,7 @@ public class Simulation {
     private void moveVehicles() {
         if (vehicleMovement == null) return;
       
-       // vehicleMovement.move(vehicles, locationalMap);
+        //vehicleMovement.move(vehicles, locationalMap);
     }
 
     public Simulation(){ // la till för att kunna run och se view

@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.util.ArrayList;
+import javafx.scene.shape.Rectangle;
 /** Base class for all vehicle agents in the simulation.
  * Stores immutable vehicle properties (type parameters) and mutable state such as
  * current position and velocity.
@@ -8,7 +10,7 @@ public class Vehicle {
     private VehicleProperties properties;
     private RoadPosition position;
     private int velocity;
-
+    private Rectangle graphic;
 
     //constructor
     public Vehicle(VehicleProperties properties, RoadPosition position, int velocity){
@@ -49,4 +51,13 @@ public class Vehicle {
         System.out.println("Velocity: " + velocity);
         System.out.println("Road: " + this.position.road());
     }
+
+    public void setGraphic(Rectangle r){
+        this.graphic = r;
+    }
+
+    public Rectangle getGraphic(){
+        return graphic;
+    }
+
 }

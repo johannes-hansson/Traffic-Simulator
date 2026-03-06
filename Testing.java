@@ -17,7 +17,7 @@ public class Testing {
     private Road road; 
 
     @Before //each test
-    void setUp(){
+   /* public void setUp(){
         VehicleProperties properties = new VehicleProperties(10, 1, 1, VehicleColor.Red);
         Node node = null; 
         // RoadRender(int width, BreakPoint[] breakPoints)
@@ -32,7 +32,14 @@ public class Testing {
         Vehicle vehicle1 = new Vehicle(properties, pos1, 5);
         Vehicle vehicle2 = new Vehicle(properties, pos2, 3);
 
-    }
+
+        /*for(int i=1; i<5; i++){
+        Vehicle vehicle = new Vehicle(properties, pos, 5);
+        vehicles.add(vehicle);
+        //assertEquals( )
+        }
+
+    }*/
 
     @After
     void destroy(){

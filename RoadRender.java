@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-/* import javafx.scene.layout.Pane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.paint.Color;
- */
+
 
 /** Lightweight data model describing how a road should be rendered.
  * Stores width and a sequence of BreakPoint's that define the polyline geometry. */
@@ -38,7 +38,7 @@ public class RoadRender {
         return this.breakPoints;
     }
 
-    /* public void draw(Pane root) {
+    public void draw(Pane root) {
 
         // Draw between each pair of points
         for (int i = 0; i < breakPoints.size() - 1; i++){
@@ -51,16 +51,16 @@ public class RoadRender {
             );
 
             roadSegment.setStrokeWidth(width); // width of road
-            roadSegment.setStroke(Color.DARKGRAY); // color of road
+            roadSegment.setStroke(Color.LIGHTGRAY); // color of road
 
             root.getChildren().add(roadSegment);
 
-            root = Pane = drawing surface / empty box
+            /*root = Pane = drawing surface / empty box
             getChildren = all that is within the box
-            add = adds our lines
+            add = adds our lines*/
 
         }
 
-    } */
+    }
 
 }
