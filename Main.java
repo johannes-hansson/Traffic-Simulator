@@ -21,7 +21,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class Main extends Application{
+public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -38,10 +38,9 @@ public class Main extends Application{
         Pane vehicleLayer = new Pane(); // layer for vehicles
         Pane uiLayer = new Pane();// Layer for the user interface, buttons
 
-        root.getChildren().addAll(roadLayer,vehicleLayer,uiLayer);
+        root.getChildren().addAll(roadLayer, vehicleLayer, uiLayer);
 
         //Pane simulationPane = new Pane();
-
 
 
         Simulation simulation = new Simulation(); // create simulation
@@ -59,13 +58,13 @@ public class Main extends Application{
         TextField numCarsField = new TextField();
         numCarsField.setPromptText("Write a number between 500 and 1000");
         // add everything to the popup window
-        popupRoot.getChildren().addAll(chooseVehicles,numCarsField,startButton,cancelButton1);
+        popupRoot.getChildren().addAll(chooseVehicles, numCarsField, startButton, cancelButton1);
 
         // create buttons for main stage
         Button stopButton = new Button("Stop simulation");
         // add button
         root.getChildren().add(stopButton);
-        StackPane.setAlignment(stopButton,Pos.TOP_RIGHT);
+        StackPane.setAlignment(stopButton, Pos.TOP_RIGHT);
 
         // button behaviors:
         EventHandler<ActionEvent> pressStart = new EventHandler<ActionEvent>() { // behavior for start button
@@ -79,11 +78,10 @@ public class Main extends Application{
                     simulation.setVehicleBehaviour(new VehicleBehaviour());
 
                     popup.close();// close popup when pressing button
-                    createVehicles(simulation,nCars,vehicleLayer);
+                    createVehicles(simulation, nCars, vehicleLayer);
                     showSimulationWindow(primaryStage, root, simulation, view); // start simulation
 
-                }
-                catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     System.out.println("Enter a valid number");
                 }
             }
@@ -104,7 +102,7 @@ public class Main extends Application{
                 alert.setHeaderText("You're about to exit!");
                 alert.setContentText("Do you want to exit the simulation?");
 
-                if(alert.showAndWait().get()== ButtonType.OK){
+                if (alert.showAndWait().get() == ButtonType.OK) {
                     simulation.stop();
                     Platform.exit();
                 }
@@ -123,9 +121,10 @@ public class Main extends Application{
                 statsRoot.setAlignment(Pos.CENTER);
 
                 Label statsLabel = new Label("Simulation statistics:");
+                statsLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // bigger text for title
 
-                TextArea statsArea = new TextArea();
-                statsArea.setPrefSize(400,200);
+                TextArea statsArea = new TextArea(); // create text are for statistics
+                statsArea.setPrefSize(300, 100);
 
                 // change these stats later
                 statsArea.setText(
@@ -136,11 +135,16 @@ public class Main extends Application{
                 Button restartButton = new Button("Restart program");
                 Button exitButton = new Button("Exit");
 
-                statsRoot.getChildren().addAll(statsLabel, statsArea, restartButton, exitButton);
+                // this makes the buttons line up nest to each other
+                javafx.scene.layout.HBox buttonRow = new javafx.scene.layout.HBox(20);
+                buttonRow.setAlignment(Pos.CENTER);
+                buttonRow.getChildren().addAll(restartButton, exitButton);
 
-                Scene statsScene = new Scene(statsRoot, 450, 300);
+                statsRoot.getChildren().addAll(statsLabel, statsArea, buttonRow);
+
+                Scene statsScene = new Scene(statsRoot, 600, 200);
                 statsStage.setScene(statsScene);
-                statsStage.setTitle("Simulation ended");
+                statsStage.setTitle("Stopped simulation");
 
                 statsStage.initModality(Modality.APPLICATION_MODAL);
                 statsStage.show();
@@ -149,11 +153,16 @@ public class Main extends Application{
                 EventHandler<ActionEvent> pressRestart = new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        statsStage.close(); // close stats window
+                        primaryStage.close(); // close simulation window
+
                         Platform.runLater(() -> {
-                            new Main().start(new Stage());
+                            try {
+                                new Main().start(new Stage()); // start program again
+                            } catch (Exception e) {
+                                System.err.println("Error: " + e.getMessage()); // in case of error at restart, print error message
+                            }
                         });
-                        primaryStage.close();
-                        statsStage.close();
                     }
                 };
 
@@ -178,106 +187,113 @@ public class Main extends Application{
 
 
     }
-        // function that starts the simulation window
-        private void showSimulationWindow (Stage stage, Pane root, Simulation simulation, View view){
-            //view.onUpdate(simulation);
 
-            Scene scene = new Scene(root, 800, 600);
-            stage.setTitle("Traffic simulator demo");
-            stage.setScene(scene);
-            stage.show();
-            view.onUpdate(simulation);
+    // function that starts the simulation window
+    private void showSimulationWindow(Stage stage, Pane root, Simulation simulation, View view) {
+        //view.onUpdate(simulation);
+
+        Scene scene = new Scene(root, 800, 600);
+        stage.setTitle("Traffic simulator demo");
+        stage.setScene(scene);
+        stage.show();
+        //view.onUpdate(simulation);
 
         simulation.setTickSpeedMs(100);
         simulation.start();
     }
 
-        private void createVehicles(Simulation simulation, int numberCars, Pane simulationPane){
+    private void createVehicles(Simulation simulation, int numberCars, Pane simulationPane) {
 
-            Random rand = new Random();
-            ArrayList<Road> roads = simulation.getMap().getRoads();
-            System.out.println("Number of roads: " + roads.size());
+        Random rand = new Random();
+        ArrayList<Road> roads = simulation.getMap().getRoads();
+        System.out.println("Number of roads: " + roads.size());
 
-            for(int i=0; i < numberCars; i++){
+        for (int i = 0; i < numberCars; i++) {
 
-                Road road = roads.get(rand.nextInt(roads.size())); // random road
-                int cell = rand.nextInt(road.getLength());
-                int lane = rand.nextInt(road.getLanes());// random lane on cell on road
+            Road road = roads.get(rand.nextInt(roads.size())); // random road
+            //int cell = rand.nextInt(road.getLength());
+            int lane = rand.nextInt(road.getLanes());// random lane on cell on road
 
-                RoadPosition startPosition = new RoadPosition(road, cell, lane);
-                VehicleProperties properties = new VehicleProperties(10,1,1);
-                Vehicle car = new Vehicle(properties, startPosition, 0);
+            ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
+            if (points.size() < 2) continue; // om det inte finns tillräckligt med punkter, hoppa över
 
-                ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
+            int maxCell = points.get(points.size() - 1).cell(); // högsta cell på vägen
+            int cell = rand.nextInt(maxCell); // säkerställer att cellen är inom breakpoints
+
+            RoadPosition startPosition = new RoadPosition(road, cell, lane);
+            VehicleProperties properties = new VehicleProperties(10, 1, 1);
+            Vehicle car = new Vehicle(properties, startPosition, 0);
 
 
+            System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
 
-                System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
+            BreakPoint p1 = points.get(0);
+            BreakPoint p2 = points.get(1);
 
-                BreakPoint p1 = points.get(0);
-                BreakPoint p2 = points.get(1);
-
-                for(int j = 0; j < points.size() - 1; j++){
-                    if(cell >= points.get(j).cell() && cell <= points.get(j+1).cell()){
-                        p1 = points.get(j);
-                        p2 = points.get(j+1);
-                        break;
-                    }
+            for (int j = 0; j < points.size() - 1; j++) {
+                if (cell >= points.get(j).cell() && cell <= points.get(j + 1).cell()) {
+                    p1 = points.get(j);
+                    p2 = points.get(j + 1);
+                    break;
                 }
-
-                //double t = (double)(cell - p1.cell()) / (p2.cell() - p1.cell());
-                double cellDiff = (p2.cell() - p1.cell());
-                double t = 0;
-
-                if(cellDiff != 0){
-                    t = (double)(cell - p1.cell()) / cellDiff;
-                }
-
-                t = Math.max(0, Math.min(1, t));
-
-                double xPos = p1.x() + (p2.x() - p1.x()) * t;
-                double yPos = p1.y() + (p2.y() - p1.y()) * t;
-
-                // the visual rectangle
-
-
-
-                Rectangle carRectangle = new Rectangle(4,8);
-                carRectangle.setFill(Color.RED);
-
-                carRectangle.setX(xPos - carRectangle.getWidth()/2);
-                carRectangle.setY(yPos - carRectangle.getHeight()/2);
-
-                // place car att right position based on breakpoints
-                //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
-
-                //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell % road.getRoadRender().getBreakPoints().size());
-
-               // carRectangle.setX(position.x() - carRectangle.getWidth()/2); // so it gets in the middle of the cell
-               // carRectangle.setY(position.y() - carRectangle.getHeight()/2); // so it gets in the middle of the cell
-
-                //carRectangle.setTranslateX(xPos);
-               // carRectangle.setTranslateY(yPos);
-                System.out.println("Position: " + xPos + " " + yPos);
-
-                car.setGraphic(carRectangle); // connect to the graphics
-                if (!road.isOccupied(lane, cell)) {
-                    simulation.addVehicle(car, startPosition); // add car to simulation
-                    simulationPane.getChildren().add(carRectangle);
-                }
-
-
             }
-            System.out.println("vehicles created: " + numberCars);
+
+            //double t = (double)(cell - p1.cell()) / (p2.cell() - p1.cell());
+            double cellDiff = (p2.cell() - p1.cell());
+            double t = 0;
+
+            if (cellDiff != 0) {
+                t = (double) (cell - p1.cell()) / cellDiff;
+            }
+
+            t = Math.max(0, Math.min(1, t));
+
+            double xPos = p1.x() + (p2.x() - p1.x()) * t;
+            double yPos = p1.y() + (p2.y() - p1.y()) * t;
+
+            // the visual rectangle
+
+
+            Rectangle carRectangle = new Rectangle(4, 8);
+            carRectangle.setFill(Color.RED);
+
+            carRectangle.setX(xPos - carRectangle.getWidth() / 2);
+            carRectangle.setY(yPos - carRectangle.getHeight() / 2);
+
+            // place car att right position based on breakpoints
+            //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
+
+            //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell % road.getRoadRender().getBreakPoints().size());
+
+            // carRectangle.setX(position.x() - carRectangle.getWidth()/2); // so it gets in the middle of the cell
+            // carRectangle.setY(position.y() - carRectangle.getHeight()/2); // so it gets in the middle of the cell
+
+            //carRectangle.setTranslateX(xPos);
+            // carRectangle.setTranslateY(yPos);
+            System.out.println("Position: " + xPos + " " + yPos);
+
+            car.setGraphic(carRectangle); // connect to the graphics
+
+
+            if (!road.isOccupied(lane, cell)) {
+                Platform.runLater(() -> {
+                    simulation.addVehicle(car, startPosition); // add car
+                    simulationPane.getChildren().add(carRectangle); // add rectangle for car
+                });
+            }
 
 
         }
+        System.out.println("vehicles created: " + numberCars);
 
-        public static void main (String[]args){
-            launch(args); // start javafx
-        }
 
+    }
+
+    public static void main(String[] args) {
+        launch(args); // start javafx
+    }
 }
+
 
 
 
