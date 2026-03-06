@@ -62,10 +62,10 @@ public class Main extends Application{
         popupRoot.getChildren().addAll(chooseVehicles,numCarsField,startButton,cancelButton1);
 
         // create buttons for main stage
-        Button exitButton = new Button("Exit simulation");
+        Button stopButton = new Button("Stop simulation");
         // add button
-        root.getChildren().add(exitButton);
-        StackPane.setAlignment(exitButton,Pos.TOP_RIGHT);
+        root.getChildren().add(stopButton);
+        StackPane.setAlignment(stopButton,Pos.TOP_RIGHT);
 
         // button behaviors:
         EventHandler<ActionEvent> pressStart = new EventHandler<ActionEvent>() { // behavior for start button
@@ -111,9 +111,62 @@ public class Main extends Application{
             }
         };
 
+
+        EventHandler<ActionEvent> pressStop = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                simulation.stop(); // stop simulation
+
+                // create popup window
+                Stage statsStage = new Stage();
+                VBox statsRoot = new VBox(10);
+                statsRoot.setAlignment(Pos.CENTER);
+
+                Label statsLabel = new Label("Simulation statistics:");
+
+                TextArea statsArea = new TextArea();
+                statsArea.setPrefSize(400,200);
+
+                // change these stats later
+                statsArea.setText(
+                        "Simulation finished\n" + "Ticks: " + simulation.getTick() + "\n" + "Vehicles: " + simulation.getVehicles().size()
+                );
+                statsArea.setEditable(false); // make so you cant write in teh box
+
+                Button restartButton = new Button("Restart program");
+                Button exitButton = new Button("Exit");
+
+                statsRoot.getChildren().addAll(statsLabel, statsArea, restartButton, exitButton);
+
+                Scene statsScene = new Scene(statsRoot, 450, 300);
+                statsStage.setScene(statsScene);
+                statsStage.setTitle("Simulation ended");
+
+                statsStage.initModality(Modality.APPLICATION_MODAL);
+                statsStage.show();
+
+                // restart program
+                EventHandler<ActionEvent> pressRestart = new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Platform.runLater(() -> {
+                            new Main().start(new Stage());
+                        });
+                        primaryStage.close();
+                        statsStage.close();
+                    }
+                };
+
+                // restart program
+                restartButton.setOnAction(pressRestart);
+                // exit program
+                exitButton.setOnAction(pressExit);
+            }
+        };
+
         startButton.setOnAction(pressStart); // start pressStart when button is pressed
         cancelButton1.setOnAction(pressCancel1); // start pressCancel1 when ca
-        exitButton.setOnAction(pressExit);
+        stopButton.setOnAction(pressStop);
 
 
         // Start popup window
