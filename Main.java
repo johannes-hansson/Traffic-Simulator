@@ -1,4 +1,4 @@
-import java.awt.*;
+//import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.random.*;
@@ -45,7 +45,7 @@ public class Main extends Application{
 
 
         Simulation simulation = new Simulation(); // create simulation
-        View view = new View(roadLayer);// create view, connect too root
+        View view = new View(roadLayer, vehicleLayer);// create view, connect too root
         simulation.addUpdateListener(view); // add view as listener to simulation
         // VBox rootLayout = new VBox(10);
 
@@ -151,22 +151,61 @@ public class Main extends Application{
                 int cell = rand.nextInt(road.getLength());
                 int lane = rand.nextInt(road.getLanes());// random lane on cell on road
 
-                System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
-
                 RoadPosition startPosition = new RoadPosition(road, cell, lane);
                 VehicleProperties properties = new VehicleProperties(10,1,1);
                 Vehicle car = new Vehicle(properties, startPosition, 0);
 
+                ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
+
+
+
+                System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
+
+                BreakPoint p1 = points.get(0);
+                BreakPoint p2 = points.get(1);
+
+                for(int j = 0; j < points.size() - 1; j++){
+                    if(cell >= points.get(j).cell() && cell <= points.get(j+1).cell()){
+                        p1 = points.get(j);
+                        p2 = points.get(j+1);
+                        break;
+                    }
+                }
+
+                //double t = (double)(cell - p1.cell()) / (p2.cell() - p1.cell());
+                double cellDiff = (p2.cell() - p1.cell());
+                double t = 0;
+
+                if(cellDiff != 0){
+                    t = (double)(cell - p1.cell()) / cellDiff;
+                }
+
+                t = Math.max(0, Math.min(1, t));
+
+                double xPos = p1.x() + (p2.x() - p1.x()) * t;
+                double yPos = p1.y() + (p2.y() - p1.y()) * t;
+
                 // the visual rectangle
+
+
+
                 Rectangle carRectangle = new Rectangle(4,8);
                 carRectangle.setFill(Color.RED);
 
+                carRectangle.setX(xPos - carRectangle.getWidth()/2);
+                carRectangle.setY(yPos - carRectangle.getHeight()/2);
+
                 // place car att right position based on breakpoints
                 //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
-                BreakPoint position = road.getRoadRender().getBreakPoints().get(cell % road.getRoadRender().getBreakPoints().size());
-                carRectangle.setX(position.x() - carRectangle.getWidth()/2); // so it gets in the middle of the cell
-                carRectangle.setY(position.y() - carRectangle.getHeight()/2); // so it gets in the middle of the cell
-                System.out.println("Position: " + position.x() + " " + position.y());
+
+                //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell % road.getRoadRender().getBreakPoints().size());
+
+               // carRectangle.setX(position.x() - carRectangle.getWidth()/2); // so it gets in the middle of the cell
+               // carRectangle.setY(position.y() - carRectangle.getHeight()/2); // so it gets in the middle of the cell
+
+                //carRectangle.setTranslateX(xPos);
+               // carRectangle.setTranslateY(yPos);
+                System.out.println("Position: " + xPos + " " + yPos);
 
                 car.setGraphic(carRectangle); // connect to the graphics
                 if (!road.isOccupied(lane, cell)) {
