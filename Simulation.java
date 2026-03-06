@@ -32,10 +32,44 @@ public class Simulation {
     public static Simulation createDefault() {
         Simulation sim = new Simulation();
         sim.setMap(new Map());
-        sim.setLocationalMap(new LocationalMap());
         sim.setVehicleBehaviour(new VehicleBehaviour());
         sim.setVehicleMovement(new VehicleMovement());
         sim.setSpeedMode(SpeedMode.NORMAL);
+        return sim;
+    }
+
+    // Constructor for creating a simulation with 2 vehicles and statistics for testing
+    public static Simulation createDemoWithStats() {
+        Simulation sim = createDefault();
+
+        // add vehicles
+        Road road = sim.getMap().getRoads().get(0);
+        RoadPosition start1 = new RoadPosition(road, 10, 0);
+        RoadPosition start2 = new RoadPosition(road, 8, 0);
+
+        sim.addVehicle(new Car(start1, 0, VehicleColor.Red), start1);
+        sim.addVehicle(new Car(start2, 3, VehicleColor.blue), start2);
+
+        // stats plugin
+        SimulationStatistics stats = new SimulationStatistics();
+        sim.addUpdateListener(stats);
+
+        // debug prints (demo)
+        sim.addUpdateListener(s -> System.out.println("tick = " + s.getTick()));
+        sim.addUpdateListener(s -> {
+            var latest = stats.getLatest();
+            if (latest != null && latest.tick() % 5 == 0) System.out.println(latest);
+        });
+        sim.addUpdateListener(s -> {
+            for (Vehicle v : s.getVehicles()) {
+                System.out.println(
+                        v.getProperties().color() +
+                                " cell=" + v.getPosition().cell() +
+                                " vel=" + v.getVelocity()
+                );
+            }
+        });
+
         return sim;
     }
 
