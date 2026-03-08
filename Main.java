@@ -219,7 +219,7 @@ public class Main extends Application {
             int maxCell = points.get(points.size() - 1).cell(); // högsta cell på vägen
             int cell = rand.nextInt(maxCell); // säkerställer att cellen är inom breakpoints
 
-            RoadPosition startPosition = new RoadPosition(road, cell, lane);
+            RoadPosition startPosition = new RoadPosition(road, lane, cell);
             VehicleProperties properties = new VehicleProperties(10, 1, 1);
             Vehicle car = new Vehicle(properties, startPosition, 0);
 

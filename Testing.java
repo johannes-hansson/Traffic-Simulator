@@ -29,9 +29,9 @@ public class Testing {
         Node node = null; 
         road = new Road(node, 20, 1, null, "TestRoad");
 
-        pos1 = new RoadPosition(road, 1, 1);
-        pos2 = new RoadPosition(road, 1, 5);
-        pos3 = new RoadPosition(road, 1, 4);
+        pos1 = new RoadPosition(road, 0, 1);
+        pos2 = new RoadPosition(road, 0, 5);
+        pos3 = new RoadPosition(road, 0, 4);
 
         vehicle1 = new Vehicle(properties, pos1, 5);
         vehicle2 = new Vehicle(properties, pos2, 3);
