@@ -66,6 +66,9 @@ public class Testing {
         assertTrue(prev_velocity-1 ==  newVelocity || prev_velocity == newVelocity);
     }
 
-
+    @Test 
+    public void testMoveVehicle(){
+        
+    }
 
 }
