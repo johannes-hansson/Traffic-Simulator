@@ -15,10 +15,10 @@ public class Testing {
     private VehicleProperties properties;   //maxVelocity, acceleration, size, VehicleColor color
     private RoadPosition pos1;   //road cell lane
     private RoadPosition pos2;
-    private RoadPosition pos3;
+    //private RoadPosition pos3;
     private Road road; 
     private VehicleBehaviour beh;
-    private VehicleMovement move;
+    //private VehicleMovement move;
 
     @Before //each test
    public void setUp(){
