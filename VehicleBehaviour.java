@@ -78,7 +78,7 @@ public class VehicleBehaviour {
 
         //scan the road (get the free gap between in front of vehicle/intersection)
         Road.ScanResult scanResult = road.scanCells(lane, position.cell(), velocity, false);
-        gap = scanResult.distance();
+        int gap = scanResult.distance();
 
         if (scanResult.endOfRoadReached()) {
             int remainingDistance = velocity - gap;

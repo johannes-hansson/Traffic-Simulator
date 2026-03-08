@@ -137,9 +137,14 @@ public class Simulation {
         vehicles.add(newVehicle);
         n_vehicles = vehicles.size();
 
-       /* if (locationalMap != null) {
-            locationalMap.addVehicle(newVehicle, startPosition);
-        }*/
+        if (startPosition != null && startPosition.road() != null) {
+            newVehicle.setPosition(startPosition);
+            startPosition.road().enterVehicle(
+                    newVehicle,
+                    startPosition.lane(),
+                    startPosition.cell()
+            );
+        }
     }
 
     /** Registers an observer/listener that will receive SimulationUpdateListener.onUpdate(Simulation)
@@ -226,15 +231,16 @@ public class Simulation {
 
        // updateInfrastructure();      // traffic lights, intersections
         computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
-
         moveVehicles();              // apply movement
-
-        // Notify observers/UI/stats plugins
-        notifyListeners();
+        notifyListeners();          // Notify observers/UI/stats plugins
     }
 
     private void computeVehicleBehaviour() {
         if (vehicleBehaviour == null) return;
+
+        for (Vehicle vehicle : vehicles) {
+            vehicleBehaviour.computeVelocities(vehicle);
+        }
 
        // vehicleBehaviour.computeVelocities(vehicles);
         // future:
@@ -243,6 +249,8 @@ public class Simulation {
 
     private void moveVehicles() {
         if (vehicleMovement == null) return;
+
+        vehicleMovement.process(vehicles);
       
         //vehicleMovement.move(vehicles, locationalMap);
     }
