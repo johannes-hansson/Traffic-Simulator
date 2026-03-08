@@ -1,7 +1,6 @@
-//import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.random.*;
+//import java.util.random.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -19,7 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+//import javafx.scene.paint.Paint;
 
 public class Main extends Application {
 

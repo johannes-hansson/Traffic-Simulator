@@ -1,4 +1,4 @@
-import java.awt.*;
+//import java.awt.*;
 import java.util.ArrayList;
 import javafx.scene.shape.Rectangle;
 /** Base class for all vehicle agents in the simulation.

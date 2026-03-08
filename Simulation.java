@@ -12,7 +12,6 @@ public class Simulation {
 
     private SpeedMode speedMode = SpeedMode.NORMAL;
     private Map map;
-    private LocationalMap locationalMap;
     private boolean running = false;
     private boolean paused = false;
     private final Object pauseLock = new Object();
@@ -91,12 +90,12 @@ public class Simulation {
         this.map = map;
     }
 
-    public void setLocationalMap(LocationalMap locationalMap) {
+    /*public void setLocationalMap(LocationalMap locationalMap) {
         this.locationalMap = locationalMap;
         if (this.locationalMap != null) {
             this.locationalMap.setSimulation(this);
         }
-    }
+    }*/
 
     public void setVehicleMovement(VehicleMovement vehicleMovement) {
         this.vehicleMovement = vehicleMovement;
