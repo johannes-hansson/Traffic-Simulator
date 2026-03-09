@@ -263,9 +263,7 @@ public class Simulation {
     private void computeVehicleBehaviour() {
         if (vehicleBehaviour == null) return;
 
-        for (Vehicle vehicle : vehicles) {
-            vehicleBehaviour.computeVelocities(vehicle);
-        }
+        vehicleBehaviour.process(vehicles);
 
        // vehicleBehaviour.computeVelocities(vehicles);
         // future:
