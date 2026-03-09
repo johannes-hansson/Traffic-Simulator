@@ -21,6 +21,10 @@ public class VehicleBehaviour {
         Node node = road.getEndNode();
         Road roadToEnter = vehicle.chooseRoad(node.getAvailableTurns(road));
 
+        if (roadToEnter == null) {
+            return 0;
+        }
+
         boolean canTurn = node.requestTurn(road, roadToEnter);
         if (canTurn == false) {
             return 0;

@@ -129,7 +129,6 @@ public class VehicleMovement {
                 break;
             }
 
-            System.out.println("Vehicle turned from road " + currentRoad.name + " to road " + roadToEnter.name);
             currentRoad = roadToEnter;
             currentLane = laneToEnter;
             currentCell = scanResult.distance() - 1;
@@ -147,8 +146,6 @@ public class VehicleMovement {
             currentLane,
             currentCell
         );
-
-        System.out.println("Vehicle moved to cell " + Integer.toString(currentCell));
 
         this.moveVehicle(vehicle, newPosition);
     }

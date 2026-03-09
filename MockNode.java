@@ -103,6 +103,7 @@ public class MockNode implements Node {
                 return connection;
             }
         }
+
         return null;
     }
 
@@ -136,12 +137,13 @@ public class MockNode implements Node {
     // Given the entry road, returns a vector containing all roads a car can turn onto
     public ArrayList<Road> getAvailableTurns(Road incoming) {
         Connection connection = this.getConnectionFromIncoming(incoming);
+        ArrayList<Road> availableTurns = new ArrayList<>();
+
         // Check that the incoming road has a connection
         // If not, it is not connected to the intersection
-        if (connection == null) return null;
+        if (connection == null) return availableTurns;
 
         int incomingDirection = connection.getDirection();
-        ArrayList<Road> avilableTurns = new ArrayList<>();
         for (int direction = 0; direction < this.connections.length; direction++) {
             // U-turns are presumed to be unallowed
             // ignore the outgoing road of the same connection as the incoming
@@ -149,10 +151,10 @@ public class MockNode implements Node {
 
             Road outgoing = this.connections[direction].getOutRoad();
             if (outgoing != null) {
-                avilableTurns.add(outgoing);
+                availableTurns.add(outgoing);
             }
         }
-        return avilableTurns;
+        return availableTurns;
     }
 
     public int[][] getLaneMap(Road incoming, Road outgoing) {
@@ -184,7 +186,10 @@ public class MockNode implements Node {
 
         // Check that both the incoming and the outgoing road has a connection
         // If not, they are not connected to the intersection
-        if (incomingConnection == null || outgoingConnection == null) return new int[][] {};
+        if (incomingConnection == null || outgoingConnection == null) {
+            System.err.println("One or both roads given for a requested lane mapping does not connect to the intersection");
+            return new int[][] {};
+        }
 
         int incomingLanes = incoming.getLanes();
         int outgoingLanes = outgoing.getLanes();

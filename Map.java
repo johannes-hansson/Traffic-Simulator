@@ -43,18 +43,22 @@ public class Map {
         }); */
 
 
-        Road road1 = new Road(node2, 3200, 1, render1, "väg1");
+        Road road1 = new Road(node1, 3200, 1, render1, "väg1");
         road1.setRoadRender(render1);
         /* Road road2 = new Road(node1, 100, 2);
         road2.setRoadRender(render2);*/
 
+        node1.addIncomingRoad(road1, MockNode.Direction.NORTH);
+        node1.addOutgoingRoad(road1, MockNode.Direction.SOUTH);
 
+        /*
         node1.addOutgoingRoad(road1, MockNode.Direction.NORTH);
         node2.addIncomingRoad(road1, MockNode.Direction.NORTH);
 
-        /*node2.addOutgoingRoad(road2, MockNode.Direction.SOUTH);
+        node2.addOutgoingRoad(road2, MockNode.Direction.SOUTH);
         node1.addIncomingRoad(road2, MockNode.Direction.SOUTH);
-*/
+        */
+
         this.nodes = new ArrayList<>();
         this.roads = new ArrayList<>();
 

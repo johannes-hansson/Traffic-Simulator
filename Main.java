@@ -224,7 +224,7 @@ public class Main extends Application {
             Vehicle car = new Vehicle(properties, startPosition, 0);
 
 
-            System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
+            //System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
 
             BreakPoint p1 = points.get(0);
             BreakPoint p2 = points.get(1);
@@ -269,18 +269,18 @@ public class Main extends Application {
 
             //carRectangle.setTranslateX(xPos);
             // carRectangle.setTranslateY(yPos);
-            System.out.println("Position: " + xPos + " " + yPos);
+            //System.out.println("Position: " + xPos + " " + yPos);
 
             car.setGraphic(carRectangle); // connect to the graphics
 
-
+            // If the chosen cell is occupied, the vehicle is never created
+            // This needs to be changed to find a new position instead
             if (!road.isOccupied(lane, cell)) {
+                simulation.addVehicle(car, startPosition); // add car
                 Platform.runLater(() -> {
-                    simulation.addVehicle(car, startPosition); // add car
                     simulationPane.getChildren().add(carRectangle); // add rectangle for car
                 });
             }
-
 
         }
         System.out.println("vehicles created: " + numberCars);
