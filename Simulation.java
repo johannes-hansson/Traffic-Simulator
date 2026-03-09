@@ -23,9 +23,12 @@ public class Simulation {
     private int tick = 0;
     private int tickSpeedMs = 100;
     private Thread simThread;
+    private PropertiesRegistry propertiesRegistry;
 
     // Empty constructor
-    public Simulation() {}
+    public Simulation() {
+        this.propertiesRegistry = new PropertiesRegistry();
+    }
 
     // Constructor for creating default components
     public static Simulation createDefault() {
@@ -143,7 +146,7 @@ public class Simulation {
             int cell = rand.nextInt(road.getLength()); // säkerställer att cellen är inom breakpoints
 
             RoadPosition startPosition = new RoadPosition(road, lane, cell);
-            VehicleProperties properties = new VehicleProperties(10, 1, 1);
+            VehicleProperties properties = this.propertiesRegistry.getVehicleProperties("car");
 
             Vehicle vehicle = new Vehicle(properties, startPosition, 0);
 
@@ -153,7 +156,6 @@ public class Simulation {
                 this.vehicles.add(vehicle);
                 road.enterVehicle(vehicle, lane, cell);
             }
-
         }
     }
 
