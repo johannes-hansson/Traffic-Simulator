@@ -76,7 +76,7 @@ public class Main extends Application {
         // add button
         uiLayer.getChildren().addAll(stopButton, buttonsRow);
 
-        stopButton.setLayoutX(1100);
+        stopButton.setLayoutX(1090);
         stopButton.setLayoutY(0);
 
         buttonsRow.setLayoutX(5);
@@ -235,7 +235,7 @@ public class Main extends Application {
     private void showSimulationWindow(Stage stage, Pane root, Simulation simulation, View view) {
         //view.onUpdate(simulation);
 
-        Scene scene = new Scene(root, 1200,1000);
+        Scene scene = new Scene(root, 1200,800);
         stage.setTitle("Traffic simulator demo");
         stage.setScene(scene);
         stage.show();
