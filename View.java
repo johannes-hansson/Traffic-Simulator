@@ -2,6 +2,7 @@ import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 public class View implements SimulationUpdateListener {
 
@@ -29,17 +30,13 @@ public class View implements SimulationUpdateListener {
                 }
                 roadsDrawn = true;
             }
-            /*for (Road road : roads) { // draw each road via roadrender
-                RoadRender render = road.getRoadRender();
-                render.draw(root); // draws between the breakpoints
-            }*/
 
             for (Vehicle vehicle : simulation.getVehicles()){
                 Rectangle vehicleGraphic = vehicle.getGraphic(); // get the rectangle that represents the car
                 
                 // Check the the vehicle graphic exists and create one otherwise
                 if (vehicleGraphic == null) {
-                    Rectangle vehicleGraphic = new Rectangle(4, 8);
+                    vehicleGraphic = new Rectangle(4, 8);
                     vehicleGraphic.setFill(Color.RED);
 
                     vehicle.setGraphic(vehicleGraphic); // connect to the graphics
@@ -47,8 +44,8 @@ public class View implements SimulationUpdateListener {
 
                 // Check if the vehicle graphic exists in the vehicle layer
                 // Add it otherwise
-                if(!vehicleLayer.getChildren().contains(r)) {
-                    vehicleLayer.getChildren().add(r);
+                if(!vehicleLayer.getChildren().contains(vehicleGraphic)) {
+                    vehicleLayer.getChildren().add(vehicleGraphic);
                 }
 
                 Road road = vehicle.getPosition().road();
@@ -58,20 +55,20 @@ public class View implements SimulationUpdateListener {
                 if (points.size() < 2) continue;
 
                 int lowerBreakPointIndex = 0;
-                int upperBreakPointIndex = this.breakPoints.size() - 1;
+                int upperBreakPointIndex = points.size() - 1;
 
                 while (upperBreakPointIndex - lowerBreakPointIndex > 1) {
                     int middleBreakPointIndex = (int)Math.floor((upperBreakPointIndex + lowerBreakPointIndex) / 2);
-                    BreakPoint middleBreakPoint = this.breakPoints.get(middleBreakPointIndex);
-                    if (middleBreakPoint.cell() >= position.cell()) {
+                    BreakPoint middleBreakPoint = points.get(middleBreakPointIndex);
+                    if (middleBreakPoint.cell() >= cell) {
                         upperBreakPointIndex = middleBreakPointIndex;
                     } else {
                         lowerBreakPointIndex = middleBreakPointIndex;
                     }
                 }
 
-                BreakPoint p1 = this.breakPoints.get(lowerBreakPointIndex);
-                BreakPoint p2 = this.breakPoints.get(upperBreakPointIndex);
+                BreakPoint p1 = points.get(lowerBreakPointIndex);
+                BreakPoint p2 = points.get(upperBreakPointIndex);
 
                 double cellDiff = (p2.cell() - p1.cell());
                 double t = 0;

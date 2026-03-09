@@ -142,30 +142,86 @@ public class Simulation {
         for (int i = 0; i < amount; i++) {
 
             // Define an initial position
+            boolean availableSpaceFound = false;
             int startRoadIndex = rand.nextInt(roads.size());
-            Road currentRoad = roads.get(startRoadIndex);
-            int startLaneIndex = rand.nextInt(currentRoad.getLanes());
-            int startCellIndex = rand.nextInt(currentRoad.getLength());
+            
+            int currentRoadIndex = startRoadIndex;
+            int currentLaneIndex = 0;
+            int currentCellIndex = 0;
+            while (!availableSpaceFound) {
+                Road road = roads.get(currentRoadIndex);
+                int startLaneIndex = rand.nextInt(road.getLanes());
+                int startCellIndex = rand.nextInt(road.getLength());
 
-            int currentLaneIndex = startLaneIndex;
-            int currentCellIndex = startCellIndex;
+                currentLaneIndex = startLaneIndex;
+                while (!availableSpaceFound) {
+                    currentCellIndex = startCellIndex;
 
-            // Change the position if it is not available
-            while (currentRoad.isOccupied(currentLaneIndex, currentCellIndex)) {
-                // Attempt to increment the cell
+                    while (!availableSpaceFound) {
+                        // Check if the position is available
+                        if (!road.isOccupied(currentLaneIndex, currentCellIndex)) {
+                            availableSpaceFound = true;
+                            break;
+                        }
+
+                        // Increment the current cell index
+                        if (currentCellIndex < road.getLength() - 1) {
+                            currentCellIndex += 1;
+                        } else {
+                            currentCellIndex = 0;
+                        }
+
+                        if (currentCellIndex == startCellIndex) {
+                            break;
+                        }
+                    }
+                    if (availableSpaceFound) {
+                        break;
+                    }
+                    
+                    if (currentLaneIndex < road.getLanes() - 1) {
+                        currentLaneIndex += 1;
+                    } else {
+                        currentLaneIndex = 0;
+                    }
+
+                    if (currentLaneIndex == startLaneIndex) {
+                        break;
+                    }
+                }
+                if (availableSpaceFound) {
+                    break;
+                }
+                
+                if (currentRoadIndex < roads.size() - 1) {
+                    currentRoadIndex += 1;
+                } else {
+                    currentRoadIndex = 0;
+                }
+
+                if (currentRoadIndex == startRoadIndex) {
+                    break;
+                }
             }
 
-            RoadPosition startPosition = new RoadPosition(road, lane, cell);
+            if (!availableSpaceFound) {
+                return;
+            }
+
+            Road road = roads.get(currentRoadIndex);
+            RoadPosition startPosition = new RoadPosition(
+                road, 
+                currentLaneIndex,
+                currentCellIndex
+            );
             VehicleProperties properties = this.propertiesRegistry.getVehicleProperties("car");
 
             Vehicle vehicle = new Vehicle(properties, startPosition, 0);
 
             // If the chosen cell is occupied, the vehicle is never created
             // This needs to be changed to find a new position instead
-            if (!road.isOccupied(lane, cell)) {
-                this.vehicles.add(vehicle);
-                road.enterVehicle(vehicle, lane, cell);
-            }
+            this.vehicles.add(vehicle);
+            road.enterVehicle(vehicle, currentLaneIndex, currentCellIndex);
         }
     }
 
