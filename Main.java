@@ -42,8 +42,6 @@ public class Main extends Application {
 
         root.getChildren().addAll(roadLayer, vehicleLayer, uiLayer);
 
-        //Pane simulationPane = new Pane();
-
 
         Simulation simulation = new Simulation(); // create simulation
         View view = new View(roadLayer, vehicleLayer);// create view, connect too root
@@ -51,7 +49,6 @@ public class Main extends Application {
 
         simulation.addUpdateListener(view); // add view as listener to simulation
         simulation.addUpdateListener(statistics);
-        // VBox rootLayout = new VBox(10);
 
 
         // create buttons for popup
@@ -73,7 +70,7 @@ public class Main extends Application {
         // create buttons for main stage
         Button stopButton = new Button("Stop simulation");
         Button pauseButton = new Button("Pause");
-        Button exitButton1 = new Button("Exit");
+        Button exitButton1 = new Button("Exit program");
 
         javafx.scene.layout.HBox PauseStopButtons = new javafx.scene.layout.HBox(10);
         PauseStopButtons.setAlignment(Pos.TOP_RIGHT);
@@ -86,13 +83,12 @@ public class Main extends Application {
         Label speedLabel = new Label("Choose speed: ");
         javafx.scene.layout.HBox speedButtonsRow = new javafx.scene.layout.HBox(10);
         speedButtonsRow.setAlignment(Pos.TOP_LEFT);
-        //buttonsRow.setStyle("-fx-padding: 5;");
         speedButtonsRow.getChildren().addAll(speedLabel, slowMode, normalMode, fastMode);
 
         // add button
         uiLayer.getChildren().addAll(PauseStopButtons, speedButtonsRow);
 
-        PauseStopButtons.setLayoutX(980); // set the buttons on the pane
+        PauseStopButtons.setLayoutX(930); // set the buttons on the pane
         PauseStopButtons.setLayoutY(0);
 
         speedButtonsRow.setLayoutX(10);
@@ -145,7 +141,6 @@ public class Main extends Application {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Exit");
                 alert.setHeaderText("Do you want to exit the program?");
-                //alert.setContentText("Do you want to exit the simulation?");
 
                 if (alert.showAndWait().get() == ButtonType.OK) {
                     simulation.stop();
