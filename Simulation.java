@@ -13,8 +13,8 @@ public class Simulation {
 
     private SpeedMode speedMode = SpeedMode.NORMAL;
     private Map map;
-    private boolean running = false;
-    private boolean paused = false;
+    public boolean running = false;
+    public boolean paused = false;
     private final Object pauseLock = new Object();
     private VehicleMovement vehicleMovement;
     private VehicleBehaviour vehicleBehaviour;

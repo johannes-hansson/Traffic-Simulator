@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox; // vertical elements
@@ -53,7 +54,9 @@ public class Main extends Application {
 
         // create buttons for popup
         Button startButton = new Button("Start simulation");
+        startButton.setDefaultButton(true);
         Button cancelButton1 = new Button("Cancel");
+        cancelButton1.setCancelButton(true);
 
         // choose amount of cars
         Label chooseVehicles = new Label("How many vehicles should participate in the simulation?");
@@ -64,26 +67,30 @@ public class Main extends Application {
 
         // create buttons for main stage
         Button stopButton = new Button("Stop simulation");
-        //stopButton.setStyle("-fx-padding: 5;");
+        Button pauseButton = new Button("Pause");
+
+        javafx.scene.layout.HBox PauseExitButtons = new javafx.scene.layout.HBox(10);
+        PauseExitButtons.setAlignment(Pos.TOP_RIGHT);
+        PauseExitButtons.getChildren().addAll(pauseButton, stopButton);
 
         Button fastMode = new Button("Fast");
         Button normalMode = new Button("Normal");
         Button slowMode = new Button("Slow");
 
         Label speedLabel = new Label("Choose speed: ");
-        javafx.scene.layout.HBox buttonsRow = new javafx.scene.layout.HBox(10);
-        buttonsRow.setAlignment(Pos.TOP_LEFT);
+        javafx.scene.layout.HBox speedButtonsRow = new javafx.scene.layout.HBox(10);
+        speedButtonsRow.setAlignment(Pos.TOP_LEFT);
         //buttonsRow.setStyle("-fx-padding: 5;");
-        buttonsRow.getChildren().addAll(speedLabel, slowMode, normalMode, fastMode);
+        speedButtonsRow.getChildren().addAll(speedLabel, slowMode, normalMode, fastMode);
 
         // add button
-        uiLayer.getChildren().addAll(stopButton, buttonsRow);
+        uiLayer.getChildren().addAll(PauseExitButtons, speedButtonsRow);
 
-        stopButton.setLayoutX(1090);
-        stopButton.setLayoutY(0);
+        PauseExitButtons.setLayoutX(1030); // set the buttons on the pane
+        PauseExitButtons.setLayoutY(0);
 
-        buttonsRow.setLayoutX(5);
-        buttonsRow.setLayoutY(0);
+        speedButtonsRow.setLayoutX(5);
+        speedButtonsRow.setLayoutY(0);
 
 
 
@@ -127,6 +134,18 @@ public class Main extends Application {
                     simulation.stop();
                     Platform.exit();
                 }
+            }
+        };
+
+        EventHandler<ActionEvent> pressPause = new EventHandler<ActionEvent>() { // pause when pressing pause button
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(simulation.paused){
+                    simulation.resume();
+                }
+                else if (simulation.running){
+                    simulation.pause();
+                };
             }
         };
 
@@ -232,7 +251,9 @@ public class Main extends Application {
         slowMode.setOnAction(pressSlow);
         normalMode.setOnAction(pressNormal);
         fastMode.setOnAction(pressFast);
+
         stopButton.setOnAction(pressStop);
+        pauseButton.setOnAction(pressPause);
 
 
         // Start popup window
@@ -253,7 +274,19 @@ public class Main extends Application {
         stage.setTitle("Traffic simulator demo");
         stage.setScene(scene);
         stage.show();
-        //view.onUpdate(simulation);
+
+        scene.setOnKeyPressed(e-> { // makes the simulation stop when pressing key SPACE
+            if (e.getCode() == KeyCode.SPACE){
+                if(simulation.paused){
+                    simulation.resume();
+                }
+                else if (simulation.running){
+                    simulation.pause();
+                };
+            }
+
+        } );
+
 
         simulation.setTickSpeedMs(100);
         simulation.start();

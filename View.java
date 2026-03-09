@@ -82,8 +82,8 @@ public class View implements SimulationUpdateListener {
                 double x = p1.x() + (p2.x() - p1.x()) * t;
                 double y = p1.y() + (p2.y() - p1.y()) * t;
 
-                r.setX(x - r.getWidth()/2);
-                r.setY(y - r.getHeight()/2);
+                vehicleGraphic.setX(x - vehicleGraphic.getWidth()/2);
+                vehicleGraphic.setY(y - vehicleGraphic.getHeight()/2);
             }
 
             // here we can add drawing cars and traffic lights etc
