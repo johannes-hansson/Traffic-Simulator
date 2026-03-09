@@ -295,7 +295,6 @@ public class Main extends Application {
 
     // function that starts the simulation window
     private void showSimulationWindow(Stage stage, Pane root, Simulation simulation, View view) {
-        //view.onUpdate(simulation);
 
         Scene scene = new Scene(root, 1200,800);
         stage.setTitle("Traffic simulator demo");
