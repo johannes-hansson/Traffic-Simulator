@@ -142,6 +142,7 @@ public class Simulation {
         for (int i = 0; i < amount; i++) {
 
             // Define an initial position
+            /*
             boolean availableSpaceFound = false;
             int startRoadIndex = rand.nextInt(roads.size());
             
@@ -214,12 +215,20 @@ public class Simulation {
                 currentLaneIndex,
                 currentCellIndex
             );
+            */
+
+            Road road = roads.get(rand.nextInt(roads.size());
+            int lane = rand.nextInt(road.getLanes);
+            int cell = rand.nextInt(road.getLength);
+
+            if (road.isOccupied(lane, cell)) continue;
+
+            RoadPosition startPosition = new RoadPosition(road, lane, cell);
+            
             VehicleProperties properties = this.propertiesRegistry.getVehicleProperties("car");
 
             Vehicle vehicle = new Vehicle(properties, startPosition, 0);
-
-            // If the chosen cell is occupied, the vehicle is never created
-            // This needs to be changed to find a new position instead
+            
             this.vehicles.add(vehicle);
             road.enterVehicle(vehicle, currentLaneIndex, currentCellIndex);
         }
