@@ -12,6 +12,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox; // vertical elements
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality; // how the popup acts, like being infront the other window
 import javafx.stage.Stage;
 import javafx.geometry.Pos; // positions
@@ -60,10 +62,14 @@ public class Main extends Application {
 
         // choose amount of cars
         Label chooseVehicles = new Label("How many vehicles should participate in the simulation?");
+        Label vehicleLimit = new Label("Write a number between 0 and 1500");
         TextField numCarsField = new TextField();
-        numCarsField.setPromptText("Write a number between 500 and 1000");
+
+        chooseVehicles.setAlignment(Pos.CENTER);
+        vehicleLimit.setAlignment(Pos.CENTER);
+        numCarsField.setAlignment(Pos.CENTER);
         // add everything to the popup window
-        popupRoot.getChildren().addAll(chooseVehicles, numCarsField, startButton, cancelButton1);
+        popupRoot.getChildren().addAll(chooseVehicles, vehicleLimit, numCarsField, startButton, cancelButton1);
 
         // create buttons for main stage
         Button stopButton = new Button("Stop simulation");
@@ -101,6 +107,14 @@ public class Main extends Application {
                 try {
                     int nCars = Integer.parseInt(numCarsField.getText());
 
+                    if(nCars < 1 || nCars > 1500){ // check if the input is within given limits
+                        Alert amountAlert = new Alert(Alert.AlertType.ERROR);
+                        amountAlert.setHeaderText("Input number not within given limits");
+                        amountAlert.setContentText("Please write a number between 0 and 1500");
+                        amountAlert.showAndWait();
+                        return;
+                    }
+
                     simulation.setMap(new Map());
                     simulation.setVehicleMovement(new VehicleMovement());
                     simulation.setVehicleBehaviour(new VehicleBehaviour());
@@ -109,8 +123,11 @@ public class Main extends Application {
                     simulation.createVehicles(nCars);
                     showSimulationWindow(primaryStage, root, simulation, view); // start simulation
 
-                } catch (NumberFormatException e) {
-                    System.out.println("Enter a valid number");
+                } catch (NumberFormatException e) { // check if the input is a number, otherwise alert
+                    Alert typeAlert = new Alert(Alert.AlertType.ERROR);
+                    typeAlert.setHeaderText("Input is invalid");
+                    typeAlert.setContentText("Please write a number between 0 and 1500");
+                    typeAlert.showAndWait();
                 }
             }
         };
@@ -185,21 +202,20 @@ public class Main extends Application {
                 statsLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // bigger text for title
 
                 TextArea statsArea = new TextArea(); // create text are for statistics
-                statsArea.setPrefSize(300, 100);
+                statsArea.setPrefSize(250, 160);
 
                 // change these stats later
                 SimulationStatistics.TickStats latest = statistics.getLatest();
 
                 statsArea.setText(
-                        "Simulation finished\n" +
-                        "Ticks: " + latest.tick() + "\n" +
-                        "Vehicles: " + latest.vehicleCount() + "\n" +
+                        "Amount of ticks during simulation: " + latest.tick() + "\n" +
+                        "Amount of vehicles: " + latest.vehicleCount() + "\n" +
                         "Average velocity: " + String.format("%.2f",latest.avgVelocity()) + "\n" +
                         "Max velocity: " + latest.maxVelocity() + "\n" +
-                        "Stopped vehicles: " + latest.stoppedCount() + "\n" +
-                        "Jammed vehicles: " + latest.jammedCount() + "\n" +
-                        "Collision risk vechiles:" + latest.collisionRiskCount() + "\n" +
-                        "Avrage gap: " + String.format("%.2f",latest.avgGap())
+                        "Amount of stopped vehicles: " + latest.stoppedCount() + "\n" +
+                        "Amount of jammed vehicles: " + latest.jammedCount() + "\n" +
+                        "Amount of vehicles that had collision risks: " + latest.collisionRiskCount() + "\n" +
+                        "Average gap between vehicles: " + String.format("%.2f",latest.avgGap())
                 );
 
                 statsArea.setEditable(false); // make so you cant write in teh box
@@ -214,7 +230,7 @@ public class Main extends Application {
 
                 statsRoot.getChildren().addAll(statsLabel, statsArea, buttonRow);
 
-                Scene statsScene = new Scene(statsRoot, 600, 200);
+                Scene statsScene = new Scene(statsRoot, 500, 250);
                 statsStage.setScene(statsScene);
                 statsStage.setTitle("Stopped simulation");
 
@@ -257,7 +273,7 @@ public class Main extends Application {
 
 
         // Start popup window
-        Scene popupScene = new Scene(popupRoot, 800, 600);
+        Scene popupScene = new Scene(popupRoot, 700, 500);
         popup.setTitle("Traffic simulator");
         popup.setScene(popupScene);
         popup.initModality(Modality.APPLICATION_MODAL); // so you have to press the button before the main window opens
