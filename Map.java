@@ -9,8 +9,7 @@ public class Map {
     private ArrayList<Road> roads;
 
     public Map() {
-        MockNode node1 = new MockNode();
-        MockNode node2 = new MockNode();
+        MockNode node1 = new MockNode(new double[]{100, 100}, 50);
 
         RoadRender render1 = new RoadRender(10, new BreakPoint[] {
            /*
@@ -63,7 +62,6 @@ public class Map {
         this.roads = new ArrayList<>();
 
         this.nodes.add(node1);
-        this.nodes.add(node2);
 
         this.roads.add(road1);
         //this.roads.add(road2);*/

@@ -1,11 +1,8 @@
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
-
-
-
+import javafx.scene.paint.Color;
 
 public class View implements SimulationUpdateListener {
 
@@ -33,29 +30,23 @@ public class View implements SimulationUpdateListener {
                 }
                 roadsDrawn = true;
             }
-            /*for (Road road : roads) { // draw each road via roadrender
-                RoadRender render = road.getRoadRender();
-                render.draw(root); // draws between the breakpoints
-            }*/
 
             for (Vehicle vehicle : simulation.getVehicles()){
-                Rectangle r = vehicle.getGraphic(); // get the rectangle that represents the car
-                if (r == null){
-                    System.out.println("Vehicle graphic is null for vehicle at cell " + vehicle.getPosition().cell());
+                Rectangle vehicleGraphic = vehicle.getGraphic(); // get the rectangle that represents the car
+                
+                // Check the the vehicle graphic exists and create one otherwise
+                if (vehicleGraphic == null) {
+                    vehicleGraphic = new Rectangle(4, 8);
+                    vehicleGraphic.setFill(Color.RED);
+
+                    vehicle.setGraphic(vehicleGraphic); // connect to the graphics
                 }
-                if(!vehicleLayer.getChildren().contains(r)){ // check if r already exist, otherwise add
-                    vehicleLayer.getChildren().add(r);
 
+                // Check if the vehicle graphic exists in the vehicle layer
+                // Add it otherwise
+                if(!vehicleLayer.getChildren().contains(vehicleGraphic)) {
+                    vehicleLayer.getChildren().add(vehicleGraphic);
                 }
-
-                // get cars current position
-                /*Road road = vehicle.getPosition().road();
-                int cell = vehicle.getPosition().cell();
-                BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
-
-                // move rectangle to new position
-                r.setX(position.x() - r.getWidth()/2);
-                r.setY(position.y() - r.getHeight()/2);*/
 
                 Road road = vehicle.getPosition().road();
                 int cell = vehicle.getPosition().cell();
@@ -63,17 +54,21 @@ public class View implements SimulationUpdateListener {
                 ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
                 if (points.size() < 2) continue;
 
-                BreakPoint p1 = points.get(0);
-                BreakPoint p2 = points.get(1);
+                int lowerBreakPointIndex = 0;
+                int upperBreakPointIndex = points.size() - 1;
 
-
-                for(int i = 0; i < points.size()-1; i++){
-                    if(cell >= points.get(i).cell() && cell <= points.get(i+1).cell()){
-                        p1 = points.get(i);
-                        p2 = points.get(i+1);
-                        break;
+                while (upperBreakPointIndex - lowerBreakPointIndex > 1) {
+                    int middleBreakPointIndex = (int)Math.floor((upperBreakPointIndex + lowerBreakPointIndex) / 2);
+                    BreakPoint middleBreakPoint = points.get(middleBreakPointIndex);
+                    if (middleBreakPoint.cell() >= cell) {
+                        upperBreakPointIndex = middleBreakPointIndex;
+                    } else {
+                        lowerBreakPointIndex = middleBreakPointIndex;
                     }
                 }
+
+                BreakPoint p1 = points.get(lowerBreakPointIndex);
+                BreakPoint p2 = points.get(upperBreakPointIndex);
 
                 double cellDiff = (p2.cell() - p1.cell());
                 double t = 0;
@@ -89,7 +84,6 @@ public class View implements SimulationUpdateListener {
 
                 r.setX(x - r.getWidth()/2);
                 r.setY(y - r.getHeight()/2);
-
             }
 
             // here we can add drawing cars and traffic lights etc

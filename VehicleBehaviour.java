@@ -1,12 +1,39 @@
 import java.util.Random;
+import java.util.List;
 
 //import Road.ScanResult;
 
 public class VehicleBehaviour {
     
-    //public List<LaneSwitchDecision> computeLaneSwitches() {
-   //     return null;
-   // }
+    private Random numberGenerator;
+    private final double breakingProbability = 0.5; // 50% chance for vehicle to slow down by one unit
+
+    public VehicleBehaviour() {
+        this.numberGenerator = new Random(1);
+    }
+
+    public void process(List<Vehicle> vehicles) {
+        for (Vehicle vehicle : vehicles) {
+            this.computeVelocity(vehicle);
+        }
+    }
+
+    public void computeVelocity(Vehicle vehicle){
+        int velocity; 
+
+        /// Nagel-schreckenberg-model
+        //1. Acceleration
+        velocity = accelerate(vehicle); 
+        vehicle.setVelocity(velocity);
+
+        //2. Deacceleration
+        velocity = deaccelerate(vehicle); 
+        vehicle.setVelocity(velocity);
+
+        //3. Randomization
+        velocity = randomisation(vehicle, this.breakingProbability);
+        vehicle.setVelocity(velocity);
+    }
 
     // Takes a node that the vehicle has reached and computes 
     // amount of cells the vehicle can travel after the node
@@ -101,8 +128,7 @@ public class VehicleBehaviour {
 
     public int randomisation(Vehicle vehicle, double p){
         int velocity = vehicle.getVelocity();
-        Random random = new Random();
-        double randomDouble = random.nextDouble();  //generates a random double between 0.0 and 1.0
+        double randomDouble = this.numberGenerator.nextDouble();  //generates a random double between 0.0 and 1.0
 
         if((velocity > 1)&&(0<=p)&&(p<=1)){     
             if(randomDouble <= p){              //Bernoulli 
@@ -110,26 +136,6 @@ public class VehicleBehaviour {
             }
         }
         return velocity;
-    }
-    
-    public int computeVelocities(Vehicle vehicle){
-        int velocity; 
-
-    /// Nagel-schreckenberg-model
-    //1. Acceleration
-        velocity = accelerate(vehicle); 
-        vehicle.setVelocity(velocity);
-
-    //2. Deacceleration
-        velocity = deaccelerate(vehicle); 
-        vehicle.setVelocity(velocity);
-
-    //3. Randomization
-        double p = 0.5;    //50% chance for vehicle to slow down by one unit
-        velocity = randomisation(vehicle, p);
-        vehicle.setVelocity(velocity);
-
-    return velocity;
     }
         
     /* Nagel-schreckenberg-model

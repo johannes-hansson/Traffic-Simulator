@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /** Simulation is the core component of the traffic simulator.
  * It maintains the current simulation state including vehicles,
@@ -22,10 +23,12 @@ public class Simulation {
     private int tick = 0;
     private int tickSpeedMs = 100;
     private Thread simThread;
-    private int n_vehicles; //amount of vehicles
+    private PropertiesRegistry propertiesRegistry;
 
     // Empty constructor
-    public Simulation() {}
+    public Simulation() {
+        this.propertiesRegistry = new PropertiesRegistry();
+    }
 
     // Constructor for creating default components
     public static Simulation createDefault() {
@@ -125,16 +128,105 @@ public class Simulation {
     }
 
     public int getVehicleAmount() {
-        return n_vehicles;
+        return this.vehicles.size();
     }
 
     public List<Vehicle> getVehicles() {
         return vehicles;
     }
 
+    public void createVehicles(int amount) {
+        Random rand = new Random();
+        ArrayList<Road> roads = this.map.getRoads();
+
+        for (int i = 0; i < amount; i++) {
+
+            // Define an initial position
+            boolean availableSpaceFound = false;
+            int startRoadIndex = rand.nextInt(roads.size());
+            
+            int currentRoadIndex = startRoadIndex;
+            int currentLaneIndex = 0;
+            int currentCellIndex = 0;
+            while (!availableSpaceFound) {
+                Road road = roads.get(currentRoadIndex);
+                int startLaneIndex = rand.nextInt(road.getLanes());
+                int startCellIndex = rand.nextInt(road.getLength());
+
+                currentLaneIndex = startLaneIndex;
+                while (!availableSpaceFound) {
+                    currentCellIndex = startCellIndex;
+
+                    while (!availableSpaceFound) {
+                        // Check if the position is available
+                        if (!road.isOccupied(currentLaneIndex, currentCellIndex)) {
+                            availableSpaceFound = true;
+                            break;
+                        }
+
+                        // Increment the current cell index
+                        if (currentCellIndex < road.getLength() - 1) {
+                            currentCellIndex += 1;
+                        } else {
+                            currentCellIndex = 0;
+                        }
+
+                        if (currentCellIndex == startCellIndex) {
+                            break;
+                        }
+                    }
+                    if (availableSpaceFound) {
+                        break;
+                    }
+                    
+                    if (currentLaneIndex < road.getLanes() - 1) {
+                        currentLaneIndex += 1;
+                    } else {
+                        currentLaneIndex = 0;
+                    }
+
+                    if (currentLaneIndex == startLaneIndex) {
+                        break;
+                    }
+                }
+                if (availableSpaceFound) {
+                    break;
+                }
+                
+                if (currentRoadIndex < roads.size() - 1) {
+                    currentRoadIndex += 1;
+                } else {
+                    currentRoadIndex = 0;
+                }
+
+                if (currentRoadIndex == startRoadIndex) {
+                    break;
+                }
+            }
+
+            if (!availableSpaceFound) {
+                return;
+            }
+
+            Road road = roads.get(currentRoadIndex);
+            RoadPosition startPosition = new RoadPosition(
+                road, 
+                currentLaneIndex,
+                currentCellIndex
+            );
+            VehicleProperties properties = this.propertiesRegistry.getVehicleProperties("car");
+
+            Vehicle vehicle = new Vehicle(properties, startPosition, 0);
+
+            // If the chosen cell is occupied, the vehicle is never created
+            // This needs to be changed to find a new position instead
+            this.vehicles.add(vehicle);
+            road.enterVehicle(vehicle, currentLaneIndex, currentCellIndex);
+        }
+    }
+
     public void addVehicle(Vehicle newVehicle, RoadPosition startPosition) {
         vehicles.add(newVehicle);
-        n_vehicles = vehicles.size();
 
         if (startPosition != null && startPosition.road() != null) {
             newVehicle.setPosition(startPosition);
@@ -237,9 +329,7 @@ public class Simulation {
     private void computeVehicleBehaviour() {
         if (vehicleBehaviour == null) return;
 
-        for (Vehicle vehicle : vehicles) {
-            vehicleBehaviour.computeVelocities(vehicle);
-        }
+        vehicleBehaviour.process(vehicles);
 
        // vehicleBehaviour.computeVelocities(vehicles);
         // future:
