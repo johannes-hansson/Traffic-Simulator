@@ -16,7 +16,10 @@ public class SimulationStatistics implements SimulationUpdateListener {
             int vehicleCount,
             double avgVelocity,
             int maxVelocity,
-            int stoppedCount
+            int stoppedCount,
+            int jammedCount,
+            int collisionRiskCount, // räknar risken för krock
+            double avgGap
             // double avgGap, TODO when occupancy is stable
             // int overlaps TODO when occupancy is stable, to see if any vehicles collide
             // TODO Avg GAP, Cars on each road, collisions, more?
@@ -40,17 +43,47 @@ public class SimulationStatistics implements SimulationUpdateListener {
         int sumVel = 0;
         int maxVel = 0;
         int stopped = 0;
+        int jammed = 0; // räknar antal bilar som är tätt på varandra
+        int collisionRisk = 0; // antal bilar som har risk för krock
+        int totalGap = 0;
+        int gapCount = 0;
+
+
 
         for (Vehicle v : vehicles) {
             int vel = v.getVelocity();
             sumVel += vel;
             if (vel > maxVel) maxVel = vel;
             if (vel == 0) stopped++;
+
+        //Collision risk: bilen kör snabbt så den nästan nuddar bilen framför
+
+        RoadPosition pos = v.getPosition();
+        if (pos != null && pos.road() != null) {
+            int gap = pos.road().getGap(pos.lane(), pos.cell());
+            //Jam: bilen är stilla och sitter fast direkt bakom en annan
+            if (vel == 1 && gap <= 2) {
+                jammed++;
+            }
+            //Collions risk
+            if (vel > 0 && gap <= vel) {
+                collisionRisk++;
+            }
+            totalGap += gap;
+            gapCount++;
         }
-
+        }
         double avg = (count == 0) ? 0.0 : ((double) sumVel) / count;
+        double avgGap = gapCount == 0 ? 0.0 : (double) totalGap / gapCount;
 
-        history.add(new TickStats(sim.getTick(), count, avg, maxVel, stopped));
+        history.add(new TickStats(sim.getTick(), count, avg, maxVel, stopped, jammed, collisionRisk, avgGap));//glömde lägga till jammed
+    }
+
+    public int getLatestCollisionRiskCount() {
+        if(history.isEmpty()){
+            return 0;
+        }
+        return history.get(history.size()-1).collisionRiskCount();
     }
 
     /** return the most recent TickStats entry, or null if no data has been collected */
