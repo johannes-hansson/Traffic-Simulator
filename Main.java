@@ -61,9 +61,28 @@ public class Main extends Application {
 
         // create buttons for main stage
         Button stopButton = new Button("Stop simulation");
+        //stopButton.setStyle("-fx-padding: 5;");
+
+        Button fastMode = new Button("Fast");
+        Button normalMode = new Button("Normal");
+        Button slowMode = new Button("Slow");
+
+        Label speedLabel = new Label("Choose speed: ");
+        javafx.scene.layout.HBox buttonsRow = new javafx.scene.layout.HBox(10);
+        buttonsRow.setAlignment(Pos.TOP_LEFT);
+        //buttonsRow.setStyle("-fx-padding: 5;");
+        buttonsRow.getChildren().addAll(speedLabel, slowMode, normalMode, fastMode);
+
         // add button
-        root.getChildren().add(stopButton);
-        StackPane.setAlignment(stopButton, Pos.TOP_RIGHT);
+        uiLayer.getChildren().addAll(stopButton, buttonsRow);
+
+        stopButton.setLayoutX(1100);
+        stopButton.setLayoutY(0);
+
+        buttonsRow.setLayoutX(5);
+        buttonsRow.setLayoutY(0);
+
+
 
         // button behaviors:
         EventHandler<ActionEvent> pressStart = new EventHandler<ActionEvent>() { // behavior for start button
@@ -105,6 +124,27 @@ public class Main extends Application {
                     simulation.stop();
                     Platform.exit();
                 }
+            }
+        };
+
+        EventHandler<ActionEvent> pressSlow = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                simulation.setSpeedMode(Simulation.SpeedMode.SLOW);
+            }
+        };
+
+        EventHandler<ActionEvent> pressNormal = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                simulation.setSpeedMode(Simulation.SpeedMode.NORMAL);
+            }
+        };
+
+        EventHandler<ActionEvent> pressFast = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                simulation.setSpeedMode(Simulation.SpeedMode.FAST);
             }
         };
 
@@ -174,6 +214,10 @@ public class Main extends Application {
 
         startButton.setOnAction(pressStart); // start pressStart when button is pressed
         cancelButton1.setOnAction(pressCancel1); // start pressCancel1 when ca
+
+        slowMode.setOnAction(pressSlow);
+        normalMode.setOnAction(pressNormal);
+        fastMode.setOnAction(pressFast);
         stopButton.setOnAction(pressStop);
 
 
@@ -191,7 +235,7 @@ public class Main extends Application {
     private void showSimulationWindow(Stage stage, Pane root, Simulation simulation, View view) {
         //view.onUpdate(simulation);
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1200,1000);
         stage.setTitle("Traffic simulator demo");
         stage.setScene(scene);
         stage.show();
