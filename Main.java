@@ -58,7 +58,6 @@ public class Main extends Application {
         Button startButton = new Button("Start simulation");
         startButton.setDefaultButton(true);
         Button cancelButton1 = new Button("Cancel");
-        cancelButton1.setCancelButton(true);
 
         // choose amount of cars
         Label chooseVehicles = new Label("How many vehicles should participate in the simulation?");
@@ -74,10 +73,11 @@ public class Main extends Application {
         // create buttons for main stage
         Button stopButton = new Button("Stop simulation");
         Button pauseButton = new Button("Pause");
+        Button exitButton1 = new Button("Exit");
 
-        javafx.scene.layout.HBox PauseExitButtons = new javafx.scene.layout.HBox(10);
-        PauseExitButtons.setAlignment(Pos.TOP_RIGHT);
-        PauseExitButtons.getChildren().addAll(pauseButton, stopButton);
+        javafx.scene.layout.HBox PauseStopButtons = new javafx.scene.layout.HBox(10);
+        PauseStopButtons.setAlignment(Pos.TOP_RIGHT);
+        PauseStopButtons.getChildren().addAll(pauseButton, stopButton, exitButton1);
 
         Button fastMode = new Button("Fast");
         Button normalMode = new Button("Normal");
@@ -90,12 +90,12 @@ public class Main extends Application {
         speedButtonsRow.getChildren().addAll(speedLabel, slowMode, normalMode, fastMode);
 
         // add button
-        uiLayer.getChildren().addAll(PauseExitButtons, speedButtonsRow);
+        uiLayer.getChildren().addAll(PauseStopButtons, speedButtonsRow);
 
-        PauseExitButtons.setLayoutX(1030); // set the buttons on the pane
-        PauseExitButtons.setLayoutY(0);
+        PauseStopButtons.setLayoutX(980); // set the buttons on the pane
+        PauseStopButtons.setLayoutY(0);
 
-        speedButtonsRow.setLayoutX(5);
+        speedButtonsRow.setLayoutX(10);
         speedButtonsRow.setLayoutY(0);
 
 
@@ -139,13 +139,13 @@ public class Main extends Application {
             }
         };
 
-        EventHandler<ActionEvent> pressExit = new EventHandler<ActionEvent>() {
+        EventHandler<ActionEvent> pressExit1 = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Exit");
-                alert.setHeaderText("You're about to exit!");
-                alert.setContentText("Do you want to exit the simulation?");
+                alert.setHeaderText("Do you want to exit the program?");
+                //alert.setContentText("Do you want to exit the simulation?");
 
                 if (alert.showAndWait().get() == ButtonType.OK) {
                     simulation.stop();
@@ -254,10 +254,18 @@ public class Main extends Application {
                     }
                 };
 
+                EventHandler<ActionEvent> pressFinalExit = new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        simulation.stop();
+                        Platform.exit();
+                    }
+                };
+
                 // restart program
                 restartButton.setOnAction(pressRestart);
                 // exit program
-                exitButton.setOnAction(pressExit);
+                exitButton.setOnAction(pressFinalExit);
             }
         };
 
@@ -270,6 +278,7 @@ public class Main extends Application {
 
         stopButton.setOnAction(pressStop);
         pauseButton.setOnAction(pressPause);
+        exitButton1.setOnAction(pressExit1);
 
 
         // Start popup window
