@@ -34,7 +34,7 @@ public class Main extends Application {
 
         // create popup window
         Stage popup = new Stage(); // new window
-        VBox popupRoot = new VBox(5); // vertical layout with 10 pixels between elements
+        VBox popupRoot = new VBox(10); // vertical layout with 10 pixels between elements
         popupRoot.setAlignment(Pos.BASELINE_CENTER); // centre the elements in the window
 
         // create main window
@@ -284,7 +284,7 @@ public class Main extends Application {
 
 
         // Start popup window
-        Scene popupScene = new Scene(popupRoot, 700, 500);
+        Scene popupScene = new Scene(popupRoot, 500, 300);
         popup.setTitle("Traffic simulator");
         popup.setScene(popupScene);
         popup.initModality(Modality.APPLICATION_MODAL); // so you have to press the button before the main window opens
