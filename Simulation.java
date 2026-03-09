@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /** Simulation is the core component of the traffic simulator.
  * It maintains the current simulation state including vehicles,
@@ -22,7 +23,6 @@ public class Simulation {
     private int tick = 0;
     private int tickSpeedMs = 100;
     private Thread simThread;
-    private int n_vehicles; //amount of vehicles
 
     // Empty constructor
     public Simulation() {}
@@ -125,16 +125,40 @@ public class Simulation {
     }
 
     public int getVehicleAmount() {
-        return n_vehicles;
+        return this.vehicles.size();
     }
 
     public List<Vehicle> getVehicles() {
         return vehicles;
     }
 
+    public void createVehicles(int amount) {
+        Random rand = new Random();
+        ArrayList<Road> roads = this.map.getRoads();
+
+        for (int i = 0; i < amount; i++) {
+
+            Road road = roads.get(rand.nextInt(roads.size())); // random road
+            int lane = rand.nextInt(road.getLanes());// random lane on cell on road
+            int cell = rand.nextInt(road.getLength()); // säkerställer att cellen är inom breakpoints
+
+            RoadPosition startPosition = new RoadPosition(road, lane, cell);
+            VehicleProperties properties = new VehicleProperties(10, 1, 1);
+
+            Vehicle vehicle = new Vehicle(properties, startPosition, 0);
+
+            // If the chosen cell is occupied, the vehicle is never created
+            // This needs to be changed to find a new position instead
+            if (!road.isOccupied(lane, cell)) {
+                this.vehicles.add(vehicle);
+                road.enterVehicle(vehicle, lane, cell);
+            }
+
+        }
+    }
+
     public void addVehicle(Vehicle newVehicle, RoadPosition startPosition) {
         vehicles.add(newVehicle);
-        n_vehicles = vehicles.size();
 
         if (startPosition != null && startPosition.road() != null) {
             newVehicle.setPosition(startPosition);

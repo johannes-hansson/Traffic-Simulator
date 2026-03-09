@@ -1,11 +1,8 @@
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
-
-
-
+import java.util.Map;
 
 public class View implements SimulationUpdateListener {
 
@@ -39,23 +36,21 @@ public class View implements SimulationUpdateListener {
             }*/
 
             for (Vehicle vehicle : simulation.getVehicles()){
-                Rectangle r = vehicle.getGraphic(); // get the rectangle that represents the car
-                if (r == null){
-                    System.out.println("Vehicle graphic is null for vehicle at cell " + vehicle.getPosition().cell());
+                Rectangle vehicleGraphic = vehicle.getGraphic(); // get the rectangle that represents the car
+                
+                // Check the the vehicle graphic exists and create one otherwise
+                if (vehicleGraphic == null) {
+                    Rectangle vehicleGraphic = new Rectangle(4, 8);
+                    vehicleGraphic.setFill(Color.RED);
+
+                    vehicle.setGraphic(vehicleGraphic); // connect to the graphics
                 }
-                if(!vehicleLayer.getChildren().contains(r)){ // check if r already exist, otherwise add
+
+                // Check if the vehicle graphic exists in the vehicle layer
+                // Add it otherwise
+                if(!vehicleLayer.getChildren().contains(r)) {
                     vehicleLayer.getChildren().add(r);
-
                 }
-
-                // get cars current position
-                /*Road road = vehicle.getPosition().road();
-                int cell = vehicle.getPosition().cell();
-                BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
-
-                // move rectangle to new position
-                r.setX(position.x() - r.getWidth()/2);
-                r.setY(position.y() - r.getHeight()/2);*/
 
                 Road road = vehicle.getPosition().road();
                 int cell = vehicle.getPosition().cell();
@@ -65,7 +60,6 @@ public class View implements SimulationUpdateListener {
 
                 BreakPoint p1 = points.get(0);
                 BreakPoint p2 = points.get(1);
-
 
                 for(int i = 0; i < points.size()-1; i++){
                     if(cell >= points.get(i).cell() && cell <= points.get(i+1).cell()){
@@ -89,7 +83,6 @@ public class View implements SimulationUpdateListener {
 
                 r.setX(x - r.getWidth()/2);
                 r.setY(y - r.getHeight()/2);
-
             }
 
             // here we can add drawing cars and traffic lights etc

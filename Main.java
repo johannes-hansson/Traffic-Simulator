@@ -77,7 +77,7 @@ public class Main extends Application {
                     simulation.setVehicleBehaviour(new VehicleBehaviour());
 
                     popup.close();// close popup when pressing button
-                    createVehicles(simulation, nCars, vehicleLayer);
+                    simulation.createVehicles(nCars);
                     showSimulationWindow(primaryStage, root, simulation, view); // start simulation
 
                 } catch (NumberFormatException e) {
@@ -199,93 +199,6 @@ public class Main extends Application {
 
         simulation.setTickSpeedMs(100);
         simulation.start();
-    }
-
-    private void createVehicles(Simulation simulation, int numberCars, Pane simulationPane) {
-
-        Random rand = new Random();
-        ArrayList<Road> roads = simulation.getMap().getRoads();
-        System.out.println("Number of roads: " + roads.size());
-
-        for (int i = 0; i < numberCars; i++) {
-
-            Road road = roads.get(rand.nextInt(roads.size())); // random road
-            //int cell = rand.nextInt(road.getLength());
-            int lane = rand.nextInt(road.getLanes());// random lane on cell on road
-
-            ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
-            if (points.size() < 2) continue; // om det inte finns tillräckligt med punkter, hoppa över
-
-            int maxCell = points.get(points.size() - 1).cell(); // högsta cell på vägen
-            int cell = rand.nextInt(maxCell); // säkerställer att cellen är inom breakpoints
-
-            RoadPosition startPosition = new RoadPosition(road, lane, cell);
-            VehicleProperties properties = new VehicleProperties(10, 1, 1);
-            Vehicle car = new Vehicle(properties, startPosition, 0);
-
-
-            //System.out.println("Randomnum: " + cell + " " + lane + "Road name: " + road.name);
-
-            BreakPoint p1 = points.get(0);
-            BreakPoint p2 = points.get(1);
-
-            for (int j = 0; j < points.size() - 1; j++) {
-                if (cell >= points.get(j).cell() && cell <= points.get(j + 1).cell()) {
-                    p1 = points.get(j);
-                    p2 = points.get(j + 1);
-                    break;
-                }
-            }
-
-            //double t = (double)(cell - p1.cell()) / (p2.cell() - p1.cell());
-            double cellDiff = (p2.cell() - p1.cell());
-            double t = 0;
-
-            if (cellDiff != 0) {
-                t = (double) (cell - p1.cell()) / cellDiff;
-            }
-
-            t = Math.max(0, Math.min(1, t));
-
-            double xPos = p1.x() + (p2.x() - p1.x()) * t;
-            double yPos = p1.y() + (p2.y() - p1.y()) * t;
-
-            // the visual rectangle
-
-
-            Rectangle carRectangle = new Rectangle(4, 8);
-            carRectangle.setFill(Color.RED);
-
-            carRectangle.setX(xPos - carRectangle.getWidth() / 2);
-            carRectangle.setY(yPos - carRectangle.getHeight() / 2);
-
-            // place car att right position based on breakpoints
-            //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell);
-
-            //BreakPoint position = road.getRoadRender().getBreakPoints().get(cell % road.getRoadRender().getBreakPoints().size());
-
-            // carRectangle.setX(position.x() - carRectangle.getWidth()/2); // so it gets in the middle of the cell
-            // carRectangle.setY(position.y() - carRectangle.getHeight()/2); // so it gets in the middle of the cell
-
-            //carRectangle.setTranslateX(xPos);
-            // carRectangle.setTranslateY(yPos);
-            //System.out.println("Position: " + xPos + " " + yPos);
-
-            car.setGraphic(carRectangle); // connect to the graphics
-
-            // If the chosen cell is occupied, the vehicle is never created
-            // This needs to be changed to find a new position instead
-            if (!road.isOccupied(lane, cell)) {
-                simulation.addVehicle(car, startPosition); // add car
-                Platform.runLater(() -> {
-                    simulationPane.getChildren().add(carRectangle); // add rectangle for car
-                });
-            }
-
-        }
-        System.out.println("vehicles created: " + numberCars);
-
-
     }
 
     public static void main(String[] args) {
