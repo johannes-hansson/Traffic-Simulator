@@ -19,11 +19,15 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos; // positions
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 //import javafx.scene.paint.Paint;
 
 public class Main extends Application {
+
+    private Button pauseButton; // to be able to use space key for button we need to use it in different functions
 
     @Override
     public void start(Stage primaryStage) {
@@ -37,6 +41,7 @@ public class Main extends Application {
         StackPane root = new StackPane(); // create new stage
 
         Pane roadLayer = new Pane(); // layer for roads
+        roadLayer.setBackground(new Background(new BackgroundFill(Color.GAINSBORO,null,null))); // change background color for simulation
         Pane vehicleLayer = new Pane(); // layer for vehicles
         Pane uiLayer = new Pane();// Layer for the user interface, buttons
 
@@ -69,7 +74,7 @@ public class Main extends Application {
 
         // create buttons for main stage
         Button stopButton = new Button("Stop simulation");
-        Button pauseButton = new Button("Pause");
+        pauseButton = new Button("Pause");
         Button exitButton1 = new Button("Exit program");
 
         javafx.scene.layout.HBox PauseStopButtons = new javafx.scene.layout.HBox(10);
@@ -88,7 +93,7 @@ public class Main extends Application {
         // add button
         uiLayer.getChildren().addAll(PauseStopButtons, speedButtonsRow);
 
-        PauseStopButtons.setLayoutX(930); // set the buttons on the pane
+        PauseStopButtons.setLayoutX(925); // set the buttons on the pane
         PauseStopButtons.setLayoutY(0);
 
         speedButtonsRow.setLayoutX(10);
@@ -154,9 +159,11 @@ public class Main extends Application {
             public void handle(ActionEvent actionEvent) {
                 if(simulation.paused){
                     simulation.resume();
+                    pauseButton.setText("Pause");
                 }
                 else if (simulation.running){
                     simulation.pause();
+                    pauseButton.setText("Resume");
                 };
             }
         };
@@ -227,7 +234,7 @@ public class Main extends Application {
 
                 Scene statsScene = new Scene(statsRoot, 500, 250);
                 statsStage.setScene(statsScene);
-                statsStage.setTitle("Stopped simulation");
+                statsStage.setTitle("Simulation finished");
 
                 statsStage.initModality(Modality.APPLICATION_MODAL);
                 statsStage.show();
@@ -299,9 +306,12 @@ public class Main extends Application {
             if (e.getCode() == KeyCode.SPACE){
                 if(simulation.paused){
                     simulation.resume();
+                    pauseButton.setText("Pause");
+
                 }
                 else if (simulation.running){
                     simulation.pause();
+                    pauseButton.setText("Resume");
                 };
             }
 
