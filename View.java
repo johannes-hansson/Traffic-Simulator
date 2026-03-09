@@ -58,16 +58,21 @@ public class View implements SimulationUpdateListener {
                 ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
                 if (points.size() < 2) continue;
 
-                BreakPoint p1 = points.get(0);
-                BreakPoint p2 = points.get(1);
+                int lowerBreakPointIndex = 0;
+                int upperBreakPointIndex = this.breakPoints.size() - 1;
 
-                for(int i = 0; i < points.size()-1; i++){
-                    if(cell >= points.get(i).cell() && cell <= points.get(i+1).cell()){
-                        p1 = points.get(i);
-                        p2 = points.get(i+1);
-                        break;
+                while (upperBreakPointIndex - lowerBreakPointIndex > 1) {
+                    int middleBreakPointIndex = (int)Math.floor((upperBreakPointIndex + lowerBreakPointIndex) / 2);
+                    BreakPoint middleBreakPoint = this.breakPoints.get(middleBreakPointIndex);
+                    if (middleBreakPoint.cell() >= position.cell()) {
+                        upperBreakPointIndex = middleBreakPointIndex;
+                    } else {
+                        lowerBreakPointIndex = middleBreakPointIndex;
                     }
                 }
+
+                BreakPoint p1 = this.breakPoints.get(lowerBreakPointIndex);
+                BreakPoint p2 = this.breakPoints.get(upperBreakPointIndex);
 
                 double cellDiff = (p2.cell() - p1.cell());
                 double t = 0;
