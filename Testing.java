@@ -4,13 +4,11 @@ import org.junit.Before;   //import for before and after annotations
 import org.junit.After;
 import java.util.ArrayList;
 
-//make sure JUnit 4 is downloaded to your lib
-//With vscode that has "Test Runner for Java" installed -> right click on a function name -> press source action -> generate tests -> enable test libraries -> JUnit 
-
 public class Testing {
     
     private Vehicle vehicle1;
     private Vehicle vehicle2;
+    private Vehicle vehicle3;
     private ArrayList<Vehicle> vehicles;
     private VehicleProperties properties;   //maxVelocity, acceleration, size, VehicleColor color
     private RoadPosition pos1;   //road cell lane
@@ -28,11 +26,11 @@ public class Testing {
         beh = new VehicleBehaviour();
         move = new VehicleMovement();
         vehicles = new ArrayList<>();
-
-        //creations of cars 
-        properties = new VehicleProperties(10, 1, 1);
         Node node = null; 
         road = new Road(node, 20, 1, null, "TestRoad");
+
+        //creations of cars
+        properties = new VehicleProperties(5, 1, 1);
 
         pos1 = new RoadPosition(road, 0, 1);
         pos2 = new RoadPosition(road, 0, 5);
@@ -40,9 +38,11 @@ public class Testing {
 
         vehicle1 = new Vehicle(properties, pos1, 5);
         vehicle2 = new Vehicle(properties, pos2, 3);
+        vehicle3 = new Vehicle(properties, pos2, 10);
 
         vehicles.add(vehicle1);
         vehicles.add(vehicle2);
+        vehicles.add(vehicle3);
     }
 
     @After
@@ -50,35 +50,98 @@ public class Testing {
         vehicles.clear();
     }
 
+    @Test 
+    public void testMoveVehiclePosition(){
+        int cellposition1 = vehicle1.getPosition().cell();
+        int cellposition2 = vehicle2.getPosition().cell();
+
+        int currentSpeed1 = vehicle1.getVelocity();
+        int currentSpeed2 = vehicle2.getVelocity();
+
+        //check for updates of all vehicles get right position
+        move.process(vehicles);
+        assertEquals("vehicle1 move success", vehicle1.getPosition().cell(), cellposition1 + currentSpeed1);
+        assertEquals("vehicle2 move success",vehicle2.getPosition().cell(), cellposition2 + currentSpeed2);
+    }
+
+    @Test
+    public void testBehaviorMovement(){  //check change of speed
+    
+        int Speed1 = vehicle1.getVelocity();
+        int Speed2 = vehicle2.getVelocity();
+        int Speed3 = vehicle3.getVelocity();
+
+        //check that behavior prohibits vehicle collisions
+        beh.process(vehicles);
+
+        ////vehicle 3 should not collide or run through vehicle 2 but have slowed down
+        int NewSpeed1 = vehicle1.getVelocity();
+        int NewSpeed2 = vehicle2.getVelocity();
+        int NewSpeed3 = vehicle3.getVelocity();
+
+
+        assertTrue("No cars close enough in front to hinder to go same speed", Speed1 == NewSpeed1 || Speed1 == NewSpeed1--);       
+        //have same speed or 1 less unit speed 
+
+        assertTrue("No cars in front of this vehicle", Speed2 == NewSpeed2 || Speed2 == NewSpeed2--);     
+        //have same speed or 1 less unit speed 
+
+        //have a different slower speed (vehicle 2 is in front)
+        assertNotEquals(Speed3, NewSpeed3); 
+        assertTrue("vehicle have succesfully slowed down", Speed3 > NewSpeed3);       
+        
+        //non negative velocities
+        assertTrue(Speed1 > 0);
+        assertTrue(Speed2 > 0);
+        assertTrue(Speed3 > 0);
+
+        assertTrue(NewSpeed1 > 0);
+        assertTrue(NewSpeed2 > 0);
+        assertTrue(NewSpeed3 > 0);
+    }
+
+      @Test
+    public void testRandomisation(){
+        //test random decrease of one time unit
+        boolean decreasedVelocity = false;
+        boolean sameVelocity = false;
+
+        for(int i=1; i<100; i++){
+            Vehicle vehicleX = new Vehicle(properties, pos1, 5);
+            int prev_velocity = vehicleX.getVelocity();
+            int newVelocity = beh.randomisation(vehicleX, 0.5);
+
+            if(newVelocity == prev_velocity-1){
+                decreasedVelocity = true;
+            }
+            else if(newVelocity == prev_velocity){
+                sameVelocity = true;
+            }
+            else{
+                fail("Invalid velocity change" + newVelocity);
+            }
+            if(decreasedVelocity == true && sameVelocity == true){
+                break;
+            }
+        }
+        assertTrue("Decrease happened", decreasedVelocity);
+        assertTrue("Same velocity", sameVelocity);
+    }
+
     @Test
     public void testAccelerate(){
         int prev_velocity = vehicle1.getVelocity();
         int newVelocity = beh.accelerate(vehicle1);
-        assertTrue(prev_velocity+1 == newVelocity);
+        assertEquals("Acceleration function success", prev_velocity++, newVelocity);
     }
 
     @Test
-    public void testDeaccelerate(){ //deaccelerate needs to get its latest update to work
+    public void testDeaccelerate(){ 
         int prev_velocity = vehicle1.getVelocity();
         int newVelocity = beh.deaccelerate(vehicle1);
-        assertTrue(prev_velocity >= newVelocity);
+        assertTrue("Deaccelerate function success", prev_velocity >= newVelocity);
     }
 
-    @Test
-    public void testRandomisation(){
-        int prev_velocity = vehicle1.getVelocity();
-        int newVelocity = beh.randomisation(vehicle1, 0.5);
-        assertTrue(prev_velocity-1 ==  newVelocity || prev_velocity == newVelocity);
-    }
-
-    @Test 
-    public void testMoveVehicle(){
-        beh.process(vehicles);
-        move.process(vehicles);
-
-        System.out.println("vehicle1: " + vehicle1.getPosition() + "vehicle 2: " + vehicle2.getPosition());
-
-    }
 
     @Test
     public void testStatistics(){
