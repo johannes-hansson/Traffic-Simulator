@@ -58,8 +58,12 @@ public class MockNode implements Node {
     }
 
     private Connection[] connections;
+    private double[] position;
+    private double width;
 
-    public MockNode() {
+    public MockNode(double[] position, double width) {
+        this.position = position;
+        this.width = width;
         this.connections = new Connection[] {
             new Connection(0),
             new Connection(1),
@@ -212,4 +216,12 @@ public class MockNode implements Node {
     public boolean requestTurn(Road incoming, Road outgoing) {
         return true;
     };
+
+    public double[] getPosition() {
+        return this.position;
+    }
+
+    public double getWidth() {
+        return this.width;
+    }
 }
