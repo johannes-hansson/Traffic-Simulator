@@ -50,6 +50,7 @@ public class Testing {
         vehicles.clear();
     }
 
+    
     @Test 
     public void testMoveVehiclePosition(){
         int cellposition1 = vehicle1.getPosition().cell();
@@ -66,7 +67,7 @@ public class Testing {
 
     @Test
     public void testBehaviorMovement(){  //check change of speed
-    
+
         int Speed1 = vehicle1.getVelocity();
         int Speed2 = vehicle2.getVelocity();
         int Speed3 = vehicle3.getVelocity();
