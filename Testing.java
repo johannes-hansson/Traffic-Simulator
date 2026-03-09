@@ -18,13 +18,18 @@ public class Testing {
     private RoadPosition pos3;
     private Road road; 
     private VehicleBehaviour beh;
-    //private VehicleMovement move;
+    private VehicleMovement move;
+    private Simulation sim; 
 
     @Before //each test
    public void setUp(){
+        //create new objects
+        sim = new Simulation();
         beh = new VehicleBehaviour();
+        move = new VehicleMovement();
         vehicles = new ArrayList<>();
 
+        //creations of cars 
         properties = new VehicleProperties(10, 1, 1);
         Node node = null; 
         road = new Road(node, 20, 1, null, "TestRoad");
@@ -68,7 +73,19 @@ public class Testing {
 
     @Test 
     public void testMoveVehicle(){
-        
+        beh.process(vehicles);
+        move.process(vehicles);
+
+        System.out.println("vehicle1: " + vehicle1.getPosition() + "vehicle 2: " + vehicle2.getPosition());
+
     }
+
+    @Test
+    public void testStatistics(){
+
+    }
+    
+    //@Test
+    //public void 
 
 }
