@@ -217,9 +217,9 @@ public class Simulation {
             );
             */
 
-            Road road = roads.get(rand.nextInt(roads.size());
-            int lane = rand.nextInt(road.getLanes);
-            int cell = rand.nextInt(road.getLength);
+            Road road = roads.get(rand.nextInt(roads.size()));
+            int lane = rand.nextInt(road.getLanes());
+            int cell = rand.nextInt(road.getLength());
 
             if (road.isOccupied(lane, cell)) continue;
 
@@ -230,7 +230,7 @@ public class Simulation {
             Vehicle vehicle = new Vehicle(properties, startPosition, 0);
             
             this.vehicles.add(vehicle);
-            road.enterVehicle(vehicle, currentLaneIndex, currentCellIndex);
+            road.enterVehicle(vehicle, lane, cell);
         }
     }
 
