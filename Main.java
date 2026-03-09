@@ -44,7 +44,10 @@ public class Main extends Application {
 
         Simulation simulation = new Simulation(); // create simulation
         View view = new View(roadLayer, vehicleLayer);// create view, connect too root
+        SimulationStatistics statistics = new SimulationStatistics();
+
         simulation.addUpdateListener(view); // add view as listener to simulation
+        simulation.addUpdateListener(statistics);
         // VBox rootLayout = new VBox(10);
 
 
@@ -126,9 +129,20 @@ public class Main extends Application {
                 statsArea.setPrefSize(300, 100);
 
                 // change these stats later
+                SimulationStatistics.TickStats latest = statistics.getLatest();
+
                 statsArea.setText(
-                        "Simulation finished\n" + "Ticks: " + simulation.getTick() + "\n" + "Vehicles: " + simulation.getVehicles().size()
+                        "Simulation finished\n" +
+                        "Ticks: " + latest.tick() + "\n" +
+                        "Vehicles: " + latest.vehicleCount() + "\n" +
+                        "Average velocity: " + String.format("%.2f",latest.avgVelocity()) + "\n" +
+                        "Max velocity: " + latest.maxVelocity() + "\n" +
+                        "Stopped vehicles: " + latest.stoppedCount() + "\n" +
+                        "Jammed vehicles: " + latest.jammedCount() + "\n" +
+                        "Collision risk vechiles:" + latest.collisionRiskCount() + "\n" +
+                        "Avrage gap: " + String.format("%.2f",latest.avgGap())
                 );
+
                 statsArea.setEditable(false); // make so you cant write in teh box
 
                 Button restartButton = new Button("Restart program");
