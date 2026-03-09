@@ -2,7 +2,6 @@ import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class View implements SimulationUpdateListener {
 

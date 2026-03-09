@@ -141,9 +141,19 @@ public class Simulation {
 
         for (int i = 0; i < amount; i++) {
 
-            Road road = roads.get(rand.nextInt(roads.size())); // random road
-            int lane = rand.nextInt(road.getLanes());// random lane on cell on road
-            int cell = rand.nextInt(road.getLength()); // säkerställer att cellen är inom breakpoints
+            // Define an initial position
+            int startRoadIndex = rand.nextInt(roads.size());
+            Road currentRoad = roads.get(startRoadIndex);
+            int startLaneIndex = rand.nextInt(currentRoad.getLanes());
+            int startCellIndex = rand.nextInt(currentRoad.getLength());
+
+            int currentLaneIndex = startLaneIndex;
+            int currentCellIndex = startCellIndex;
+
+            // Change the position if it is not available
+            while (currentRoad.isOccupied(currentLaneIndex, currentCellIndex)) {
+                // Attempt to increment the cell
+            }
 
             RoadPosition startPosition = new RoadPosition(road, lane, cell);
             VehicleProperties properties = this.propertiesRegistry.getVehicleProperties("car");
