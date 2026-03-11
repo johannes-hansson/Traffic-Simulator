@@ -7,6 +7,7 @@ public class Map {
 
     private ArrayList<Node> nodes;
     private ArrayList<Road> roads;
+    private ArrayList<Infrastructure> infrastructures;
 
     public Map() {
         MockNode node1 = new MockNode(new double[]{100, 100}, 50);
@@ -60,8 +61,13 @@ public class Map {
 
         this.nodes = new ArrayList<>();
         this.roads = new ArrayList<>();
+        this.infrastructures = new ArrayList<>();
 
         this.nodes.add(node1);
+
+        // Att lägga till trafikljus till listan med infrastrukturer på det här sättet
+        // är fult, men inte tillräckligt fult för att jag ska orka att göra det bättre
+        this.infrastructures.add(node1.getTrafficLight());
 
         this.roads.add(road1);
         //this.roads.add(road2);*/
@@ -74,5 +80,8 @@ public class Map {
     public ArrayList<Road> getRoads() {
         return this.roads;
     }
-    
+
+    public ArrayList<Infrastructure> getInfrastructures() {
+        return this.infrastructures;
+    }
 }

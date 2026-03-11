@@ -329,7 +329,7 @@ public class Simulation {
         tick++;
 
 
-       // updateInfrastructure();      // traffic lights, intersections
+        updateInfrastructure();      // traffic lights, intersections
         computeVehicleBehaviour();   // acceleration, deceleration, lane decisions
         moveVehicles();              // apply movement
         notifyListeners();          // Notify observers/UI/stats plugins
@@ -353,10 +353,11 @@ public class Simulation {
         //vehicleMovement.move(vehicles, locationalMap);
     }
 
-    //private void updateInfrastructure() {
-
-        // TODO traffic lights, intersection logic
-    //}
+    private void updateInfrastructure() {
+        for (Infrastructure infrastructure : this.map.getInfrastructures()) {
+            infrastructure.update();
+        }
+    }
 
     // TODO: delegate statistics collection to SimulationStatistics
 }
