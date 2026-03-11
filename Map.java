@@ -47,8 +47,8 @@ public class Map {
         /* Road road2 = new Road(node1, 100, 2);
         road2.setRoadRender(render2);*/
 
-        node1.addIncomingRoad(road1, MockNode.Direction.NORTH);
-        node1.addOutgoingRoad(road1, MockNode.Direction.SOUTH);
+        node1.addIncomingRoad(road1, CardinalDirection.NORTH);
+        node1.addOutgoingRoad(road1, CardinalDirection.SOUTH);
 
         /*
         node1.addOutgoingRoad(road1, MockNode.Direction.NORTH);

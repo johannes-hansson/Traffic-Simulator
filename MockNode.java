@@ -10,23 +10,6 @@ public class MockNode implements Node {
         RIGHT,
     }
 
-    public enum Direction {
-        NORTH(0),
-        EAST(1),
-        SOUTH(2),
-        WEST(3);
-
-        private int intDirection;
-
-        private Direction(int intDirection) {
-            this.intDirection = intDirection;
-        }
-
-        public int getIntDirection() {
-            return this.intDirection;
-        }
-    }
-
     private class Connection {
         Road inRoad;
         Road outRoad;
@@ -72,12 +55,12 @@ public class MockNode implements Node {
         };
     }
 
-    public void addIncomingRoad(Road incoming, Direction direction) {
+    public void addIncomingRoad(Road incoming, CardinalDirection direction) {
         Connection connection = this.connections[direction.getIntDirection()];
         connection.setInRoad(incoming);
     }
 
-    public void addOutgoingRoad(Road outgoing, Direction direction) {
+    public void addOutgoingRoad(Road outgoing, CardinalDirection direction) {
         Connection connection = this.connections[direction.getIntDirection()];
         connection.setOutRoad(outgoing);
     }
@@ -216,6 +199,36 @@ public class MockNode implements Node {
     public boolean requestTurn(Road incoming, Road outgoing) {
         return true;
     };
+
+    public ArrayList<Road> getOpenRoads() {
+        ArrayList<Road> openRoads = new ArrayList<>();
+
+        for (int intDirection = 0; intDirection < 4; intDirection++) {
+            if (this.connections[intDirection].getInRoad() != null) {
+                openRoads.add(this.connections[intDirection].getInRoad());
+                break;
+            }
+        }
+
+        return openRoads;
+    }
+
+    public ArrayList<Road> getClosedRoads() {
+        ArrayList<Road> closedRoads = new ArrayList<>();
+
+        boolean roadFound = false;
+        for (int intDirection = 0; intDirection < 4; intDirection++) {
+            if (this.connections[intDirection].getInRoad() != null) {
+                if (!roadFound) {
+                    roadFound = true;
+                    continue;
+                }
+                closedRoads.add(this.connections[intDirection].getInRoad());
+            }
+        }
+
+        return closedRoads;
+    }
 
     public double[] getPosition() {
         return this.position;
