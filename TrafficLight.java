@@ -101,4 +101,13 @@ public class TrafficLight implements Infrastructure {
     public boolean hasGreen(Road road) {
         return this.inRoads[this.activeGreen] == road;
     }
+
+    // Hjälpmetoder för test/debug
+    public int getActiveGreenIndex() {
+        return activeGreen;
+    }
+
+    public int getCurrentGreenTime() {
+        return currentGreenTime;
+    }
 }

@@ -1,7 +1,8 @@
 public class FelixTestClass {
 
     public static void main(String[] args) throws InterruptedException {
-        // Build a ready-to-run demo simulation (map + behaviour + movement + 2 cars + stats + debug listeners)
+
+       /* // Build a ready-to-run demo simulation (map + behaviour + movement + 2 cars + stats + debug listeners)
         Simulation sim = Simulation.createDemoWithStats();
 
         // Start simulation
@@ -29,5 +30,36 @@ public class FelixTestClass {
 
         // Optional: give the simulation thread a tiny moment to exit cleanly
         Thread.sleep(50);
+        */
+
+        MockNode node = new MockNode(new double[]{0, 0}, 50);
+
+        Road road1 = new Road(node, 100, 1, null, "road1");
+        Road road2 = new Road(node, 100, 1, null, "road2");
+
+        TrafficLight light = new TrafficLight(2);
+        light.addRoad(road1, 0);
+        light.addRoad(road2, 1);
+
+        // Lägg en bil nära slutet av road2 så att den ska räknas som incoming traffic
+        RoadPosition pos = new RoadPosition(road2, 0, 95);
+        VehicleProperties props = new VehicleProperties(5, 1, 1);
+        Vehicle vehicle = new Vehicle(props, pos, 0);
+        road2.enterVehicle(vehicle, 0, 95);
+
+        System.out.println("Start:");
+        System.out.println("road1 green? " + light.hasGreen(road1));
+        System.out.println("road2 green? " + light.hasGreen(road2));
+        System.out.println("activeGreenIndex = " + light.getActiveGreenIndex());
+
+        for (int i = 1; i <= 10; i++) {
+            light.update();
+            System.out.println("Tick " + i);
+            System.out.println("road1 green? " + light.hasGreen(road1));
+            System.out.println("road2 green? " + light.hasGreen(road2));
+            System.out.println("activeGreenIndex = " + light.getActiveGreenIndex());
+            System.out.println("greenTime = " + light.getCurrentGreenTime());
+            System.out.println();
+        }
     }
 }
