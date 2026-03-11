@@ -18,12 +18,10 @@ public class Map {
 
 
         // lägg till intersections (hörn)
-        MockNode ah1 = new MockNode(new double[]{30, 100}, 50);
-        MockNode ah2 = new MockNode(new double[]{30, 150}, 50);
+        MockNode ch1 = new MockNode(new double[]{30, 50}, 50);
 
         // lägg till i nodes lista
-        nodes.add(ah1);
-        nodes.add(ah2);
+        nodes.add(ch1);
 
         // -----
 
@@ -34,33 +32,28 @@ public class Map {
 
 
         // gör roadrenders -> riktningarna
-        RoadRender rar13 = new RoadRender(10, new BreakPoint[] {
-            new BreakPoint(30,100,0), // start vänster hörn
-            new BreakPoint(170,100,140),
+
+        RoadRender rcr12 = new RoadRender(10, new BreakPoint[]{
+            new BreakPoint(30, 550, 0),
+            new BreakPoint(300, 550, 280),
         });
-        
-        RoadRender rar12 = new RoadRender(10, new BreakPoint[] {
-        new BreakPoint(30,150,0 ), 
-        new BreakPoint(30,100,50),
-    });
 
 
         // gör vägarna
-        Road ar13 = new Road(ah1, 140, 1, rar13, "ah1");
-        Road ar12 = new Road(ah1, 140, 1, rar12, "ah2");
+        Road cr12 = new Road(ch1, 280, 1, rcr12, "cr1");
 
         // lägg till vägarna i listan roads
-        roads.add(ar13);
-        roads.add(ar12);
+       
+        roads.add(cr12);
 
         // lägg till rikningen till vägen
-        ar13.setRoadRender(rar13);
-        ar12.setRoadRender(rar12);
+        cr12.setRoadRender(rcr12);
 
 
         // koppla roads i intersection (mocknode)
-        ah1.addOutgoingRoad(ar13, CardinalDirection.EAST);
-        ah1.addIncomingRoad(ar12, CardinalDirection.SOUTH);
+        ch1.addOutgoingRoad(cr12, CardinalDirection.SOUTH);
+       
+        //ch1.addIncomingRoad(cr12, CardinalDirection.SOUTH);
 
     }
 
