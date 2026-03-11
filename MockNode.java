@@ -211,9 +211,9 @@ public class MockNode implements Node {
         ArrayList<Road> openRoads = new ArrayList<>();
 
         for (int intDirection = 0; intDirection < 4; intDirection++) {
-            if (this.connections[intDirection].getInRoad() != null) {
+            Road inRoad = this.connections[intDirection].getInRoad();
+            if (inRoad != null && this.trafficLight.hasGreen(inRoad)) {
                 openRoads.add(this.connections[intDirection].getInRoad());
-                break;
             }
         }
 
@@ -223,13 +223,9 @@ public class MockNode implements Node {
     public ArrayList<Road> getClosedRoads() {
         ArrayList<Road> closedRoads = new ArrayList<>();
 
-        boolean roadFound = false;
         for (int intDirection = 0; intDirection < 4; intDirection++) {
-            if (this.connections[intDirection].getInRoad() != null) {
-                if (!roadFound) {
-                    roadFound = true;
-                    continue;
-                }
+            Road inRoad = this.connections[intDirection].getInRoad();
+            if (inRoad != null && !this.trafficLight.hasGreen(inRoad)) {
                 closedRoads.add(this.connections[intDirection].getInRoad());
             }
         }
