@@ -142,19 +142,20 @@ public class Simulation {
         for (int i = 0; i < amount; i++) {
 
             // Define an initial position
-            /*
+
             boolean availableSpaceFound = false;
+
             int startRoadIndex = rand.nextInt(roads.size());
-            
             int currentRoadIndex = startRoadIndex;
             int currentLaneIndex = 0;
             int currentCellIndex = 0;
+
             while (!availableSpaceFound) {
                 Road road = roads.get(currentRoadIndex);
                 int startLaneIndex = rand.nextInt(road.getLanes());
                 int startCellIndex = rand.nextInt(road.getLength());
-
                 currentLaneIndex = startLaneIndex;
+
                 while (!availableSpaceFound) {
                     currentCellIndex = startCellIndex;
 
@@ -206,6 +207,7 @@ public class Simulation {
             }
 
             if (!availableSpaceFound) {
+                System.out.println("Map full, stopped at " + vehicles.size() + " vehicles");
                 return;
             }
 
@@ -215,22 +217,13 @@ public class Simulation {
                 currentLaneIndex,
                 currentCellIndex
             );
-            */
-
-            Road road = roads.get(rand.nextInt(roads.size()));
-            int lane = rand.nextInt(road.getLanes());
-            int cell = rand.nextInt(road.getLength());
-
-            if (road.isOccupied(lane, cell)) continue;
-
-            RoadPosition startPosition = new RoadPosition(road, lane, cell);
             
             VehicleProperties properties = this.propertiesRegistry.getVehicleProperties("car");
 
             Vehicle vehicle = new Vehicle(properties, startPosition, 0);
             
             this.vehicles.add(vehicle);
-            road.enterVehicle(vehicle, lane, cell);
+            road.enterVehicle(vehicle, currentLaneIndex, currentCellIndex);
         }
     }
 
