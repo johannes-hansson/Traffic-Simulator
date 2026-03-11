@@ -38,6 +38,7 @@ public class Map {
             new BreakPoint(30,100,0), // start vänster hörn
             new BreakPoint(170,100,140),
         });
+        
         RoadRender rar12 = new RoadRender(10, new BreakPoint[] {
         new BreakPoint(30,150,0 ), 
         new BreakPoint(30,100,50),
@@ -46,12 +47,12 @@ public class Map {
 
         // gör vägarna
         Road ar13 = new Road(ah1, 140, 1, rar13, "ah1");
-        Road ar12 = new Road(ah1, 140, 1, rar13, "ah1");
+        Road ar12 = new Road(ah1, 140, 1, rar12, "ah2");
 
         // lägg till vägarna i listan roads
         roads.add(ar13);
         roads.add(ar12);
-        
+
         // lägg till rikningen till vägen
         ar13.setRoadRender(rar13);
         ar12.setRoadRender(rar12);
@@ -59,7 +60,6 @@ public class Map {
 
         // koppla roads i intersection (mocknode)
         ah1.addOutgoingRoad(ar13, CardinalDirection.EAST);
-       
         ah1.addIncomingRoad(ar12, CardinalDirection.SOUTH);
 
     }
