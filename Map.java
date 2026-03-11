@@ -20,48 +20,72 @@ public class Map {
         // lägg till intersections (hörn)
         MockNode ah1 = new MockNode(new double[]{30, 100}, 50);
         MockNode ah2 = new MockNode(new double[]{30, 150}, 50);
+        MockNode ah3 = new MockNode(new double[]{170, 100}, 50);
+        MockNode ah4 = new MockNode(new double[]{170, 150}, 50);
 
         // lägg till i nodes lista
         nodes.add(ah1);
         nodes.add(ah2);
+        nodes.add(ah3);
+        nodes.add(ah4);
 
         // -----
 
         // här gör vi traffic lights? och lägger till i infrastructures
-        //infrastructures.add(node1.getTrafficLight());
+        infrastructures.add(ah1.getTrafficLight());
+        infrastructures.add(ah2.getTrafficLight());
+        infrastructures.add(ah3.getTrafficLight());
+        infrastructures.add(ah4.getTrafficLight());
+
 
         // ------
 
-
-        // gör roadrenders -> riktningarna
-        RoadRender rar13 = new RoadRender(10, new BreakPoint[] {
-            new BreakPoint(30,100,0), // start vänster hörn
-            new BreakPoint(170,100,140),
-        });
-        
-        RoadRender rar12 = new RoadRender(10, new BreakPoint[] {
-        new BreakPoint(30,150,0 ), 
-        new BreakPoint(30,100,50),
-    });
-
-
-        // gör vägarna
-        Road ar13 = new Road(ah1, 140, 1, rar13, "ah1");
-        Road ar12 = new Road(ah1, 140, 1, rar12, "ah2");
-
-        // lägg till vägarna i listan roads
-        roads.add(ar13);
-        roads.add(ar12);
-
-        // lägg till rikningen till vägen
-        ar13.setRoadRender(rar13);
-        ar12.setRoadRender(rar12);
+        // gör roads genom funktion
+        createRoad(ah1, ah3, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(30,100,0), // start vänster hörn
+                new BreakPoint(170,100,140),
+        }, "ar13"
+        );
+        createRoad(ah3, ah4, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                new BreakPoint(170,100,0 ),
+                new BreakPoint(170,150,50),
+                }, "ar34"
+        );
+        createRoad(ah2, ah1, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                new BreakPoint(30,150,0 ),
+                new BreakPoint(30,100,50),
+                }, "ar12"
+        );
+        createRoad(ah4, ah2, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(170,150,0),
+                new BreakPoint(30,150,140 ),
+                }, "ar24"
+        );
 
 
-        // koppla roads i intersection (mocknode)
-        ah1.addOutgoingRoad(ar13, CardinalDirection.EAST);
-        ah1.addIncomingRoad(ar12, CardinalDirection.SOUTH);
+    }
 
+    private Road createRoad(
+            MockNode from,
+            MockNode to,
+            CardinalDirection outDir,
+            CardinalDirection inDir,
+            BreakPoint[] points,
+            String name
+    ) {
+
+        RoadRender render = new RoadRender(10, points);
+
+        int length = points[points.length - 1].cell();
+
+        Road road = new Road(to, length, 1, render, name);
+
+        from.addOutgoingRoad(road, outDir); // utgående
+        to.addIncomingRoad(road, inDir); // ingående
+
+        roads.add(road); // lägg till väg
+
+        return road;
     }
 
     public ArrayList<Node> getNodes() {
