@@ -10,17 +10,29 @@ public class Map {
     private ArrayList<Infrastructure> infrastructures;
 
     public Map() {
+
+        // skapa listor
+        nodes = new ArrayList<>();
+        roads = new ArrayList<>();
+        infrastructures = new ArrayList<>();
+
+
+        // lägg till intersections (hörn)
         MockNode node1 = new MockNode(new double[]{100, 100}, 50);
 
-        RoadRender render1 = new RoadRender(10, new BreakPoint[] {
-           /*
-            new BreakPoint(0, 0, 0),
-            new BreakPoint(50, 0, 50),
-            new BreakPoint(50, 50, 100),
-            new BreakPoint(100, 50, 150),
-            new BreakPoint(100, 0, 200),
-            new BreakPoint(200, 0, 300) */
+        // lägg till i nodes lista
+        nodes.add(node1);
 
+        // -----
+
+        // här gör vi traffic lights? och lägger till i infrastructures
+        infrastructures.add(node1.getTrafficLight());
+
+        // ------
+
+
+        // gör roadrenders -> riktningarna
+        RoadRender render1 = new RoadRender(10, new BreakPoint[] {
             new BreakPoint(100,100,0), // start vänster hörn
             new BreakPoint(100,250,150),
             new BreakPoint(700,250,750),
@@ -35,42 +47,25 @@ public class Map {
             new BreakPoint(300,100,3000),
             new BreakPoint(100,100,3200),
 
-
         });
-        /* RoadRender render2 = new RoadRender(10, new BreakPoint[] {
-            new BreakPoint(0, 100, 0),
-            new BreakPoint(99, 100, 99)
-        }); */
 
 
+        // gör vägarna
         Road road1 = new Road(node1, 3200, 1, render1, "väg1");
-        road1.setRoadRender(render1);
-        /* Road road2 = new Road(node1, 100, 2);
-        road2.setRoadRender(render2);*/
 
+        // lägg till vägarna i listan roads
+        roads.add(road1);
+
+        // lägg till rikningen till vägen
+        road1.setRoadRender(render1);
+
+
+
+        // koppla roads i intersection (mocknode)
         node1.addIncomingRoad(road1, CardinalDirection.NORTH);
         node1.addOutgoingRoad(road1, CardinalDirection.SOUTH);
 
-        /*
-        node1.addOutgoingRoad(road1, MockNode.Direction.NORTH);
-        node2.addIncomingRoad(road1, MockNode.Direction.NORTH);
 
-        node2.addOutgoingRoad(road2, MockNode.Direction.SOUTH);
-        node1.addIncomingRoad(road2, MockNode.Direction.SOUTH);
-        */
-
-        this.nodes = new ArrayList<>();
-        this.roads = new ArrayList<>();
-        this.infrastructures = new ArrayList<>();
-
-        this.nodes.add(node1);
-
-        // Att lägga till trafikljus till listan med infrastrukturer på det här sättet
-        // är fult, men inte tillräckligt fult för att jag ska orka att göra det bättre
-        this.infrastructures.add(node1.getTrafficLight());
-
-        this.roads.add(road1);
-        //this.roads.add(road2);*/
     }
 
     public ArrayList<Node> getNodes() {
