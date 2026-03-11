@@ -18,53 +18,49 @@ public class Map {
 
 
         // lägg till intersections (hörn)
-        MockNode node1 = new MockNode(new double[]{100, 100}, 50);
+        MockNode ah1 = new MockNode(new double[]{30, 100}, 50);
+        MockNode ah2 = new MockNode(new double[]{30, 150}, 50);
 
         // lägg till i nodes lista
-        nodes.add(node1);
+        nodes.add(ah1);
+        nodes.add(ah2);
 
         // -----
 
         // här gör vi traffic lights? och lägger till i infrastructures
-        infrastructures.add(node1.getTrafficLight());
+        //infrastructures.add(node1.getTrafficLight());
 
         // ------
 
 
         // gör roadrenders -> riktningarna
-        RoadRender render1 = new RoadRender(10, new BreakPoint[] {
-            new BreakPoint(100,100,0), // start vänster hörn
-            new BreakPoint(100,250,150),
-            new BreakPoint(700,250,750),
-            new BreakPoint(700,100,900),
-            new BreakPoint(500,100,1100),
-            new BreakPoint(500,500,1500),
-            new BreakPoint(700,500,1700),
-            new BreakPoint(700,350,1850),
-            new BreakPoint(100,350,2450),
-            new BreakPoint(100,500,2600),
-            new BreakPoint(300,500,2800),
-            new BreakPoint(300,100,3000),
-            new BreakPoint(100,100,3200),
-
+        RoadRender rar13 = new RoadRender(10, new BreakPoint[] {
+            new BreakPoint(30,100,0), // start vänster hörn
+            new BreakPoint(170,100,140),
         });
+        RoadRender rar12 = new RoadRender(10, new BreakPoint[] {
+        new BreakPoint(30,150,0 ), 
+        new BreakPoint(30,100,50),
+    });
 
 
         // gör vägarna
-        Road road1 = new Road(node1, 3200, 1, render1, "väg1");
+        Road ar13 = new Road(ah1, 140, 1, rar13, "ah1");
+        Road ar12 = new Road(ah1, 140, 1, rar13, "ah1");
 
         // lägg till vägarna i listan roads
-        roads.add(road1);
-
+        roads.add(ar13);
+        roads.add(ar12);
+        
         // lägg till rikningen till vägen
-        road1.setRoadRender(render1);
-
+        ar13.setRoadRender(rar13);
+        ar12.setRoadRender(rar12);
 
 
         // koppla roads i intersection (mocknode)
-        node1.addIncomingRoad(road1, CardinalDirection.NORTH);
-        node1.addOutgoingRoad(road1, CardinalDirection.SOUTH);
-
+        ah1.addOutgoingRoad(ar13, CardinalDirection.EAST);
+       
+        ah1.addIncomingRoad(ar12, CardinalDirection.SOUTH);
 
     }
 
