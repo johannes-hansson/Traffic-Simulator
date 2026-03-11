@@ -93,13 +93,6 @@ public class Simulation {
         this.map = map;
     }
 
-    /*public void setLocationalMap(LocationalMap locationalMap) {
-        this.locationalMap = locationalMap;
-        if (this.locationalMap != null) {
-            this.locationalMap.setSimulation(this);
-        }
-    }*/
-
     public void setVehicleMovement(VehicleMovement vehicleMovement) {
         this.vehicleMovement = vehicleMovement;
     }
@@ -333,7 +326,6 @@ public class Simulation {
 
         vehicleBehaviour.process(vehicles);
 
-       // vehicleBehaviour.computeVelocities(vehicles);
         // future:
         // List<LaneSwitchDecision> decisions = vehicleBehaviour.computeLaneSwitches(...)
     }
@@ -342,8 +334,6 @@ public class Simulation {
         if (vehicleMovement == null) return;
 
         vehicleMovement.process(vehicles);
-      
-        //vehicleMovement.move(vehicles, locationalMap);
     }
 
     private void updateInfrastructure() {
