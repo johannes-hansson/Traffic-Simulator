@@ -40,11 +40,13 @@ public class MockNode implements Node {
         }
     }
 
+    private TrafficLight trafficLight;
     private Connection[] connections;
     private double[] position;
     private double width;
 
     public MockNode(double[] position, double width) {
+        this.trafficLight = new TrafficLight(4);
         this.position = position;
         this.width = width;
         this.connections = new Connection[] {
@@ -55,9 +57,14 @@ public class MockNode implements Node {
         };
     }
 
+    public TrafficLight getTrafficLight() {
+        return this.trafficLight;
+    }
+
     public void addIncomingRoad(Road incoming, CardinalDirection direction) {
         Connection connection = this.connections[direction.getIntDirection()];
         connection.setInRoad(incoming);
+        this.trafficLight.addRoad(incoming, direction.getIntDirection());
     }
 
     public void addOutgoingRoad(Road outgoing, CardinalDirection direction) {
@@ -197,7 +204,7 @@ public class MockNode implements Node {
     };
 
     public boolean requestTurn(Road incoming, Road outgoing) {
-        return true;
+        return this.trafficLight.hasGreen(incoming);
     };
 
     public ArrayList<Road> getOpenRoads() {
