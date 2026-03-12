@@ -1,4 +1,5 @@
 //import java.awt.*;
+import java.util.Random;
 import java.util.ArrayList;
 import javafx.scene.shape.Rectangle;
 /** Base class for all vehicle agents in the simulation.
@@ -23,7 +24,8 @@ public class Vehicle {
         if (roads.size() == 0) {
             return null;
         }
-        return roads.get(0);
+        Random rand = new Random();
+        return roads.get(rand.nextInt(roads.size()));
     }
 
     public int getVelocity() {
