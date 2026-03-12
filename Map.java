@@ -203,7 +203,8 @@ public class Map {
         nodes.add(dh23);
         nodes.add(dh24);
         nodes.add(dh25);
-        
+
+        /*
         for (Node node : nodes) {
             if (node instanceof MockNode mock) {
                 TrafficLight trafficLight = mock.getTrafficLight();
@@ -212,6 +213,7 @@ public class Map {
                 }
             }
         }
+        */
         
         // -----
 
