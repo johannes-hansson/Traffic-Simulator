@@ -112,7 +112,7 @@ public class Testing {
             int prev_velocity = vehicleX.getVelocity();
             int newVelocity = beh.randomisation(vehicleX, 0.5);
 
-            if(newVelocity == prev_velocity-1){
+            if(newVelocity == prev_velocity--){
                 decreasedVelocity = true;
             }
             else if(newVelocity == prev_velocity){
