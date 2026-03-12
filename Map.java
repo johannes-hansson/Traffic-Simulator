@@ -414,8 +414,8 @@ public class Map {
         );
 
         createRoad(ch18, ch15, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(170, 700,0),
-                new BreakPoint(300, 700,130),
+                new BreakPoint(300, 700,0),
+                new BreakPoint(170, 700,130),
                 }, "cr1815"
         );
 
@@ -425,7 +425,7 @@ public class Map {
                 }, "cr1513"
         );
 
-        createRoad(ch14,ch15, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+        createRoad(ch14,ch15, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(170, 650,0),
                 new BreakPoint(170, 700,50),
                 }, "cr1415"
@@ -515,7 +515,7 @@ public class Map {
                 }, "dr31"
         );
 
-        createRoad(dh6, dh8, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+        createRoad(dh6, dh8, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(750, 450, 0),
                 new BreakPoint(900, 450,150),
                 }, "dr68"
@@ -663,10 +663,15 @@ public class Map {
 
         //BETWEEN ZONE B AND C
 
-        createRoad(dh2, ch21, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+        createRoad(dh20, ch21, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
                 new BreakPoint(750, 700, 0),
                 new BreakPoint(450, 700,300),
-                }, "dr221"
+                }, "dr2021"
+        );
+        createRoad(dh21, ch20, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(600, 700, 0),
+                new BreakPoint(450, 700,250),
+                }, "dr2021"
         );
 
         createRoad(ch22, dh1, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
@@ -679,11 +684,7 @@ public class Map {
                 new BreakPoint(450, 500,150),
                 }, "cdr259"
         );
-        createRoad(dh21, ch20, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(600, 600, 0),
-                new BreakPoint(450, 600,150),
-                }, "cdr2021"
-        );
+        
 
         // zon a
         createRoad(ah1, ah3, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
