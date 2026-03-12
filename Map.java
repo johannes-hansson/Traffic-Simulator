@@ -40,6 +40,7 @@ public class Map {
         MockNode ch20 = new MockNode(new double[]{460, 600}, 50, true);
         MockNode ch21 = new MockNode(new double[]{460, 700}, 50, true);
         MockNode ch22 = new MockNode(new double[]{530, 400}, 50, false);
+        MockNode ch23 = new MockNode(new double[]{170, 400}, 50, false);
         
         //zon D
         MockNode dh1 = new MockNode(new double[]{600, 400}, 50, true);
@@ -61,11 +62,12 @@ public class Map {
         MockNode dh18 = new MockNode(new double[]{750, 600}, 50, true);
         MockNode dh19 = new MockNode(new double[]{750, 650}, 50, true);
         MockNode dh20 = new MockNode(new double[]{750, 700}, 50, true);
-        MockNode dh21 = new MockNode(new double[]{600, 600}, 50, false);
+        MockNode dh21 = new MockNode(new double[]{600, 600}, 50, true);
         MockNode dh22 = new MockNode(new double[]{1050, 650}, 50, true); 
         MockNode dh23 = new MockNode(new double[]{1170, 700}, 50, false);
         MockNode dh24 = new MockNode(new double[]{1170, 650}, 50, false);
-        MockNode dh25 = new MockNode(new double[]{600, 500}, 50, false);      
+        MockNode dh25 = new MockNode(new double[]{600, 500}, 50, true); 
+        MockNode dh26 = new MockNode(new double[]{600, 650}, 50, false);        
 
 
         // lägg till i nodes lista
@@ -81,8 +83,8 @@ public class Map {
         MockNode ah8 = new MockNode(new double[]{300, 200}, 50, true);
         MockNode ah9 = new MockNode(new double[]{300, 150}, 50, true);
         MockNode ah10 = new MockNode(new double[]{30, 300}, 50, true);
-        MockNode ah11 = new MockNode(new double[]{300, 250}, 50, false);
-        MockNode ah12 = new MockNode(new double[]{300, 300}, 50, true);
+        MockNode ah11 = new MockNode(new double[]{300, 250}, 50, true);
+        MockNode ah12 = new MockNode(new double[]{300, 300}, 50, false);
         MockNode ah13 = new MockNode(new double[]{170, 300}, 50, false);
         MockNode ah14 = new MockNode(new double[]{550, 300}, 50, true);
         MockNode ah15 = new MockNode(new double[]{300, 50}, 50, false);
@@ -182,6 +184,7 @@ public class Map {
         nodes.add(ch20);
         nodes.add(ch21);
         nodes.add(ch22);
+        nodes.add(ch23);
     
 
         //zon D
@@ -209,6 +212,7 @@ public class Map {
         nodes.add(dh23);
         nodes.add(dh24);
         nodes.add(dh25);
+        nodes.add(dh26);
         
         for (Node node : nodes) {
             if (node instanceof MockNode mock) {
@@ -226,11 +230,17 @@ public class Map {
         
 
         // ZONE C START
-        createRoad(ch1, ch3, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+        createRoad(ch1, ch23, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(30, 400,0),
-                new BreakPoint(450,400,420),
+                new BreakPoint(170,400,140),
                 }, "cr13"
         );
+        createRoad(ch23, ch3, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(170, 400,0),
+                new BreakPoint(450,400,280),
+                }, "cr13"
+        );
+
 
         createRoad(ch2, ch1, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
                 new BreakPoint(30,450,0),
@@ -440,6 +450,16 @@ public class Map {
                 new BreakPoint(600, 400,100),
                 }, "dr251"
         );
+        createRoad(dh26, dh21, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                new BreakPoint(600, 650,0),
+                new BreakPoint(600, 600,50),
+                }, "dr2621"
+        );
+        createRoad(dh19, dh26, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(750, 650,0),
+                new BreakPoint(600, 650,150),
+                }, "dr1926"
+        );
 
         createRoad(dh6, dh8, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(750, 450, 0),
@@ -605,9 +625,9 @@ public class Map {
                 new BreakPoint(600, 400,50),
                 }, "cdr221"
         );
-        createRoad(dh25, ch9, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(600, 500,0),
-                new BreakPoint(450, 500,150),
+        createRoad(ch9, dh25, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(450, 500,0),
+                new BreakPoint(600, 500,150),
                 }, "cdr259"
         );
         
@@ -663,19 +683,19 @@ public class Map {
                         new BreakPoint(30, 200,100),
                 }, "ar107"
         );
-        createRoad(ah13, ah10, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                        new BreakPoint(170, 300,0),
-                        new BreakPoint(30, 300,140),
+        createRoad(ah10, ah13, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                        new BreakPoint(30, 300,0),
+                        new BreakPoint(170, 300,140),
                 }, "ar1310"
         );
-        createRoad(ah12, ah13, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                        new BreakPoint(300, 300,0),
-                        new BreakPoint(170, 300,130),
+        createRoad(ah13, ah12, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                        new BreakPoint(170, 300,0),
+                        new BreakPoint(300, 300,130),
                 }, "ar1213"
         );
-        createRoad(ah11, ah12, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
-                        new BreakPoint(300, 250,0),
-                        new BreakPoint(300, 300,50),
+        createRoad(ah12, ah11, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                        new BreakPoint(300, 300,0),
+                        new BreakPoint(300, 250,50),
                 }, "ar1112"
         );
         createRoad(ah8, ah11, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
@@ -942,6 +962,12 @@ public class Map {
                         new BreakPoint(30, 400,0),
                         new BreakPoint(30, 300,100),
                 }, "ca110"
+        );
+
+        createRoad(ch23, ah13, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                        new BreakPoint(170, 400,0),
+                        new BreakPoint(170, 300,100),
+                }, "cra2313"
         );
         
     }
