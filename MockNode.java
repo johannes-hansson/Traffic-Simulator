@@ -41,12 +41,13 @@ public class MockNode implements Node {
     }
 
     private TrafficLight trafficLight;
+    private boolean hasTrafficLight;
     private Connection[] connections;
     private double[] position;
     private double width;
 
     public MockNode(double[] position, double width, boolean hasTrafficLight) {
-
+        this.hasTrafficLight = hasTrafficLight;
         this.position = position;
         this.width = width;
 
