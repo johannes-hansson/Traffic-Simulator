@@ -50,8 +50,7 @@ public class Simulation {
         RoadPosition start1 = new RoadPosition(road, 0, 10);
         RoadPosition start2 = new RoadPosition(road, 0, 8);
 
-        sim.addVehicle(new Car(start1, 0, VehicleColor.Red), start1);
-        sim.addVehicle(new Car(start2, 3, VehicleColor.blue), start2);
+        sim.createVehicles(2);
 
         // stats plugin
         SimulationStatistics stats = new SimulationStatistics();
@@ -210,8 +209,15 @@ public class Simulation {
                 currentLaneIndex,
                 currentCellIndex
             );
-            
-            VehicleProperties properties = this.propertiesRegistry.getVehicleProperties("car");
+
+            String type;
+            if (rand.nextInt(100) < 80) {
+                type = "car";
+            } else {
+                type = "buss";
+            }
+
+            VehicleProperties properties = this.propertiesRegistry.getVehicleProperties(type);
 
             Vehicle vehicle = new Vehicle(properties, startPosition, 0);
             
