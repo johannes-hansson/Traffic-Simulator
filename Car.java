@@ -1,5 +1,7 @@
 /** Concrete vehicle type representing a car.
  * Configures typical car parameters such as max velocity, size and acceleration via VehicleProperties */
+
+/*
 class Car extends Vehicle { //subclass to vehicle
 
     //Constructor
@@ -24,3 +26,5 @@ class Car extends Vehicle { //subclass to vehicle
             //System.out.println("Color: " + getProperties().color());
         }
     }
+
+ */

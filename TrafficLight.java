@@ -31,6 +31,10 @@ public class TrafficLight implements Infrastructure {
         this.inRoads[index] = road;
     }
 
+    public Road[] getInRoads() {
+        return this.inRoads;
+    }
+
     private boolean hasIncomingTraffic(Road road) {
         int roadLength = road.getLength();
         int scanStart = Math.max(roadLength - this.trafficCheckDistance, 0);

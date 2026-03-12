@@ -3,12 +3,17 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class View implements SimulationUpdateListener {
 
     private Pane roadLayer; // drawing surface
     private Pane vehicleLayer;
     private boolean roadsDrawn = false;
+
+    private ArrayList<Circle> trafficLights = new ArrayList<>();
+    private ArrayList<Node> trafficLightNodes = new ArrayList<>();
+    private boolean trafficLightsCreated = false;
 
     public View(Pane roadLayer, Pane vehicleLayer) {
         this.roadLayer = roadLayer;
@@ -34,10 +39,13 @@ public class View implements SimulationUpdateListener {
             for (Vehicle vehicle : simulation.getVehicles()){
                 Rectangle vehicleGraphic = vehicle.getGraphic(); // get the rectangle that represents the car
                 
-                // Check the the vehicle graphic exists and create one otherwise
+                // Check that the vehicle graphic exists and create one otherwise
                 if (vehicleGraphic == null) {
-                    vehicleGraphic = new Rectangle(4, 8);
-                    vehicleGraphic.setFill(Color.RED);
+                    VehicleProperties properties = vehicle.getProperties();
+                    int[] size = properties.size();
+
+                    vehicleGraphic = new Rectangle(size[0], size[1]);
+                    vehicleGraphic.setFill(properties.color().getJavaFxColor());
 
                     vehicle.setGraphic(vehicleGraphic); // connect to the graphics
                 }
@@ -70,6 +78,10 @@ public class View implements SimulationUpdateListener {
                 BreakPoint p1 = points.get(lowerBreakPointIndex);
                 BreakPoint p2 = points.get(upperBreakPointIndex);
 
+                double breakPointsDeltaX = p2.x() - p1.x();
+                double breakPointsDeltaY = p2.y() - p1.y();
+
+                // Calculate the render position for the vehicle
                 double cellDiff = (p2.cell() - p1.cell());
                 double t = 0;
 
@@ -79,11 +91,64 @@ public class View implements SimulationUpdateListener {
 
                 t = Math.max(0, Math.min(1, t));
 
-                double x = p1.x() + (p2.x() - p1.x()) * t;
-                double y = p1.y() + (p2.y() - p1.y()) * t;
+                double x = p1.x() + (breakPointsDeltaX) * t;
+                double y = p1.y() + (breakPointsDeltaY) * t;
 
                 vehicleGraphic.setX(x - vehicleGraphic.getWidth()/2);
                 vehicleGraphic.setY(y - vehicleGraphic.getHeight()/2);
+
+                // Calculate the tilt of the vehicle
+                double tiltAngleRadians = Math.atan2(breakPointsDeltaY, breakPointsDeltaX);
+                vehicleGraphic.setRotate(tiltAngleRadians * 180 / Math.PI);
+            }
+
+            // draw traffic lights
+            // skapa lampor en gång
+            if (!trafficLightsCreated) {
+                for (Node node : map.getNodes()) {
+
+                    if (node instanceof MockNode mock) { // Only consider nodes that are MockNodes (which can have traffic lights)
+                        TrafficLight light = mock.getTrafficLight();
+                        if (light == null) continue;
+
+                        // Loop over all roads to find the ones that end at this node
+                        for (Road road : roads) {
+                            if (road.getEndNode() == node) {
+                                BreakPoint end = road.getRoadRender().getEndPoint(); // // Get the end point of the road to position the light
+                                // Create a small circle to represent the traffic light
+                                Circle lamp = new Circle(end.x() + 6, end.y() + 6, 5); // position with slight offset
+                                lamp.setFill(Color.RED); // initial color
+
+                                // Save the lamp and the node it belongs to for later updates
+                                trafficLights.add(lamp);
+                                trafficLightNodes.add(node);
+
+                                // Add the lamp to the road layer so it appears on screen
+                                roadLayer.getChildren().add(lamp);
+                            }
+                        }
+                    }
+                }
+                trafficLightsCreated = true;
+            }
+            // update traffic colors in every frame
+            for (int i = 0; i < trafficLights.size(); i++) {
+                Circle lamp = trafficLights.get(i); // get light
+                Node node = trafficLightNodes.get(i); // get node the light belongs to
+
+                if (node instanceof MockNode mock) {
+                    TrafficLight light = mock.getTrafficLight();
+                    if (light == null) continue; // skip if no traffic light
+
+                    // For simplicity, take the first road controlled by this traffic light
+                    Road[] lightRoads = light.getInRoads();
+                    if (lightRoads.length == 0) continue; // skip if no controlled roads
+
+                    Road lampRoad = lightRoads[0];
+
+                    // Set the lamp color based on whether the light is green for that road
+                    lamp.setFill(light.hasGreen(lampRoad) ? Color.LIGHTGREEN : Color.RED);
+                }
             }
 
             // here we can add drawing cars and traffic lights etc
