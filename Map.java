@@ -211,7 +211,7 @@ public class Map {
 
         // här gör vi traffic lights? och lägger till i infrastructures
        
-        infrastructures.add(ch1.getTrafficLight());
+       /*  infrastructures.add(ch1.getTrafficLight());
         infrastructures.add(ch2.getTrafficLight());
         infrastructures.add(ch3.getTrafficLight());
         //infrastructures.add(ch4.getTrafficLight());
@@ -299,7 +299,7 @@ public class Map {
         //infrastructures.add(bh26.getTrafficLight());
         infrastructures.add(bh27.getTrafficLight());
         infrastructures.add(bh28.getTrafficLight());
-        infrastructures.add(bh29.getTrafficLight());
+        infrastructures.add(bh29.getTrafficLight());*/
 
         // gör roads genom funktion
         
