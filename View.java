@@ -3,6 +3,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class View implements SimulationUpdateListener {
 
@@ -34,10 +35,13 @@ public class View implements SimulationUpdateListener {
             for (Vehicle vehicle : simulation.getVehicles()){
                 Rectangle vehicleGraphic = vehicle.getGraphic(); // get the rectangle that represents the car
                 
-                // Check the the vehicle graphic exists and create one otherwise
+                // Check that the vehicle graphic exists and create one otherwise
                 if (vehicleGraphic == null) {
-                    vehicleGraphic = new Rectangle(4, 8);
-                    vehicleGraphic.setFill(Color.RED);
+                    VehicleProperties properties = vehicle.getProperties();
+                    int[] size = properties.size();
+
+                    vehicleGraphic = new Rectangle(size[0], size[1]);
+                    vehicleGraphic.setFill(properties.color().getJavaFxColor());
 
                     vehicle.setGraphic(vehicleGraphic); // connect to the graphics
                 }
@@ -70,6 +74,10 @@ public class View implements SimulationUpdateListener {
                 BreakPoint p1 = points.get(lowerBreakPointIndex);
                 BreakPoint p2 = points.get(upperBreakPointIndex);
 
+                double breakPointsDeltaX = p2.x() - p1.x();
+                double breakPointsDeltaY = p2.y() - p1.y();
+
+                // Calculate the render position for the vehicle
                 double cellDiff = (p2.cell() - p1.cell());
                 double t = 0;
 
@@ -79,11 +87,46 @@ public class View implements SimulationUpdateListener {
 
                 t = Math.max(0, Math.min(1, t));
 
-                double x = p1.x() + (p2.x() - p1.x()) * t;
-                double y = p1.y() + (p2.y() - p1.y()) * t;
+                double x = p1.x() + (breakPointsDeltaX) * t;
+                double y = p1.y() + (breakPointsDeltaY) * t;
 
                 vehicleGraphic.setX(x - vehicleGraphic.getWidth()/2);
                 vehicleGraphic.setY(y - vehicleGraphic.getHeight()/2);
+
+                // Calculate the tilt of the vehicle
+                double tiltAngleRadians = Math.atan2(breakPointsDeltaY, breakPointsDeltaX);
+                vehicleGraphic.setRotate(tiltAngleRadians * 180 / Math.PI);
+            }
+            // remove old traffic lights
+            roadLayer.getChildren().removeIf(node -> node instanceof Circle);
+
+            // draw traffic lights
+            for (Node node : map.getNodes()) {
+
+                if (node instanceof MockNode mock) {
+
+                    TrafficLight light = mock.getTrafficLight();
+
+                    if (light == null) continue;
+
+                    for (Road road : roads) {
+
+                        if (road.getEndNode() == node) {
+
+                            BreakPoint end = road.getRoadRender().getEndPoint();
+
+                            Circle lamp = new Circle(end.x()+6, end.y()+6, 5);
+
+                            if (light.hasGreen(road)) {
+                                lamp.setFill(Color.LIGHTGREEN);
+                            } else {
+                                lamp.setFill(Color.RED);
+                            }
+
+                            roadLayer.getChildren().add(lamp);
+                        }
+                    }
+                }
             }
 
             // here we can add drawing cars and traffic lights etc

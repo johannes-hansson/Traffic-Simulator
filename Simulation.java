@@ -50,8 +50,7 @@ public class Simulation {
         RoadPosition start1 = new RoadPosition(road, 0, 10);
         RoadPosition start2 = new RoadPosition(road, 0, 8);
 
-        sim.addVehicle(new Car(start1, 0, VehicleColor.Red), start1);
-        sim.addVehicle(new Car(start2, 3, VehicleColor.blue), start2);
+        sim.createVehicles(2);
 
         // stats plugin
         SimulationStatistics stats = new SimulationStatistics();
@@ -92,13 +91,6 @@ public class Simulation {
     public void setMap(Map map) {
         this.map = map;
     }
-
-    /*public void setLocationalMap(LocationalMap locationalMap) {
-        this.locationalMap = locationalMap;
-        if (this.locationalMap != null) {
-            this.locationalMap.setSimulation(this);
-        }
-    }*/
 
     public void setVehicleMovement(VehicleMovement vehicleMovement) {
         this.vehicleMovement = vehicleMovement;
@@ -142,19 +134,20 @@ public class Simulation {
         for (int i = 0; i < amount; i++) {
 
             // Define an initial position
-            /*
+
             boolean availableSpaceFound = false;
+
             int startRoadIndex = rand.nextInt(roads.size());
-            
             int currentRoadIndex = startRoadIndex;
             int currentLaneIndex = 0;
             int currentCellIndex = 0;
+
             while (!availableSpaceFound) {
                 Road road = roads.get(currentRoadIndex);
                 int startLaneIndex = rand.nextInt(road.getLanes());
                 int startCellIndex = rand.nextInt(road.getLength());
-
                 currentLaneIndex = startLaneIndex;
+
                 while (!availableSpaceFound) {
                     currentCellIndex = startCellIndex;
 
@@ -206,6 +199,7 @@ public class Simulation {
             }
 
             if (!availableSpaceFound) {
+                System.out.println("Map full, stopped at " + vehicles.size() + " vehicles");
                 return;
             }
 
@@ -215,22 +209,20 @@ public class Simulation {
                 currentLaneIndex,
                 currentCellIndex
             );
-            */
 
-            Road road = roads.get(rand.nextInt(roads.size()));
-            int lane = rand.nextInt(road.getLanes());
-            int cell = rand.nextInt(road.getLength());
+            String type;
+            if (rand.nextInt(100) < 80) {
+                type = "car";
+            } else {
+                type = "buss";
+            }
 
-            if (road.isOccupied(lane, cell)) continue;
-
-            RoadPosition startPosition = new RoadPosition(road, lane, cell);
-            
-            VehicleProperties properties = this.propertiesRegistry.getVehicleProperties("car");
+            VehicleProperties properties = this.propertiesRegistry.getVehicleProperties(type);
 
             Vehicle vehicle = new Vehicle(properties, startPosition, 0);
             
             this.vehicles.add(vehicle);
-            road.enterVehicle(vehicle, lane, cell);
+            road.enterVehicle(vehicle, currentLaneIndex, currentCellIndex);
         }
     }
 
@@ -340,7 +332,6 @@ public class Simulation {
 
         vehicleBehaviour.process(vehicles);
 
-       // vehicleBehaviour.computeVelocities(vehicles);
         // future:
         // List<LaneSwitchDecision> decisions = vehicleBehaviour.computeLaneSwitches(...)
     }
@@ -349,8 +340,6 @@ public class Simulation {
         if (vehicleMovement == null) return;
 
         vehicleMovement.process(vehicles);
-      
-        //vehicleMovement.move(vehicles, locationalMap);
     }
 
     private void updateInfrastructure() {

@@ -12,6 +12,10 @@ public class RoadRender {
     ArrayList<BreakPoint> breakPoints; // Punkter som vägen ritas mellan
     double width; // Vägens bredd
 
+    public BreakPoint getEndPoint() { // get the end of the road
+        return breakPoints.get(breakPoints.size() - 1);
+    }
+
     public RoadRender(int width, BreakPoint[] breakPoints) {
         this.width = width;
         this.breakPoints = new ArrayList<>();
