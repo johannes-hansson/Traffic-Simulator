@@ -796,7 +796,7 @@ public class Map {
         );
         createRoad(ah17, ah9, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
                         new BreakPoint(450, 150,0),
-                        new BreakPoint(300, 150,50),
+                        new BreakPoint(300, 150,150),
                 }, "ar179"
         );
         createRoad(ah18, ah12, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
