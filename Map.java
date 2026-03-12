@@ -10,7 +10,10 @@ public class Map {
     private ArrayList<Infrastructure> infrastructures;
 
     public Map() {
-        MockNode node1 = new MockNode(new double[]{100, 100}, 50);
+
+        // true  = intersection has traffic lights
+        // false = intersection has no traffic lights
+        MockNode node1 = new MockNode(new double[]{100, 100}, 50, true);
 
         RoadRender render1 = new RoadRender(10, new BreakPoint[] {
            /*

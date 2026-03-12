@@ -3,6 +3,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class View implements SimulationUpdateListener {
 
@@ -95,6 +96,37 @@ public class View implements SimulationUpdateListener {
                 // Calculate the tilt of the vehicle
                 double tiltAngleRadians = Math.atan2(breakPointsDeltaY, breakPointsDeltaX);
                 vehicleGraphic.setRotate(tiltAngleRadians * 180 / Math.PI);
+            }
+            // remove old traffic lights
+            roadLayer.getChildren().removeIf(node -> node instanceof Circle);
+
+            // draw traffic lights
+            for (Node node : map.getNodes()) {
+
+                if (node instanceof MockNode mock) {
+
+                    TrafficLight light = mock.getTrafficLight();
+
+                    if (light == null) continue;
+
+                    for (Road road : roads) {
+
+                        if (road.getEndNode() == node) {
+
+                            BreakPoint end = road.getRoadRender().getEndPoint();
+
+                            Circle lamp = new Circle(end.x()+6, end.y()+6, 5);
+
+                            if (light.hasGreen(road)) {
+                                lamp.setFill(Color.LIGHTGREEN);
+                            } else {
+                                lamp.setFill(Color.RED);
+                            }
+
+                            roadLayer.getChildren().add(lamp);
+                        }
+                    }
+                }
             }
 
             // here we can add drawing cars and traffic lights etc

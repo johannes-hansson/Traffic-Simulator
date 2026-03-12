@@ -45,15 +45,22 @@ public class MockNode implements Node {
     private double[] position;
     private double width;
 
-    public MockNode(double[] position, double width) {
-        this.trafficLight = new TrafficLight(4);
+    public MockNode(double[] position, double width, boolean hasTrafficLight) {
+
         this.position = position;
         this.width = width;
+
+        // Only create a traffic light if this intersection should have one
+        // Otherwise trafficLight remains null
+        if(hasTrafficLight){
+            this.trafficLight = new TrafficLight(4);
+        }
+
         this.connections = new Connection[] {
-            new Connection(0),
-            new Connection(1),
-            new Connection(2),
-            new Connection(3),
+                new Connection(0),
+                new Connection(1),
+                new Connection(2),
+                new Connection(3),
         };
     }
 
@@ -64,7 +71,11 @@ public class MockNode implements Node {
     public void addIncomingRoad(Road incoming, CardinalDirection direction) {
         Connection connection = this.connections[direction.getIntDirection()];
         connection.setInRoad(incoming);
-        this.trafficLight.addRoad(incoming, direction.getIntDirection());
+        // Only add the road to the traffic light if this node actually has one
+        // Prevents null pointer errors for intersections without signals
+        if(this.trafficLight != null){
+            this.trafficLight.addRoad(incoming, direction.getIntDirection());
+        }
     }
 
     public void addOutgoingRoad(Road outgoing, CardinalDirection direction) {
@@ -204,8 +215,16 @@ public class MockNode implements Node {
     };
 
     public boolean requestTurn(Road incoming, Road outgoing) {
+
+        // If the intersection has no traffic light,
+        // vehicles are always allowed to pass
+        if(this.trafficLight == null){
+            return true;
+        }
+
+        // Otherwise check if the incoming road currently has a green light
         return this.trafficLight.hasGreen(incoming);
-    };
+    }
 
     public ArrayList<Road> getOpenRoads() {
         ArrayList<Road> openRoads = new ArrayList<>();

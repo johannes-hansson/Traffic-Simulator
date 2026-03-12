@@ -30,7 +30,7 @@ public class Testing {
         road = new Road(node, 20, 1, null, "TestRoad");
 
         //creations of cars
-        properties = new VehicleProperties(5, 1, 1);
+        //properties = new VehicleProperties(5, 1, 1);
 
         pos1 = new RoadPosition(road, 0, 1);
         pos2 = new RoadPosition(road, 0, 5);
