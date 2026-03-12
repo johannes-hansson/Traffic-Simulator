@@ -11,6 +11,10 @@ public class View implements SimulationUpdateListener {
     private Pane vehicleLayer;
     private boolean roadsDrawn = false;
 
+    private ArrayList<Circle> trafficLights = new ArrayList<>();
+    private ArrayList<Node> trafficLightNodes = new ArrayList<>();
+    private boolean trafficLightsCreated = false;
+
     public View(Pane roadLayer, Pane vehicleLayer) {
         this.roadLayer = roadLayer;
         this.vehicleLayer = vehicleLayer;
@@ -97,35 +101,53 @@ public class View implements SimulationUpdateListener {
                 double tiltAngleRadians = Math.atan2(breakPointsDeltaY, breakPointsDeltaX);
                 vehicleGraphic.setRotate(tiltAngleRadians * 180 / Math.PI);
             }
-            // remove old traffic lights
-            roadLayer.getChildren().removeIf(node -> node instanceof Circle);
 
             // draw traffic lights
-            for (Node node : map.getNodes()) {
+            // skapa lampor en gång
+            if (!trafficLightsCreated) {
+                for (Node node : map.getNodes()) {
 
-                if (node instanceof MockNode mock) {
+                    if (node instanceof MockNode mock) { // Only consider nodes that are MockNodes (which can have traffic lights)
+                        TrafficLight light = mock.getTrafficLight();
+                        if (light == null) continue;
 
-                    TrafficLight light = mock.getTrafficLight();
+                        // Loop over all roads to find the ones that end at this node
+                        for (Road road : roads) {
+                            if (road.getEndNode() == node) {
+                                BreakPoint end = road.getRoadRender().getEndPoint(); // // Get the end point of the road to position the light
+                                // Create a small circle to represent the traffic light
+                                Circle lamp = new Circle(end.x() + 6, end.y() + 6, 5); // position with slight offset
+                                lamp.setFill(Color.RED); // initial color
 
-                    if (light == null) continue;
+                                // Save the lamp and the node it belongs to for later updates
+                                trafficLights.add(lamp);
+                                trafficLightNodes.add(node);
 
-                    for (Road road : roads) {
-
-                        if (road.getEndNode() == node) {
-
-                            BreakPoint end = road.getRoadRender().getEndPoint();
-
-                            Circle lamp = new Circle(end.x()+6, end.y()+6, 5);
-
-                            if (light.hasGreen(road)) {
-                                lamp.setFill(Color.LIGHTGREEN);
-                            } else {
-                                lamp.setFill(Color.RED);
+                                // Add the lamp to the road layer so it appears on screen
+                                roadLayer.getChildren().add(lamp);
                             }
-
-                            roadLayer.getChildren().add(lamp);
                         }
                     }
+                }
+                trafficLightsCreated = true;
+            }
+            // update traffic colors in every frame
+            for (int i = 0; i < trafficLights.size(); i++) {
+                Circle lamp = trafficLights.get(i); // get light
+                Node node = trafficLightNodes.get(i); // get node the light belongs to
+
+                if (node instanceof MockNode mock) {
+                    TrafficLight light = mock.getTrafficLight();
+                    if (light == null) continue; // skip if no traffic light
+
+                    // For simplicity, take the first road controlled by this traffic light
+                    Road[] lightRoads = light.getInRoads();
+                    if (lightRoads.length == 0) continue; // skip if no controlled roads
+
+                    Road lampRoad = lightRoads[0];
+
+                    // Set the lamp color based on whether the light is green for that road
+                    lamp.setFill(light.hasGreen(lampRoad) ? Color.LIGHTGREEN : Color.RED);
                 }
             }
 

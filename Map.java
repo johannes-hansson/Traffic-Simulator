@@ -19,47 +19,47 @@ public class Map {
         // lägg till intersections (hörn)
 
         // zon a
-        MockNode ah1 = new MockNode(new double[]{30, 50}, 50);
-        MockNode ah2 = new MockNode(new double[]{30, 100}, 50);
-        MockNode ah3 = new MockNode(new double[]{170, 50}, 50);
-        MockNode ah4 = new MockNode(new double[]{170, 100}, 50);
-        MockNode ah5 = new MockNode(new double[]{30, 150}, 50);
-        MockNode ah6 = new MockNode(new double[]{170, 150}, 50);
-        MockNode ah7 = new MockNode(new double[]{30, 200}, 50);
-        MockNode ah8 = new MockNode(new double[]{300, 200}, 50);
-        MockNode ah9 = new MockNode(new double[]{300, 150}, 50);
-        MockNode ah10 = new MockNode(new double[]{30, 300}, 50);
-        MockNode ah11 = new MockNode(new double[]{300, 250}, 50);
-        MockNode ah12 = new MockNode(new double[]{300, 300}, 50);
-        MockNode ah13 = new MockNode(new double[]{170, 300}, 50);
-        MockNode ah14 = new MockNode(new double[]{550, 300}, 50);
-        MockNode ah15 = new MockNode(new double[]{300, 50}, 50);
-        MockNode ah16 = new MockNode(new double[]{450, 50}, 50);
-        MockNode ah17 = new MockNode(new double[]{450, 150}, 50);
-        MockNode ah18 = new MockNode(new double[]{450, 300}, 50);
+        MockNode ah1 = new MockNode(new double[]{30, 50}, 50, false);
+        MockNode ah2 = new MockNode(new double[]{30, 100}, 50, true);
+        MockNode ah3 = new MockNode(new double[]{170, 50}, 50, false);
+        MockNode ah4 = new MockNode(new double[]{170, 100}, 50, false);
+        MockNode ah5 = new MockNode(new double[]{30, 150}, 50, false);
+        MockNode ah6 = new MockNode(new double[]{170, 150}, 50, false);
+        MockNode ah7 = new MockNode(new double[]{30, 200}, 50, false);
+        MockNode ah8 = new MockNode(new double[]{300, 200}, 50, false);
+        MockNode ah9 = new MockNode(new double[]{300, 150}, 50, false);
+        MockNode ah10 = new MockNode(new double[]{30, 300}, 50, true);
+        MockNode ah11 = new MockNode(new double[]{300, 250}, 50, false);
+        MockNode ah12 = new MockNode(new double[]{300, 300}, 50, true);
+        MockNode ah13 = new MockNode(new double[]{170, 300}, 50, false);
+        MockNode ah14 = new MockNode(new double[]{550, 300}, 50, true);
+        MockNode ah15 = new MockNode(new double[]{300, 50}, 50, false);
+        MockNode ah16 = new MockNode(new double[]{450, 50}, 50, false);
+        MockNode ah17 = new MockNode(new double[]{450, 150}, 50, true);
+        MockNode ah18 = new MockNode(new double[]{450, 300}, 50, false);
 
         // zon b
-        MockNode bh1 = new MockNode(new double[]{600, 50}, 50);
-        MockNode bh2 = new MockNode(new double[]{600, 150}, 50);
-        MockNode bh3 = new MockNode(new double[]{900, 50}, 50);
-        MockNode bh4 = new MockNode(new double[]{900, 100}, 50);
-        MockNode bh5 = new MockNode(new double[]{750, 100}, 50);
-        MockNode bh6 = new MockNode(new double[]{600, 200}, 50);
-        MockNode bh8 = new MockNode(new double[]{750, 150}, 50);
-        MockNode bh9 = new MockNode(new double[]{900, 150}, 50);
-        MockNode bh10 = new MockNode(new double[]{900, 200}, 50);
-        MockNode bh11 = new MockNode(new double[]{750, 200}, 50);
-        MockNode bh12 = new MockNode(new double[]{600, 300}, 50);
-        MockNode bh16 = new MockNode(new double[]{750, 300}, 50);
-        MockNode bh20 = new MockNode(new double[]{900, 300}, 50);
-        MockNode bh22 = new MockNode(new double[]{600, 250}, 50);
-        MockNode bh23 = new MockNode(new double[]{1050, 300}, 50);
-        MockNode bh24 = new MockNode(new double[]{1050, 200}, 50);
-        MockNode bh25 = new MockNode(new double[]{1170, 50}, 50);
-        MockNode bh26 = new MockNode(new double[]{1170, 100}, 50);
-        MockNode bh27 = new MockNode(new double[]{1170, 150}, 50);
-        MockNode bh28 = new MockNode(new double[]{1170, 200}, 50);
-        MockNode bh29 = new MockNode(new double[]{1170, 300}, 50);
+        MockNode bh1 = new MockNode(new double[]{600, 50}, 50, true);
+        MockNode bh2 = new MockNode(new double[]{600, 150}, 50, true);
+        MockNode bh3 = new MockNode(new double[]{900, 50}, 50, false);
+        MockNode bh4 = new MockNode(new double[]{900, 100}, 50, true);
+        MockNode bh5 = new MockNode(new double[]{750, 100}, 50, false);
+        MockNode bh6 = new MockNode(new double[]{600, 200}, 50, false);
+        MockNode bh8 = new MockNode(new double[]{750, 150}, 50, true);
+        MockNode bh9 = new MockNode(new double[]{900, 150}, 50, false);
+        MockNode bh10 = new MockNode(new double[]{900, 200}, 50, true);
+        MockNode bh11 = new MockNode(new double[]{750, 200}, 50, false);
+        MockNode bh12 = new MockNode(new double[]{600, 300}, 50, true);
+        MockNode bh16 = new MockNode(new double[]{750, 300}, 50, false);
+        MockNode bh20 = new MockNode(new double[]{900, 300}, 50, true);
+        MockNode bh22 = new MockNode(new double[]{600, 250}, 50, true);
+        MockNode bh23 = new MockNode(new double[]{1050, 300}, 50, false);
+        MockNode bh24 = new MockNode(new double[]{1050, 200}, 50, true);
+        MockNode bh25 = new MockNode(new double[]{1170, 50}, 50, false);
+        MockNode bh26 = new MockNode(new double[]{1170, 100}, 50, false);
+        MockNode bh27 = new MockNode(new double[]{1170, 150}, 50, true);
+        MockNode bh28 = new MockNode(new double[]{1170, 200}, 50, true);
+        MockNode bh29 = new MockNode(new double[]{1170, 300}, 50, true);
 
 
 
@@ -114,44 +114,44 @@ public class Map {
         // här gör vi traffic lights? och lägger till i infrastructures
 
         // zon a
-        infrastructures.add(ah1.getTrafficLight());
+       // infrastructures.add(ah1.getTrafficLight());
         infrastructures.add(ah2.getTrafficLight());
-        infrastructures.add(ah3.getTrafficLight());
-        infrastructures.add(ah4.getTrafficLight());
-        infrastructures.add(ah5.getTrafficLight());
-        infrastructures.add(ah6.getTrafficLight());
-        infrastructures.add(ah7.getTrafficLight());
-        infrastructures.add(ah8.getTrafficLight());
-        infrastructures.add(ah9.getTrafficLight());
+        // infrastructures.add(ah3.getTrafficLight());
+        // infrastructures.add(ah4.getTrafficLight());
+        // infrastructures.add(ah5.getTrafficLight());
+        //infrastructures.add(ah6.getTrafficLight());
+        //infrastructures.add(ah7.getTrafficLight());
+        // infrastructures.add(ah8.getTrafficLight());
+        //infrastructures.add(ah9.getTrafficLight());
         infrastructures.add(ah10.getTrafficLight());
-        infrastructures.add(ah11.getTrafficLight());
+        //infrastructures.add(ah11.getTrafficLight());
         infrastructures.add(ah12.getTrafficLight());
-        infrastructures.add(ah13.getTrafficLight());
+        //infrastructures.add(ah13.getTrafficLight());
         infrastructures.add(ah14.getTrafficLight());
-        infrastructures.add(ah15.getTrafficLight());
-        infrastructures.add(ah16.getTrafficLight());
+        //infrastructures.add(ah15.getTrafficLight());
+        //infrastructures.add(ah16.getTrafficLight());
         infrastructures.add(ah17.getTrafficLight());
-        infrastructures.add(ah18.getTrafficLight());
+        //infrastructures.add(ah18.getTrafficLight());
 
         // zon b
         infrastructures.add(bh1.getTrafficLight());
         infrastructures.add(bh2.getTrafficLight());
-        infrastructures.add(bh3.getTrafficLight());
+        //infrastructures.add(bh3.getTrafficLight());
         infrastructures.add(bh4.getTrafficLight());
-        infrastructures.add(bh5.getTrafficLight());
-        infrastructures.add(bh6.getTrafficLight());
+        //infrastructures.add(bh5.getTrafficLight());
+        //infrastructures.add(bh6.getTrafficLight());
         infrastructures.add(bh8.getTrafficLight());
-        infrastructures.add(bh9.getTrafficLight());
+       // infrastructures.add(bh9.getTrafficLight());
         infrastructures.add(bh10.getTrafficLight());
-        infrastructures.add(bh11.getTrafficLight());
+       // infrastructures.add(bh11.getTrafficLight());
         infrastructures.add(bh12.getTrafficLight());
-        infrastructures.add(bh16.getTrafficLight());
+       // infrastructures.add(bh16.getTrafficLight());
         infrastructures.add(bh20.getTrafficLight());
         infrastructures.add(bh22.getTrafficLight());
-        infrastructures.add(bh23.getTrafficLight());
+       // infrastructures.add(bh23.getTrafficLight());
         infrastructures.add(bh24.getTrafficLight());
-        infrastructures.add(bh25.getTrafficLight());
-        infrastructures.add(bh26.getTrafficLight());
+        //infrastructures.add(bh25.getTrafficLight());
+        //infrastructures.add(bh26.getTrafficLight());
         infrastructures.add(bh27.getTrafficLight());
         infrastructures.add(bh28.getTrafficLight());
         infrastructures.add(bh29.getTrafficLight());
