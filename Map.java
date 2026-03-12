@@ -276,7 +276,26 @@ public class Map {
         );
 
         // connecting zones a and b
-
+        createRoad(ah16, bh1, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                        new BreakPoint(450, 50,0),
+                        new BreakPoint(600, 50,150),
+                }, "abr161"
+        );
+        createRoad(bh2, ah17, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                        new BreakPoint(600, 150,0),
+                        new BreakPoint(450, 150,150),
+                }, "bar172"
+        );
+        createRoad(ah11, bh22, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                        new BreakPoint(300, 250,0),
+                        new BreakPoint(600, 250,300),
+                }, "abr1122"
+        );
+        createRoad(bh12, ah14, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                        new BreakPoint(600, 300,0),
+                        new BreakPoint(550, 300,50),
+                }, "bar1214"
+        );
 
 
 
