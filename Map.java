@@ -979,9 +979,40 @@ public class Map {
                 }, "br2329"
         );
 
+        //Between zone B and zone C
+        createRoad(bh29, dh10, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                        new BreakPoint(1170, 300,0),
+                        new BreakPoint(1170, 400,100),
+                }, "bdr2910"
+        );
+        createRoad(bh20, dh9, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                        new BreakPoint(900, 300,0),
+                        new BreakPoint(900, 400,100),
+                }, "bdr209"
+        );
+        createRoad(dh2, bh16, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                        new BreakPoint(750, 400,0),
+                        new BreakPoint(750, 300,100),
+                }, "bdr216"
+        );
+        createRoad(dh1, bh12, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                        new BreakPoint(600, 400,0),
+                        new BreakPoint(600, 300,100),
+                }, "dbr112"
+        );
 
-
-
+        //Between zone A and zone C
+        createRoad(ch22, ah14, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                        new BreakPoint(550, 400,0),
+                        new BreakPoint(550, 300,100),
+                }, "ca2214"
+        );
+        createRoad(ch1, ah10, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                        new BreakPoint(30, 400,0),
+                        new BreakPoint(30, 300,100),
+                }, "ca110"
+        );
+        
     }
 
     private Road createRoad(
