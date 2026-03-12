@@ -19,7 +19,7 @@ public class Map {
         // lägg till intersections (hörn)
     
         //Zon c
-        MockNode ch1 = new MockNode(new double[]{30, 400}, 50, true);
+        MockNode ch1 = new MockNode(new double[]{30, 400}, 50, false);
         MockNode ch2 = new MockNode(new double[]{30, 450}, 50, true);
         MockNode ch3 = new MockNode(new double[]{450, 400}, 50, true);
         MockNode ch4 = new MockNode(new double[]{450, 450}, 50, false);
@@ -43,7 +43,7 @@ public class Map {
         
         //zon D
         MockNode dh1 = new MockNode(new double[]{600, 400}, 50, true);
-        MockNode dh2 = new MockNode(new double[]{750, 400}, 50, true);
+        MockNode dh2 = new MockNode(new double[]{750, 400}, 50, false);
         MockNode dh3 = new MockNode(new double[]{600, 550}, 50, false);
         MockNode dh4 = new MockNode(new double[]{750, 550}, 50, true);
         MockNode dh6 = new MockNode(new double[]{750, 450}, 50, false);
@@ -59,7 +59,7 @@ public class Map {
         MockNode dh16 = new MockNode(new double[]{900, 550}, 50, false);
         MockNode dh17 = new MockNode(new double[]{900, 600}, 50, false);  
         MockNode dh18 = new MockNode(new double[]{750, 600}, 50, true);
-        MockNode dh19 = new MockNode(new double[]{750, 650}, 50, false);
+        MockNode dh19 = new MockNode(new double[]{750, 650}, 50, true);
         MockNode dh20 = new MockNode(new double[]{750, 700}, 50, true);
         MockNode dh21 = new MockNode(new double[]{600, 600}, 50, false);
         MockNode dh22 = new MockNode(new double[]{1050, 650}, 50, true); 
@@ -75,11 +75,11 @@ public class Map {
         MockNode ah2 = new MockNode(new double[]{30, 100}, 50, true);
         MockNode ah3 = new MockNode(new double[]{170, 50}, 50, false);
         MockNode ah4 = new MockNode(new double[]{170, 100}, 50, false);
-        MockNode ah5 = new MockNode(new double[]{30, 150}, 50, false);
-        MockNode ah6 = new MockNode(new double[]{170, 150}, 50, false);
+        MockNode ah5 = new MockNode(new double[]{30, 150}, 50, true);
+        MockNode ah6 = new MockNode(new double[]{170, 150}, 50, true);
         MockNode ah7 = new MockNode(new double[]{30, 200}, 50, false);
-        MockNode ah8 = new MockNode(new double[]{300, 200}, 50, false);
-        MockNode ah9 = new MockNode(new double[]{300, 150}, 50, false);
+        MockNode ah8 = new MockNode(new double[]{300, 200}, 50, true);
+        MockNode ah9 = new MockNode(new double[]{300, 150}, 50, true);
         MockNode ah10 = new MockNode(new double[]{30, 300}, 50, true);
         MockNode ah11 = new MockNode(new double[]{300, 250}, 50, false);
         MockNode ah12 = new MockNode(new double[]{300, 300}, 50, true);
@@ -101,8 +101,8 @@ public class Map {
         MockNode bh9 = new MockNode(new double[]{900, 150}, 50, false);
         MockNode bh10 = new MockNode(new double[]{900, 200}, 50, true);
         MockNode bh11 = new MockNode(new double[]{750, 200}, 50, false);
-        MockNode bh12 = new MockNode(new double[]{600, 300}, 50, true);
-        MockNode bh16 = new MockNode(new double[]{750, 300}, 50, false);
+        MockNode bh12 = new MockNode(new double[]{600, 300}, 50, false);
+        MockNode bh16 = new MockNode(new double[]{750, 300}, 50, true);
         MockNode bh20 = new MockNode(new double[]{900, 300}, 50, true);
         MockNode bh22 = new MockNode(new double[]{600, 250}, 50, true);
         MockNode bh23 = new MockNode(new double[]{1050, 300}, 50, false);
@@ -174,9 +174,15 @@ public class Map {
         nodes.add(ch11);
         nodes.add(ch12);
         nodes.add(ch13);
+        nodes.add(ch14);
+        nodes.add(ch15);
+        nodes.add(ch17);
+        nodes.add(ch18);
+        nodes.add(ch19);
         nodes.add(ch20);
         nodes.add(ch21);
         nodes.add(ch22);
+    
 
         //zon D
         nodes.add(dh1);
@@ -214,99 +220,7 @@ public class Map {
         }
         
         // -----
-
-
-        // här gör vi traffic lights? och lägger till i infrastructures
        
-        infrastructures.add(ch1.getTrafficLight());
-        infrastructures.add(ch2.getTrafficLight());
-        infrastructures.add(ch3.getTrafficLight());
-        //infrastructures.add(ch4.getTrafficLight());
-        //infrastructures.add(ch5.getTrafficLight());
-        infrastructures.add(ch6.getTrafficLight());
-        //infrastructures.add(ch7.getTrafficLight());
-        //infrastructures.add(ch8.getTrafficLight());
-        infrastructures.add(ch9.getTrafficLight());
-        //infrastructures.add(ch10.getTrafficLight());
-        //infrastructures.add(ch11.getTrafficLight());
-        //infrastructures.add(ch12.getTrafficLight());
-        //infrastructures.add(ch13.getTrafficLight());
-        //infrastructures.add(ch14.getTrafficLight());
-        infrastructures.add(ch15.getTrafficLight());
-        infrastructures.add(ch17.getTrafficLight());
-        //infrastructures.add(ch18.getTrafficLight());
-        //infrastructures.add(ch19.getTrafficLight());
-        infrastructures.add(ch20.getTrafficLight());
-        infrastructures.add(ch21.getTrafficLight());
-        //infrastructures.add(ch22.getTrafficLight());
-        
-        infrastructures.add(dh1.getTrafficLight());
-        infrastructures.add(dh2.getTrafficLight());
-        //infrastructures.add(dh3.getTrafficLight());
-        infrastructures.add(dh4.getTrafficLight());
-        //infrastructures.add(dh6.getTrafficLight());
-        infrastructures.add(dh7.getTrafficLight());
-        infrastructures.add(dh8.getTrafficLight());
-        //infrastructures.add(dh9.getTrafficLight());
-        infrastructures.add(dh10.getTrafficLight());
-        //infrastructures.add(dh11.getTrafficLight());
-        //infrastructures.add(dh12.getTrafficLight());
-        //infrastructures.add(dh13.getTrafficLight());
-        infrastructures.add(dh14.getTrafficLight());
-        infrastructures.add(dh15.getTrafficLight());
-        //infrastructures.add(dh16.getTrafficLight());
-        //infrastructures.add(dh17.getTrafficLight());
-        infrastructures.add(dh18.getTrafficLight());
-        //infrastructures.add(dh19.getTrafficLight());
-        infrastructures.add(dh20.getTrafficLight());
-        //infrastructures.add(dh21.getTrafficLight());
-        infrastructures.add(dh22.getTrafficLight());
-        //infrastructures.add(dh23.getTrafficLight());
-        //infrastructures.add(dh24.getTrafficLight());
-        //infrastructures.add(dh25.getTrafficLight());
-
-        // zon a
-       // infrastructures.add(ah1.getTrafficLight());
-        infrastructures.add(ah2.getTrafficLight());
-        // infrastructures.add(ah3.getTrafficLight());
-        // infrastructures.add(ah4.getTrafficLight());
-        // infrastructures.add(ah5.getTrafficLight());
-        //infrastructures.add(ah6.getTrafficLight());
-        //infrastructures.add(ah7.getTrafficLight());
-        // infrastructures.add(ah8.getTrafficLight());
-        //infrastructures.add(ah9.getTrafficLight());
-        infrastructures.add(ah10.getTrafficLight());
-        //infrastructures.add(ah11.getTrafficLight());
-        infrastructures.add(ah12.getTrafficLight());
-        //infrastructures.add(ah13.getTrafficLight());
-        infrastructures.add(ah14.getTrafficLight());
-        //infrastructures.add(ah15.getTrafficLight());
-        //infrastructures.add(ah16.getTrafficLight());
-        infrastructures.add(ah17.getTrafficLight());
-        //infrastructures.add(ah18.getTrafficLight());
-
-        // zon b
-        infrastructures.add(bh1.getTrafficLight());
-        infrastructures.add(bh2.getTrafficLight());
-        //infrastructures.add(bh3.getTrafficLight());
-        infrastructures.add(bh4.getTrafficLight());
-        //infrastructures.add(bh5.getTrafficLight());
-        //infrastructures.add(bh6.getTrafficLight());
-        infrastructures.add(bh8.getTrafficLight());
-       // infrastructures.add(bh9.getTrafficLight());
-        infrastructures.add(bh10.getTrafficLight());
-       // infrastructures.add(bh11.getTrafficLight());
-        infrastructures.add(bh12.getTrafficLight());
-       // infrastructures.add(bh16.getTrafficLight());
-        infrastructures.add(bh20.getTrafficLight());
-        infrastructures.add(bh22.getTrafficLight());
-       // infrastructures.add(bh23.getTrafficLight());
-        infrastructures.add(bh24.getTrafficLight());
-        //infrastructures.add(bh25.getTrafficLight());
-        //infrastructures.add(bh26.getTrafficLight());
-        infrastructures.add(bh27.getTrafficLight());
-        infrastructures.add(bh28.getTrafficLight());
-        infrastructures.add(bh29.getTrafficLight());
 
         // gör roads genom funktion
         
@@ -405,7 +319,7 @@ public class Map {
         createRoad(ch18, ch17, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
                 new BreakPoint(300, 700,0),
                 new BreakPoint(300, 650,50),
-                }, "cr1415"
+                }, "cr1817"
         );
 
         createRoad(ch17, ch19, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
@@ -415,8 +329,8 @@ public class Map {
         );
 
         createRoad(ch14, ch17, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
-                new BreakPoint(300, 650,0),
-                new BreakPoint(170, 650,130),
+                new BreakPoint(170, 650,0),
+                new BreakPoint(300, 650,130),
                 }, "cr1417"
         );
 
@@ -471,7 +385,7 @@ public class Map {
         createRoad(ch19, ch20, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(300, 600,0),
                 new BreakPoint(450, 600,150),
-                }, "cr2120"
+                }, "cr1920"
         );
 
         createRoad(ch3, ch22, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
@@ -516,10 +430,15 @@ public class Map {
                 new BreakPoint(750, 550,150),
                 }, "dr34"
         );
-        createRoad(dh3, dh1, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+        createRoad(dh3, dh25, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
                 new BreakPoint(600, 550,0),
-                new BreakPoint(600, 400,150),
-                }, "dr31"
+                new BreakPoint(600, 500,50),
+                }, "dr325"
+        );
+        createRoad(dh25, dh1, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                new BreakPoint(600, 500,0),
+                new BreakPoint(600, 400,100),
+                }, "dr251"
         );
 
         createRoad(dh6, dh8, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
@@ -646,7 +565,7 @@ public class Map {
                 new BreakPoint(750, 700,50),
                 }, "dr1920"
         );
-        createRoad(dh18, dh21, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+        createRoad(dh18, dh21, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
                 new BreakPoint(750, 600, 0),
                 new BreakPoint(600, 600,150),
                 }, "dr1821"
@@ -676,8 +595,8 @@ public class Map {
                 }, "dr2021"
         );
         createRoad(dh21, ch20, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(600, 700, 0),
-                new BreakPoint(450, 700,250),
+                new BreakPoint(600, 600, 0),
+                new BreakPoint(450, 600,250),
                 }, "dr2021"
         );
 
@@ -865,9 +784,9 @@ public class Map {
                         new BreakPoint(1170, 50,270),
                 }, "br325"
         );
-        createRoad(bh4, bh26, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                        new BreakPoint(900, 100,0),
-                        new BreakPoint(1170, 100,270),
+        createRoad(bh26, bh4, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                        new BreakPoint(1170, 100,0),
+                        new BreakPoint(900, 100,270),
                 }, "br426"
         );
         createRoad(bh9, bh27, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
@@ -1012,6 +931,11 @@ public class Map {
         createRoad(ch22, ah14, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
                         new BreakPoint(550, 400,0),
                         new BreakPoint(550, 300,100),
+                }, "ca2214"
+        );
+        createRoad(ah18, ch3, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
+                        new BreakPoint(450, 300,0),
+                        new BreakPoint(450, 400,100),
                 }, "ca2214"
         );
         createRoad(ch1, ah10, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
