@@ -18,11 +18,7 @@ public class Map {
 
 
         // lägg till intersections (hörn)
-        MockNode ah1 = new MockNode(new double[]{30, 100}, 50);
-        MockNode ah2 = new MockNode(new double[]{30, 150}, 50);
-        MockNode ah3 = new MockNode(new double[]{170, 100}, 50);
-        MockNode ah4 = new MockNode(new double[]{170, 150}, 50);
-
+    
         //Zon c
         MockNode ch1 = new MockNode(new double[]{30, 400}, 50);
         MockNode ch2 = new MockNode(new double[]{30, 450}, 50);
@@ -34,7 +30,6 @@ public class Map {
         MockNode ch8 = new MockNode(new double[]{170, 500}, 50);
         MockNode ch9 = new MockNode(new double[]{560, 500}, 50);
         MockNode ch10 = new MockNode(new double[]{30, 600}, 50);
-
         MockNode ch11 = new MockNode(new double[]{170, 600}, 50);
         MockNode ch12 = new MockNode(new double[]{30, 650}, 50);
         MockNode ch13 = new MockNode(new double[]{30, 700}, 50);
@@ -44,7 +39,6 @@ public class Map {
         MockNode ch18 = new MockNode(new double[]{300, 700}, 50);
         MockNode ch19 = new MockNode(new double[]{300, 600}, 50);
         MockNode ch20 = new MockNode(new double[]{460, 600}, 50);
-
         MockNode ch21 = new MockNode(new double[]{460, 700}, 50);
         MockNode ch22 = new MockNode(new double[]{530, 400}, 50);
         
@@ -76,10 +70,6 @@ public class Map {
 
 
         // lägg till i nodes lista
-        nodes.add(ah1);
-        nodes.add(ah2);
-        nodes.add(ah3);
-        nodes.add(ah4);
 
         //zon C
         nodes.add(ch1);
@@ -130,11 +120,7 @@ public class Map {
         // -----
 
         // här gör vi traffic lights? och lägger till i infrastructures
-        infrastructures.add(ah1.getTrafficLight());
-        infrastructures.add(ah2.getTrafficLight());
-        infrastructures.add(ah3.getTrafficLight());
-        infrastructures.add(ah4.getTrafficLight());
-
+       
         infrastructures.add(ch1.getTrafficLight());
         infrastructures.add(ch2.getTrafficLight());
         infrastructures.add(ch3.getTrafficLight());
@@ -161,6 +147,7 @@ public class Map {
         infrastructures.add(dh2.getTrafficLight());
         infrastructures.add(dh3.getTrafficLight());
         infrastructures.add(dh4.getTrafficLight());
+        infrastructures.add(dh6.getTrafficLight());
         infrastructures.add(dh7.getTrafficLight());
         infrastructures.add(dh8.getTrafficLight());
         infrastructures.add(dh9.getTrafficLight());
@@ -184,26 +171,6 @@ public class Map {
         // ------
 
         // gör roads genom funktion
-        createRoad(ah1, ah3, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
-                new BreakPoint(30,100,0), // start vänster hörn
-                new BreakPoint(170,100,140),
-        }, "ar13"
-        );
-        createRoad(ah3, ah4, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
-                new BreakPoint(170,100,0 ),
-                new BreakPoint(170,150,50),
-                }, "ar34"
-        );
-        createRoad(ah2, ah1, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
-                new BreakPoint(30,150,0 ),
-                new BreakPoint(30,100,50),
-                }, "ar12"
-        );
-        createRoad(ah4, ah2, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(170,150,0),
-                new BreakPoint(30,150,140 ),
-                }, "ar24"
-        );
         
 
         // ZONE C START
