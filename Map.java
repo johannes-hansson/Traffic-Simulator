@@ -19,53 +19,53 @@ public class Map {
         // lägg till intersections (hörn)
     
         //Zon c
-        MockNode ch1 = new MockNode(new double[]{30, 400}, 50);
-        MockNode ch2 = new MockNode(new double[]{30, 450}, 50);
-        MockNode ch3 = new MockNode(new double[]{450, 400}, 50);
-        MockNode ch4 = new MockNode(new double[]{450, 450}, 50);
-        MockNode ch5 = new MockNode(new double[]{170, 450}, 50);
-        MockNode ch6 = new MockNode(new double[]{30, 550}, 50);
-        MockNode ch7 = new MockNode(new double[]{170, 550}, 50);
-        MockNode ch8 = new MockNode(new double[]{170, 500}, 50);
-        MockNode ch9 = new MockNode(new double[]{560, 500}, 50);
-        MockNode ch10 = new MockNode(new double[]{30, 600}, 50);
-        MockNode ch11 = new MockNode(new double[]{170, 600}, 50);
-        MockNode ch12 = new MockNode(new double[]{30, 650}, 50);
-        MockNode ch13 = new MockNode(new double[]{30, 700}, 50);
-        MockNode ch14 = new MockNode(new double[]{170, 650}, 50);
-        MockNode ch15 = new MockNode(new double[]{170, 700}, 50);
-        MockNode ch17 = new MockNode(new double[]{300, 650}, 50);
-        MockNode ch18 = new MockNode(new double[]{300, 700}, 50);
-        MockNode ch19 = new MockNode(new double[]{300, 600}, 50);
-        MockNode ch20 = new MockNode(new double[]{460, 600}, 50);
-        MockNode ch21 = new MockNode(new double[]{460, 700}, 50);
-        MockNode ch22 = new MockNode(new double[]{530, 400}, 50);
+        MockNode ch1 = new MockNode(new double[]{30, 400}, 50, true);
+        MockNode ch2 = new MockNode(new double[]{30, 450}, 50, true);
+        MockNode ch3 = new MockNode(new double[]{450, 400}, 50, true);
+        MockNode ch4 = new MockNode(new double[]{450, 450}, 50, false);
+        MockNode ch5 = new MockNode(new double[]{170, 450}, 50, false);
+        MockNode ch6 = new MockNode(new double[]{30, 550}, 50, true);
+        MockNode ch7 = new MockNode(new double[]{170, 550}, 50, false);
+        MockNode ch8 = new MockNode(new double[]{170, 500}, 50, false);
+        MockNode ch9 = new MockNode(new double[]{560, 500}, 50,  true);
+        MockNode ch10 = new MockNode(new double[]{30, 600}, 50, false);
+        MockNode ch11 = new MockNode(new double[]{170, 600}, 50, false);
+        MockNode ch12 = new MockNode(new double[]{30, 650}, 50,false);
+        MockNode ch13 = new MockNode(new double[]{30, 700}, 50, false);
+        MockNode ch14 = new MockNode(new double[]{170, 650}, 50, false);
+        MockNode ch15 = new MockNode(new double[]{170, 700}, 50, true);
+        MockNode ch17 = new MockNode(new double[]{300, 650}, 50, true);
+        MockNode ch18 = new MockNode(new double[]{300, 700}, 50, false);
+        MockNode ch19 = new MockNode(new double[]{300, 600}, 50, false);
+        MockNode ch20 = new MockNode(new double[]{460, 600}, 50, true);
+        MockNode ch21 = new MockNode(new double[]{460, 700}, 50, true);
+        MockNode ch22 = new MockNode(new double[]{530, 400}, 50, false);
         
         //zon D
-        MockNode dh1 = new MockNode(new double[]{600, 400}, 50);
-        MockNode dh2 = new MockNode(new double[]{750, 400}, 50);
-        MockNode dh3 = new MockNode(new double[]{600, 550}, 50);
-        MockNode dh4 = new MockNode(new double[]{750, 550}, 50);
-        MockNode dh6 = new MockNode(new double[]{750, 450}, 50);
-        MockNode dh7 = new MockNode(new double[]{750, 500}, 50);
-        MockNode dh8 = new MockNode(new double[]{900, 450}, 50);
-        MockNode dh9 = new MockNode(new double[]{900, 400}, 50);
-        MockNode dh10 = new MockNode(new double[]{1170, 400}, 50);
-        MockNode dh11 = new MockNode(new double[]{1170, 450}, 50);
-        MockNode dh12 = new MockNode(new double[]{900, 500}, 50);
-        MockNode dh13 = new MockNode(new double[]{1050, 500}, 50);
-        MockNode dh14 = new MockNode(new double[]{1170, 550}, 50);
-        MockNode dh15 = new MockNode(new double[]{1050, 550}, 50);  
-        MockNode dh16 = new MockNode(new double[]{900, 550}, 50);
-        MockNode dh17 = new MockNode(new double[]{900, 600}, 50);  
-        MockNode dh18 = new MockNode(new double[]{750, 600}, 50);
-        MockNode dh19 = new MockNode(new double[]{750, 650}, 50);
-        MockNode dh20 = new MockNode(new double[]{750, 700}, 50);
-        MockNode dh21 = new MockNode(new double[]{600, 600}, 50);
-        MockNode dh22 = new MockNode(new double[]{1050, 650}, 50); 
-        MockNode dh23 = new MockNode(new double[]{1170, 700}, 50);
-        MockNode dh24 = new MockNode(new double[]{1170, 650}, 50);
-        MockNode dh25 = new MockNode(new double[]{600, 500}, 50);      
+        MockNode dh1 = new MockNode(new double[]{600, 400}, 50, true);
+        MockNode dh2 = new MockNode(new double[]{750, 400}, 50, true);
+        MockNode dh3 = new MockNode(new double[]{600, 550}, 50, false);
+        MockNode dh4 = new MockNode(new double[]{750, 550}, 50, true);
+        MockNode dh6 = new MockNode(new double[]{750, 450}, 50, false);
+        MockNode dh7 = new MockNode(new double[]{750, 500}, 50, true);
+        MockNode dh8 = new MockNode(new double[]{900, 450}, 50, true);
+        MockNode dh9 = new MockNode(new double[]{900, 400}, 50, false);
+        MockNode dh10 = new MockNode(new double[]{1170, 400}, 50, true);
+        MockNode dh11 = new MockNode(new double[]{1170, 450}, 50, false);
+        MockNode dh12 = new MockNode(new double[]{900, 500}, 50, false);
+        MockNode dh13 = new MockNode(new double[]{1050, 500}, 50, false);
+        MockNode dh14 = new MockNode(new double[]{1170, 550}, 50, true);
+        MockNode dh15 = new MockNode(new double[]{1050, 550}, 50, true);  
+        MockNode dh16 = new MockNode(new double[]{900, 550}, 50, false);
+        MockNode dh17 = new MockNode(new double[]{900, 600}, 50, false);  
+        MockNode dh18 = new MockNode(new double[]{750, 600}, 50, true);
+        MockNode dh19 = new MockNode(new double[]{750, 650}, 50, false);
+        MockNode dh20 = new MockNode(new double[]{750, 700}, 50, true);
+        MockNode dh21 = new MockNode(new double[]{600, 600}, 50, false);
+        MockNode dh22 = new MockNode(new double[]{1050, 650}, 50, true); 
+        MockNode dh23 = new MockNode(new double[]{1170, 700}, 50, false);
+        MockNode dh24 = new MockNode(new double[]{1170, 650}, 50, false);
+        MockNode dh25 = new MockNode(new double[]{600, 500}, 50, false);      
 
 
         // lägg till i nodes lista
@@ -214,20 +214,20 @@ public class Map {
         infrastructures.add(ch1.getTrafficLight());
         infrastructures.add(ch2.getTrafficLight());
         infrastructures.add(ch3.getTrafficLight());
-        infrastructures.add(ch4.getTrafficLight());
-        infrastructures.add(ch5.getTrafficLight());
+        //infrastructures.add(ch4.getTrafficLight());
+        //infrastructures.add(ch5.getTrafficLight());
         infrastructures.add(ch6.getTrafficLight());
-        infrastructures.add(ch7.getTrafficLight());
-        infrastructures.add(ch8.getTrafficLight());
-        infrastructures.add(ch9.getTrafficLight());
-        infrastructures.add(ch10.getTrafficLight());
-        infrastructures.add(ch11.getTrafficLight());
-        infrastructures.add(ch12.getTrafficLight());
-        infrastructures.add(ch13.getTrafficLight());
-        infrastructures.add(ch14.getTrafficLight());
+        //infrastructures.add(ch7.getTrafficLight());
+        //infrastructures.add(ch8.getTrafficLight());
+        //infrastructures.add(ch9.getTrafficLight());
+        //infrastructures.add(ch10.getTrafficLight());
+        //infrastructures.add(ch11.getTrafficLight());
+        //infrastructures.add(ch12.getTrafficLight());
+        //infrastructures.add(ch13.getTrafficLight());
+        //infrastructures.add(ch14.getTrafficLight());
         infrastructures.add(ch15.getTrafficLight());
         infrastructures.add(ch17.getTrafficLight());
-        infrastructures.add(ch18.getTrafficLight());
+        //infrastructures.add(ch18.getTrafficLight());
         infrastructures.add(ch19.getTrafficLight());
         infrastructures.add(ch20.getTrafficLight());
         infrastructures.add(ch21.getTrafficLight());
@@ -235,28 +235,28 @@ public class Map {
         
         infrastructures.add(dh1.getTrafficLight());
         infrastructures.add(dh2.getTrafficLight());
-        infrastructures.add(dh3.getTrafficLight());
+        //infrastructures.add(dh3.getTrafficLight());
         infrastructures.add(dh4.getTrafficLight());
-        infrastructures.add(dh6.getTrafficLight());
+        //infrastructures.add(dh6.getTrafficLight());
         infrastructures.add(dh7.getTrafficLight());
         infrastructures.add(dh8.getTrafficLight());
-        infrastructures.add(dh9.getTrafficLight());
+        //infrastructures.add(dh9.getTrafficLight());
         infrastructures.add(dh10.getTrafficLight());
-        infrastructures.add(dh11.getTrafficLight());
-        infrastructures.add(dh12.getTrafficLight());
-        infrastructures.add(dh13.getTrafficLight());
+        //infrastructures.add(dh11.getTrafficLight());
+        //infrastructures.add(dh12.getTrafficLight());
+        //infrastructures.add(dh13.getTrafficLight());
         infrastructures.add(dh14.getTrafficLight());
         infrastructures.add(dh15.getTrafficLight());
-        infrastructures.add(dh16.getTrafficLight());
-        infrastructures.add(dh17.getTrafficLight());
+        //infrastructures.add(dh16.getTrafficLight());
+        //infrastructures.add(dh17.getTrafficLight());
         infrastructures.add(dh18.getTrafficLight());
-        infrastructures.add(dh19.getTrafficLight());
+        //infrastructures.add(dh19.getTrafficLight());
         infrastructures.add(dh20.getTrafficLight());
-        infrastructures.add(dh21.getTrafficLight());
+        //infrastructures.add(dh21.getTrafficLight());
         infrastructures.add(dh22.getTrafficLight());
-        infrastructures.add(dh23.getTrafficLight());
+        //infrastructures.add(dh23.getTrafficLight());
         infrastructures.add(dh24.getTrafficLight());
-        infrastructures.add(dh25.getTrafficLight());
+        //infrastructures.add(dh25.getTrafficLight());
 
         // zon a
        // infrastructures.add(ah1.getTrafficLight());
@@ -455,9 +455,9 @@ public class Map {
                 }, "cr2118"
         );
 
-        createRoad(ch21, ch20, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
-                new BreakPoint(450, 700,0),
-                new BreakPoint(450, 600,100),
+        createRoad(ch20, ch21, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                new BreakPoint(450, 600,0),
+                new BreakPoint(450, 700,100),
                 }, "cr2120"
         );
 
