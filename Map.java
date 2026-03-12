@@ -203,8 +203,7 @@ public class Map {
         nodes.add(dh23);
         nodes.add(dh24);
         nodes.add(dh25);
-
-        /*
+        
         for (Node node : nodes) {
             if (node instanceof MockNode mock) {
                 TrafficLight trafficLight = mock.getTrafficLight();
@@ -213,7 +212,6 @@ public class Map {
                 }
             }
         }
-        */
         
         // -----
 
@@ -368,7 +366,7 @@ public class Map {
                 }, "cr67"
         );
 
-        createRoad(ch7, ch8, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+        createRoad(ch8, ch7, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(170, 500,0),
                 new BreakPoint(170, 550,50),
                 }, "cr78"
@@ -753,7 +751,7 @@ public class Map {
         );
         createRoad(ah12, ah13, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
                         new BreakPoint(300, 300,0),
-                        new BreakPoint(170, 300,30),
+                        new BreakPoint(170, 300,130),
                 }, "ar1213"
         );
         createRoad(ah11, ah12, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
@@ -803,7 +801,7 @@ public class Map {
         );
         createRoad(ah18, ah12, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
                         new BreakPoint(450, 300,0),
-                        new BreakPoint(300, 300,50),
+                        new BreakPoint(300, 300,150),
                 }, "ar1812"
         );
         createRoad(ah14, ah18, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
