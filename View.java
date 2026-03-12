@@ -11,9 +11,7 @@ public class View implements SimulationUpdateListener {
     private Pane vehicleLayer;
     private boolean roadsDrawn = false;
 
-    private ArrayList<Circle> trafficLights = new ArrayList<>();
-    private ArrayList<Node> trafficLightNodes = new ArrayList<>();
-    private boolean trafficLightsCreated = false;
+    double trafficLightDistance = 10; // The distance between traffic lights to the intersections
 
     public View(Pane roadLayer, Pane vehicleLayer) {
         this.roadLayer = roadLayer;
@@ -102,56 +100,55 @@ public class View implements SimulationUpdateListener {
                 vehicleGraphic.setRotate(tiltAngleRadians * 180 / Math.PI);
             }
 
-            // draw traffic lights
-            // skapa lampor en gång
-            if (!trafficLightsCreated) {
-                for (Node node : map.getNodes()) {
+            // Update traffic lights
+            ArrayList<Infrastructure> infrastructures = map.getInfrastructures();
+            for (Infrastructure infrastructure : infrastructures) {
+                // Check that the current node has a traffic light
+                TrafficLight trafficLight = null;
+                if (infrastructure instanceof TrafficLight light) {
+                    trafficLight = light;
+                }
 
-                    if (node instanceof MockNode mock) { // Only consider nodes that are MockNodes (which can have traffic lights)
-                        TrafficLight light = mock.getTrafficLight();
-                        if (light == null) continue;
+                if (trafficLight == null) {
+                    continue;
+                }
 
-                        // Loop over all roads to find the ones that end at this node
-                        for (Road road : roads) {
-                            if (road.getEndNode() == node) {
-                                BreakPoint end = road.getRoadRender().getEndPoint(); // // Get the end point of the road to position the light
-                                // Create a small circle to represent the traffic light
-                                Circle lamp = new Circle(end.x() + 6, end.y() + 6, 5); // position with slight offset
-                                lamp.setFill(Color.RED); // initial color
+                for (TrafficLight.TrafficLightConnection connection : trafficLight.getConnections()) {
+                    Circle lamp = connection.getLight();
+                    Road road = connection.getRoad();
+                    if (lamp == null) {
+                        ArrayList<BreakPoint> breakPoints = road.getRoadRender().getBreakPoints();
+                        BreakPoint lastBreakPoint = breakPoints.get(breakPoints.size() - 1);
+                        BreakPoint secondLastBreakPoint = breakPoints.get(breakPoints.size() - 2);
 
-                                // Save the lamp and the node it belongs to for later updates
-                                trafficLights.add(lamp);
-                                trafficLightNodes.add(node);
+                        // Find the unit vector between the two last break points
+                        double[] direction = new double[] {
+                                lastBreakPoint.x() - secondLastBreakPoint.x(),
+                                lastBreakPoint.y() - secondLastBreakPoint.y()
+                        };
+                        double magnitude = Math.sqrt(Math.pow(direction[0], 2) + Math.pow(direction[1], 2));
+                        double[] unitVector = new double[] {
+                                direction[0] / magnitude,
+                                direction[1] / magnitude
+                        };
 
-                                // Add the lamp to the road layer so it appears on screen
-                                roadLayer.getChildren().add(lamp);
-                            }
-                        }
+                        lamp = new Circle(
+                                lastBreakPoint.x() - unitVector[0] * trafficLightDistance,
+                                lastBreakPoint.y() - unitVector[1] * trafficLightDistance,
+                                5
+                        ); // position with slight offset
+                        connection.setLight(lamp);
+                        roadLayer.getChildren().add(lamp);
+                    }
+
+                    boolean isGreen = trafficLight.hasGreen(road);
+                    if (isGreen) {
+                        lamp.setFill(Color.LIGHTGREEN);
+                    } else {
+                        lamp.setFill(Color.RED);
                     }
                 }
-                trafficLightsCreated = true;
             }
-            // update traffic colors in every frame
-            for (int i = 0; i < trafficLights.size(); i++) {
-                Circle lamp = trafficLights.get(i); // get light
-                Node node = trafficLightNodes.get(i); // get node the light belongs to
-
-                if (node instanceof MockNode mock) {
-                    TrafficLight light = mock.getTrafficLight();
-                    if (light == null) continue; // skip if no traffic light
-
-                    // For simplicity, take the first road controlled by this traffic light
-                    Road[] lightRoads = light.getInRoads();
-                    if (lightRoads.length == 0) continue; // skip if no controlled roads
-
-                    Road lampRoad = lightRoads[0];
-
-                    // Set the lamp color based on whether the light is green for that road
-                    lamp.setFill(light.hasGreen(lampRoad) ? Color.LIGHTGREEN : Color.RED);
-                }
-            }
-
-            // here we can add drawing cars and traffic lights etc
         });
     }
 }

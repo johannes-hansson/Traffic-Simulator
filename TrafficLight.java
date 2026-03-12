@@ -1,23 +1,49 @@
+import javafx.scene.shape.Circle;
+import java.util.ArrayList;
+
 public class TrafficLight implements Infrastructure {
 
+    public class TrafficLightConnection {
+        private Road road;
+        private Circle light;
+
+        public TrafficLightConnection(Road road) {
+            this.road = road;
+        }
+
+        public Road getRoad() {
+            return this.road;
+        }
+
+        public Circle getLight() {
+            return this.light;
+        }
+
+        public void setLight(Circle circle) {
+            this.light = circle;
+        }
+    }
+
     // Attributes
-    private final int trafficCheckDistance = 20; // Number of cells that are checked for incoming traffic
+    private final int trafficCheckDistance = 40; // Number of cells that are checked for incoming traffic
 
     // Transition values
-    private int minGreenTime = 5;
-    private int maxGreenTime = 50;
+    private int minGreenTime = 20;
+    private int maxGreenTime = 200;
 
     // State attributes
     private int activeGreen;
     private int currentGreenTime;
 
     // Properties
-    private Road[] inRoads;
+    private TrafficLightConnection[] connections;
+    private Circle[] lights;
     private int numberOfRoads;
 
     public TrafficLight(int numberOfRoads) {
         this.numberOfRoads = numberOfRoads;
-        this.inRoads = new Road[numberOfRoads];
+        this.connections = new TrafficLightConnection[numberOfRoads];
+        this.lights = new Circle[numberOfRoads];
         this.activeGreen = 0;
         this.currentGreenTime = 0;
     }
@@ -28,11 +54,17 @@ public class TrafficLight implements Infrastructure {
             return;
         }
 
-        this.inRoads[index] = road;
+        this.connections[index] = new TrafficLightConnection(road);
     }
 
-    public Road[] getInRoads() {
-        return this.inRoads;
+    public ArrayList<TrafficLightConnection> getConnections() {
+        ArrayList<TrafficLightConnection> connections = new ArrayList<>();
+        for (int i=0; i<this.numberOfRoads; i++) {
+            if (this.connections[i] != null) {
+                connections.add(this.connections[i]);
+            }
+        }
+        return connections;
     }
 
     private boolean hasIncomingTraffic(Road road) {
@@ -62,7 +94,12 @@ public class TrafficLight implements Infrastructure {
         int nextBusyRoad = -1;
         for (int currentIndex = startIndex; currentIndex < startIndex + this.numberOfRoads; currentIndex++) {
             int wrappedIndex = currentIndex % this.numberOfRoads;
-            Road road = this.inRoads[wrappedIndex];
+            TrafficLightConnection connection = this.connections[wrappedIndex];
+            if (connection == null) {
+                continue;
+            }
+
+            Road road = connection.getRoad();
             if (road == null) {
                 continue;
             }
@@ -95,14 +132,18 @@ public class TrafficLight implements Infrastructure {
             return;
         }
 
-        Road greenRoad = this.inRoads[this.activeGreen];
-        boolean currentRoadHasTraffic = greenRoad != null && this.hasIncomingTraffic(greenRoad);
+        TrafficLightConnection greenConnection = this.connections[this.activeGreen];
+        boolean currentRoadHasTraffic =
+                greenConnection != null
+                        && greenConnection.getRoad() != null
+                        && this.hasIncomingTraffic(greenConnection.getRoad());
         if (!currentRoadHasTraffic || this.currentGreenTime > this.maxGreenTime) {
             this.transition();
         }
     }
 
     public boolean hasGreen(Road road) {
-        return this.inRoads[this.activeGreen] == road;
+        TrafficLightConnection connection = this.connections[this.activeGreen];
+        return (connection != null && connection.getRoad() == road);
     }
 }

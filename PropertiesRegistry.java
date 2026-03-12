@@ -6,16 +6,16 @@ public class PropertiesRegistry {
     public PropertiesRegistry() {
         this.registry = new HashMap<>();
         this.registry.put("car", new VehicleProperties(
-                10,
+                5,
                 1,
-                new int[]{8, 4},
+                new int[]{4,2},
                 VehicleColor.Red
         ));
 
         this.registry.put("buss", new VehicleProperties(
-                8,
+                4,
                 1,
-                new int[]{16, 6},
+                new int[]{8, 3},
                 VehicleColor.Yellow
         ));
     }
