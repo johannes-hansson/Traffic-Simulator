@@ -47,7 +47,6 @@ public class MockNode implements Node {
     private double width;
 
     public MockNode(double[] position, double width, boolean hasTrafficLight) {
-        this.hasTrafficLight = hasTrafficLight;
         this.position = position;
         this.width = width;
 

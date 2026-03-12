@@ -211,7 +211,7 @@ public class Map {
 
         // här gör vi traffic lights? och lägger till i infrastructures
        
-       /*  infrastructures.add(ch1.getTrafficLight());
+        infrastructures.add(ch1.getTrafficLight());
         infrastructures.add(ch2.getTrafficLight());
         infrastructures.add(ch3.getTrafficLight());
         //infrastructures.add(ch4.getTrafficLight());
@@ -219,7 +219,7 @@ public class Map {
         infrastructures.add(ch6.getTrafficLight());
         //infrastructures.add(ch7.getTrafficLight());
         //infrastructures.add(ch8.getTrafficLight());
-        //infrastructures.add(ch9.getTrafficLight());
+        infrastructures.add(ch9.getTrafficLight());
         //infrastructures.add(ch10.getTrafficLight());
         //infrastructures.add(ch11.getTrafficLight());
         //infrastructures.add(ch12.getTrafficLight());
@@ -228,10 +228,10 @@ public class Map {
         infrastructures.add(ch15.getTrafficLight());
         infrastructures.add(ch17.getTrafficLight());
         //infrastructures.add(ch18.getTrafficLight());
-        infrastructures.add(ch19.getTrafficLight());
+        //infrastructures.add(ch19.getTrafficLight());
         infrastructures.add(ch20.getTrafficLight());
         infrastructures.add(ch21.getTrafficLight());
-        infrastructures.add(ch22.getTrafficLight());
+        //infrastructures.add(ch22.getTrafficLight());
         
         infrastructures.add(dh1.getTrafficLight());
         infrastructures.add(dh2.getTrafficLight());
@@ -255,7 +255,7 @@ public class Map {
         //infrastructures.add(dh21.getTrafficLight());
         infrastructures.add(dh22.getTrafficLight());
         //infrastructures.add(dh23.getTrafficLight());
-        infrastructures.add(dh24.getTrafficLight());
+        //infrastructures.add(dh24.getTrafficLight());
         //infrastructures.add(dh25.getTrafficLight());
 
         // zon a
@@ -299,7 +299,7 @@ public class Map {
         //infrastructures.add(bh26.getTrafficLight());
         infrastructures.add(bh27.getTrafficLight());
         infrastructures.add(bh28.getTrafficLight());
-        infrastructures.add(bh29.getTrafficLight());*/
+        infrastructures.add(bh29.getTrafficLight());
 
         // gör roads genom funktion
         
