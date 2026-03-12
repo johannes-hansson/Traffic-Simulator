@@ -72,9 +72,9 @@ public class Map {
 
         // zon a
         MockNode ah1 = new MockNode(new double[]{30, 50}, 50, false);
-        MockNode ah2 = new MockNode(new double[]{30, 100}, 50, true);
+        MockNode ah2 = new MockNode(new double[]{30, 100}, 50, false);
         MockNode ah3 = new MockNode(new double[]{170, 50}, 50, false);
-        MockNode ah4 = new MockNode(new double[]{170, 100}, 50, false);
+        MockNode ah4 = new MockNode(new double[]{170, 100}, 50, true);
         MockNode ah5 = new MockNode(new double[]{30, 150}, 50, true);
         MockNode ah6 = new MockNode(new double[]{170, 150}, 50, true);
         MockNode ah7 = new MockNode(new double[]{30, 200}, 50, false);
@@ -628,9 +628,9 @@ public class Map {
                 new BreakPoint(30,50,50),
                 }, "ar12"
         );
-        createRoad(ah4, ah2, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(170,100,0),
-                new BreakPoint(30,100,140 ),
+        createRoad(ah2, ah4, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(30,100,0),
+                new BreakPoint(170,100,140 ),    
                 }, "ar24"
         );
         createRoad(ah5, ah2, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
