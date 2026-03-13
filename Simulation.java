@@ -211,9 +211,11 @@ public class Simulation {
             );
 
             String type;
-            if (rand.nextInt(100) < 80) {
+            if (rand.nextInt(100) < 60) {
                 type = "car";
-            } else {
+            } else if (rand.nextInt(100) > 80){
+                type = "truck";
+            } else{
                 type = "buss";
             }
 

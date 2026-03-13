@@ -138,6 +138,10 @@ public class View implements SimulationUpdateListener {
                                 5
                         ); // position with slight offset
                         connection.setLight(lamp);
+
+                        // adding squares to the map to make it more realistic
+
+
                         roadLayer.getChildren().add(lamp);
                     }
 

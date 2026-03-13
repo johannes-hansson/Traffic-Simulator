@@ -8,15 +8,21 @@ public class PropertiesRegistry {
         this.registry.put("car", new VehicleProperties(
                 5,
                 1,
-                new int[]{4,2},
-                VehicleColor.Red
+                new int[]{5,4},
+                VehicleColor.Orange
         ));
 
         this.registry.put("buss", new VehicleProperties(
                 4,
                 1,
-                new int[]{8, 3},
-                VehicleColor.Yellow
+                new int[]{8, 4},
+                VehicleColor.LightBlue
+        ));
+        this.registry.put("truck", new VehicleProperties(
+                4,
+                1,
+                new int[]{8, 4},
+                VehicleColor.Black
         ));
     }
 
