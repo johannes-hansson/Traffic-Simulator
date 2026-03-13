@@ -98,7 +98,7 @@ public class VehicleMovement {
         // road to turn to and, if possible, make the turn and rerun the scan
         while (scanResult.endOfRoadReached()) {
             Node node = currentRoad.getEndNode();
-            Road roadToEnter = vehicle.chooseRoad(node.getAvailableTurns(currentRoad));
+            Road roadToEnter = vehicle.chooseRoad(node, node.getAvailableTurns(currentRoad));
 
             // Check that the turn to the new road can be made
             boolean canTurn = node.requestTurn(currentRoad, roadToEnter);

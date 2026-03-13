@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 
 /** Lightweight data model describing how a road should be rendered.
@@ -64,7 +65,6 @@ public class RoadRender {
             add = adds our lines*/
 
         }
-
     }
 
 }

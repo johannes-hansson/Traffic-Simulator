@@ -11,7 +11,7 @@ public class View implements SimulationUpdateListener {
     private Pane vehicleLayer;
     private boolean roadsDrawn = false;
 
-    double trafficLightDistance = 10; // The distance between traffic lights to the intersections
+    double trafficLightDistance = 6; // The distance between traffic lights to the intersections
 
     public View(Pane roadLayer, Pane vehicleLayer) {
         this.roadLayer = roadLayer;
@@ -31,6 +31,18 @@ public class View implements SimulationUpdateListener {
                 for (Road road : roads){
                     road.getRoadRender().draw(roadLayer);
                 }
+
+                ArrayList<Node> nodes = map.getNodes();
+                for (Node node : nodes) {
+                    double[] position = node.getPosition();
+                    double size = node.getWidth();
+                    Rectangle nodeGraphic = new Rectangle(size, size);
+                    nodeGraphic.setX(position[0] - nodeGraphic.getWidth() / 2);
+                    nodeGraphic.setY(position[1] - nodeGraphic.getHeight() / 2);
+                    nodeGraphic.setFill(Color.GRAY);
+                    this.roadLayer.getChildren().add(nodeGraphic);
+                }
+
                 roadsDrawn = true;
             }
 
@@ -116,6 +128,7 @@ public class View implements SimulationUpdateListener {
                 for (TrafficLight.TrafficLightConnection connection : trafficLight.getConnections()) {
                     Circle lamp = connection.getLight();
                     Road road = connection.getRoad();
+
                     if (lamp == null) {
                         ArrayList<BreakPoint> breakPoints = road.getRoadRender().getBreakPoints();
                         BreakPoint lastBreakPoint = breakPoints.get(breakPoints.size() - 1);

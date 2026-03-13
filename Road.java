@@ -5,7 +5,7 @@ import java.util.ArrayDeque;
  * The road can scan for vehicles in a cell interval and provides gap computation for behaviour logic. */
 public class Road {
 
-    public record ScanResult(int distance, boolean wasBlocked, boolean endOfRoadReached) {}
+    public record ScanResult(int distance, int bufferDistance, boolean wasBlocked, boolean endOfRoadReached) {}
 
     private ArrayDeque<Vehicle> vehicleRegistry; // Registry for all vehicles currently on the road
     private Vehicle[][] lanes; // Cell map used for spacial lookups. First layer is each lane, second is the cells
@@ -24,10 +24,6 @@ public class Road {
 
     public RoadRender getRoadRender() {
         return this.render;
-    }
-
-    public void setRoadRender(RoadRender render){
-        this.render = render; //  som gjort för att kunna göra view
     }
 
     public Node getEndNode() {
@@ -80,6 +76,10 @@ public class Road {
     }
 
     public ScanResult scanCells(int lane, int start, int distance, boolean includeStart) {
+        return this.scanCells(lane, start, distance, includeStart, 0);
+    }
+
+    public ScanResult scanCells(int lane, int start, int distance, boolean includeStart, int distanceBuffer) {
         final int roadLength = this.getLength();
 
         if (start < 0 || start >= roadLength) {
@@ -119,8 +119,34 @@ public class Road {
             distanceTravelled++;
         }
 
-        ScanResult result = new ScanResult(distanceTravelled, wasBlocked, endOfRoadReached);
-        return result;
+        // If the scan reached the end of the road, the buffer distance is the same as the distance traveled
+        if (endOfRoadReached) {
+            return new ScanResult(distanceTravelled, distanceTravelled, wasBlocked, endOfRoadReached);
+        }
+
+        if (wasBlocked) {
+            int bufferedDistance = Math.max(distanceTravelled - distanceBuffer, 0);
+            return new ScanResult(distanceTravelled, bufferedDistance, wasBlocked, endOfRoadReached);
+        }
+
+        // If the scan was not blocked, keep looking forward to see how much additional space there is
+        int bufferStartCell = startingCell + distanceTravelled;
+        int availableBuffer = 0;
+        int bufferedDistance = distanceTravelled;
+        for (int currentCell = bufferStartCell; currentCell < bufferStartCell + distanceBuffer; currentCell++) {
+            if (currentCell >= this.getLength()) {
+                break;
+            }
+
+            if (this.isOccupied(lane, currentCell)) {
+                bufferedDistance = Math.max(bufferedDistance - distanceBuffer + availableBuffer, 0);
+                break;
+            }
+
+            availableBuffer++;
+        }
+
+        return new ScanResult(distanceTravelled, bufferedDistance, false, false);
     }
 
     // Returns the first vehicle found on lane from the inclusive range start to end

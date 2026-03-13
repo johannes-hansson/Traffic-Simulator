@@ -1,16 +1,61 @@
 //import java.awt.*;
-import java.util.Random;
-import java.util.ArrayList;
+import java.util.*;
+
 import javafx.scene.shape.Rectangle;
+
 /** Base class for all vehicle agents in the simulation.
  * Stores immutable vehicle properties (type parameters) and mutable state such as
  * current position and velocity.
  * Subclasses (e.g., Car, Bus, Truck) typically configure different VehicleProperties */
 public class Vehicle {
-    
+
+    private record Turn(Node node, Road road){};
+
+    private class PathPlanner {
+
+        private Random turnRandomizer;
+        private ArrayList<Turn> plannedTurns;
+
+        public PathPlanner() {
+            this.turnRandomizer = new Random();
+            this.plannedTurns = new ArrayList<>();
+        }
+
+        private Road chooseRoad(List<Road> possibleTurns) {
+            return possibleTurns.get(this.turnRandomizer.nextInt(possibleTurns.size()));
+        }
+
+        public Road getTurnDecision(Node node, List<Road> possibleTurns) {
+            if (possibleTurns.isEmpty()) {
+                return null;
+            }
+
+            // Find any previously planned turns for the node
+            for (Turn decision : this.plannedTurns) {
+                if (decision.node == node) {
+                    for (Road possibleTurn : possibleTurns) {
+                        if (decision.road == possibleTurn) {
+                            return decision.road;
+                        }
+                    }
+                }
+            }
+
+            // If there were no planned decisions, create one and return it
+            Road road = this.chooseRoad(possibleTurns);
+            this.plannedTurns.add(new Turn(node, road));
+            return road;
+        }
+
+        public void clearDecisions() {
+            this.plannedTurns.clear();
+        }
+    }
+
     private VehicleProperties properties;
     private RoadPosition position;
     private int velocity;
+    private PathPlanner pathPlanner;
     private Rectangle graphic;
 
     //constructor
@@ -18,14 +63,15 @@ public class Vehicle {
         this.properties = properties;
         this.position = position;
         this.velocity = velocity;
+        this.pathPlanner = new PathPlanner();
     }
 
-    public Road chooseRoad(ArrayList<Road> roads) {
-        if (roads.size() == 0) {
-            return null;
-        }
-        Random rand = new Random();
-        return roads.get(rand.nextInt(roads.size()));
+    public Road chooseRoad(Node node, ArrayList<Road> roads) {
+        return this.pathPlanner.getTurnDecision(node, roads);
+    }
+
+    public void clearTurnDecisions() {
+        this.pathPlanner.clearDecisions();
     }
 
     public int getVelocity() {

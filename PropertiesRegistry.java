@@ -6,17 +6,17 @@ public class PropertiesRegistry {
     public PropertiesRegistry() {
         this.registry = new HashMap<>();
         this.registry.put("car", new VehicleProperties(
-                5,
+                5000,
                 1,
                 new int[]{4,2},
                 VehicleColor.Red
         ));
 
         this.registry.put("buss", new VehicleProperties(
-                4,
+                4000,
                 1,
                 new int[]{8, 3},
-                VehicleColor.Yellow
+                VehicleColor.Blue
         ));
     }
 

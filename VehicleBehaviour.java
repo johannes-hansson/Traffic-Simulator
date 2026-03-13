@@ -7,6 +7,7 @@ public class VehicleBehaviour {
     
     private Random numberGenerator;
     private final double breakingProbability = 0.5; // 50% chance for vehicle to slow down by one unit
+    private final int preferredDistance = 5; // # of cells that vehicles want to keep between themselves
 
     public VehicleBehaviour() {
         this.numberGenerator = new Random(1);
@@ -14,6 +15,7 @@ public class VehicleBehaviour {
 
     public void process(List<Vehicle> vehicles) {
         for (Vehicle vehicle : vehicles) {
+            vehicle.clearTurnDecisions();
             this.computeVelocity(vehicle);
         }
     }
@@ -46,7 +48,7 @@ public class VehicleBehaviour {
     ) {
 
         Node node = road.getEndNode();
-        Road roadToEnter = vehicle.chooseRoad(node.getAvailableTurns(road));
+        Road roadToEnter = vehicle.chooseRoad(node, node.getAvailableTurns(road));
 
         if (roadToEnter == null) {
             return 0;
@@ -73,20 +75,20 @@ public class VehicleBehaviour {
         }
 
         // If the vehicle is able to make the turn, scan the following road
-        Road.ScanResult scanResult = roadToEnter.scanCells(laneToEnter, 0, maxDistance, true);
+        Road.ScanResult scanResult = roadToEnter.scanCells(laneToEnter, 0, maxDistance, true, preferredDistance);
         
         // If the scan reached the end of the road, call the method recursively
         // to get the free distance on the next road
         if (scanResult.endOfRoadReached()) {
-            return scanResult.distance() + this.getFreeDistanceAfterTurn(
+            return scanResult.bufferDistance() + this.getFreeDistanceAfterTurn(
                 roadToEnter, 
                 laneToEnter, 
                 vehicle, 
-                maxDistance - scanResult.distance()
+                maxDistance - scanResult.bufferDistance()
             );
         }
 
-        return scanResult.distance();
+        return scanResult.bufferDistance();
     }
 
     public int accelerate(Vehicle vehicle) { //Acceleration: vi <- min (vi+1,vmax)
@@ -108,8 +110,8 @@ public class VehicleBehaviour {
         int lane = position.lane();
 
         //scan the road (get the free gap between in front of vehicle/intersection)
-        Road.ScanResult scanResult = road.scanCells(lane, position.cell(), velocity, false);
-        int gap = scanResult.distance();
+        Road.ScanResult scanResult = road.scanCells(lane, position.cell(), velocity, false, preferredDistance);
+        int gap = scanResult.bufferDistance();
 
         if (scanResult.endOfRoadReached()) {
             int remainingDistance = velocity - gap;
