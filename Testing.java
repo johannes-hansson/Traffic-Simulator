@@ -18,6 +18,7 @@ public class Testing {
     private VehicleBehaviour beh;
     private VehicleMovement move;
     private Simulation sim; 
+    private PropertiesRegistry propertiesRegistry;
 
     @Before //each test
    public void setUp(){
@@ -26,11 +27,12 @@ public class Testing {
         beh = new VehicleBehaviour();
         move = new VehicleMovement();
         vehicles = new ArrayList<>();
+        propertiesRegistry = new PropertiesRegistry();
         Node node = null; 
         road = new Road(node, 20, 1, null, "TestRoad");
 
-        //creations of cars
-        //properties = new VehicleProperties(5, 1, 1);
+        //creations of cars    
+        properties = propertiesRegistry.getVehicleProperties("car");
 
         pos1 = new RoadPosition(road, 0, 1);
         pos2 = new RoadPosition(road, 0, 5);
