@@ -23,6 +23,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+
+import javax.swing.*;
 //import javafx.scene.paint.Paint;
 
 public class Main extends Application {
@@ -195,6 +197,8 @@ public class Main extends Application {
             public void handle(ActionEvent actionEvent) {
                 simulation.stop(); // stop simulation
 
+
+
                 // create popup window
                 Stage statsStage = new Stage();
                 VBox statsRoot = new VBox(10);
@@ -205,20 +209,43 @@ public class Main extends Application {
 
                 TextArea statsArea = new TextArea(); // create text are for statistics
                 statsArea.setPrefSize(250, 160);
+                Button infoButton = new Button("statistics Info");
+                infoButton.setOnAction(e ->{
+                    String infoText =
+                        "Explanation of the simulation statistics\n\n" +
+                        "Simulation ticks\nThe numbers of ticks the simulation has done so far.\n\n" +
+                        "Number of vechicles\nThe total number of vehicles currently in the simulation.\n\n" +
+                        "Average velocity\nThe avrage speed of all vehicles in teh simulation.\n\n" +
+                        "Maximum velocity\nThe highest speed reached be any vehicles.\n\n" +
+                        "Stopped vechicles\n Vehicles with speed equal to zero.\n\n" +
+                        "Vehicles with collision risk\nVechiles whose distance to the vehicle ahead in cells is maller than or equal to" +
+                        "their current speed.\nThis showes that the vehicle dose not have enough space for good safety\n\n" +
+                        "Vehicles in traffic jam\nVehicles moving slowly (velocity =1) and located within two cell of another vehicle ahead\n\n" +
+                        "Average gap between vehicles\nThe average gap between vehicles in the simulation";
+
+                    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION, infoText);
+                    infoAlert.setTitle("Statistics explanation");
+                    infoAlert.getDialogPane().setPrefSize(400,650);
+                    infoAlert.showAndWait();
+                });
 
                 // change these stats later
                 SimulationStatistics.TickStats latest = statistics.getLatest();
 
                 statsArea.setText(
-                        "Amount of ticks during simulation: " + latest.tick() + "\n" +
-                        "Amount of vehicles: " + latest.vehicleCount() + "\n" +
+                        "Statistics for the simulation\n" +
+                        "-----------------------------\n" +
+                        "Simulation ticks: " + latest.tick() + "\n" +
+                        "Number of vehicles: " + latest.vehicleCount() + "\n" +
                         "Average velocity: " + String.format("%.2f",latest.avgVelocity()) + "\n" +
-                        "Max velocity: " + latest.maxVelocity() + "\n" +
-                        "Amount of stopped vehicles: " + latest.stoppedCount() + "\n" +
-                        "Amount of jammed vehicles: " + latest.jammedCount() + "\n" +
-                        "Amount of vehicles that had collision risks: " + latest.collisionRiskCount() + "\n" +
+                        "Maximum velocity: " + latest.maxVelocity() + "\n" +
+                        "Stoppped vehicles: " + latest.stoppedCount() + "\n" +
+                        "Vehciles in traffic jam: " + latest.jammedCount() + "\n" +
+                        "Vehciles with collision risk: " + latest.collisionRiskCount() + "\n" +
                         "Average gap between vehicles: " + String.format("%.2f",latest.avgGap())
                 );
+
+
 
                 statsArea.setEditable(false); // make so you cant write in teh box
 
@@ -227,8 +254,11 @@ public class Main extends Application {
 
                 // this makes the buttons line up nest to each other
                 javafx.scene.layout.HBox buttonRow = new javafx.scene.layout.HBox(20);
+                infoButton.setPrefSize(100,40);
+                restartButton.setPrefSize(110,40);
+                exitButton.setPrefSize(100,40);
                 buttonRow.setAlignment(Pos.CENTER);
-                buttonRow.getChildren().addAll(restartButton, exitButton);
+                buttonRow.getChildren().addAll(infoButton, restartButton, exitButton);
 
                 statsRoot.getChildren().addAll(statsLabel, statsArea, buttonRow);
 
@@ -261,6 +291,7 @@ public class Main extends Application {
                     public void handle(ActionEvent actionEvent) {
                         simulation.stop();
                         Platform.exit();
+
                     }
                 };
 
