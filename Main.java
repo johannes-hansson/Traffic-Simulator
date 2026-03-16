@@ -108,7 +108,7 @@ public class Main extends Application {
                 try {
                     int nCars = Integer.parseInt(numCarsField.getText());
 
-                    if(nCars < 1 || nCars > 1500){ // check if the input is within given limits
+                    if(nCars < 1 || nCars > 15000){ // check if the input is within given limits
                         Alert amountAlert = new Alert(Alert.AlertType.ERROR);
                         amountAlert.setHeaderText("Input number not within given limits");
                         amountAlert.setContentText("Please write a number between 0 and 1500");

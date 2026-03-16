@@ -1,13 +1,13 @@
 import javafx.scene.paint.Color;
 
 public enum VehicleColor {
-    Red(Color.RED),
-    Green(Color.GREEN),
-    LightBlue(Color.SKYBLUE),
-    Black(Color.BLACK),
-    Pink(Color.HOTPINK),
-    Grey(Color.DARKGREY),
-    Orange(Color.ORANGE);
+    RED(Color.RED),
+    GREEN(Color.GREEN),
+    LIGHTBLUE(Color.SKYBLUE),
+    BLACK(Color.BLACK),
+    PINK(Color.HOTPINK),
+    GREY(Color.DARKGREY),
+    ORANGE(Color.ORANGE);
 
     private Color javaFXColor;
 
