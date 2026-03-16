@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;    //imports JUnits assertion methods
 import org.junit.Test;     //imports the @Test anotations
+
 import org.junit.Before;   //import for before and after annotations
 import org.junit.After;
 import java.util.ArrayList;
@@ -15,10 +16,14 @@ public class Testing {
     private RoadPosition pos2;
     private RoadPosition pos3;
     private Road road; 
+    private Road road2; 
+    private Road endroad; 
+    private MockNode roadcorner;
     private VehicleBehaviour beh;
     private VehicleMovement move;
     private Simulation sim; 
     private PropertiesRegistry propertiesRegistry;
+    private TrafficLight trafficlight;
 
     @Before //each test
    public void setUp(){
@@ -28,12 +33,23 @@ public class Testing {
         move = new VehicleMovement();
         vehicles = new ArrayList<>();
         propertiesRegistry = new PropertiesRegistry();
-        Node node = null; 
-        road = new Road(node, 20, 1, null, "TestRoad");
+
+        //road objects
+        trafficlight = new TrafficLight(2);
+
+        roadcorner = new MockNode(new double[]{100, 100}, 10, true);
+        road = new Road(roadcorner, 20, 1, null, "TestRoad");
+        road2 = new Road(roadcorner, 30, 1, null, "TestRoad 2");
+        roadcorner.addIncomingRoad(road, CardinalDirection.WEST);
+        roadcorner.addIncomingRoad(road2, CardinalDirection.EAST);
+        
+        endroad = new Road(null, 30, 1, null, "The road which both road 1 and road 2 leads to");
+        roadcorner.addOutgoingRoad(endroad, CardinalDirection.NORTH);
 
         //creations of cars    
         properties = propertiesRegistry.getVehicleProperties("car");
 
+        //all on same road
         pos1 = new RoadPosition(road, 0, 1);
         pos2 = new RoadPosition(road, 0, 5);
         pos3 = new RoadPosition(road, 0, 4);
@@ -148,10 +164,99 @@ public class Testing {
 
     @Test
     public void testStatistics(){
+        
+    }
+
+    @Test
+    public void testScanCells(){
+        //on empty road
+        Road.ScanResult isRoadEmpty = endroad.scanCells(0, 1 , 29, true);
+        assertFalse("Empty road is not occupied", isRoadEmpty.wasBlocked());
+
+        //traffic on road
+        Road.ScanResult isRoadEmpty1 = road.scanCells(0, 1 , 19, true);
+        assertTrue("Road should be blocked by vehicles", isRoadEmpty1.wasBlocked());
 
     }
     
-    //@Test
-    //public void 
+    @Test
+    public void testTransitionTrafficLights(){
+        trafficlight.addRoad(road, 0);  //has traffic
+        trafficlight.addRoad(road2, 1); //has no traffic
+        trafficlight.addRoad(endroad, 2); //has yet no traffic
+        //assertEquals("Road 2 should have no vehicles initially", road2.getVehicles().size(), 0);
+
+        //assertTrue("Road1 should have incoming traffic", trafficlight.hasIncomingTraffic(road));
+        //assertFalse("Road2 should not have incoming traffic", trafficlight.hasIncomingTraffic(road2));
+
+        trafficlight.update();
+        //assertTrue("Road1 should have green", trafficlight.hasGreen(road));
+        //sertFalse("Road2 should have red", trafficlight.hasGreen(road2));  
+
+        trafficlight.update(); 
+        for(int i = 0; i<40; i++){
+            beh.process(vehicles);   // acceleration, deceleration and so on
+            move.process(vehicles);              // apply movement
+            trafficlight.update();
+        }
+    
+       // assertFalse("Road1 should have red", trafficlight.hasGreen(road));
+        //assertTrue("Road2 should have gren", trafficlight.hasGreen(road2));  
+
+        // If no traffic on road1, it should transition to road2
+        //assertTrue(trafficlight.hasIncomingTraffic(road));
+        //assertTrue(trafficlight.hasIncomingTraffic(road2));
+        //assertTrue(trafficlight.hasGreen(road2));
+    }
+
+    @Test
+    public void testHasIncomingTraffic(){
+        //empty road
+        assertTrue(trafficlight.hasIncomingTraffic(road));
+        assertTrue(trafficlight.hasIncomingTraffic(road2));
+    }
+
+    @Test
+    public void testSimulationButtonFunctionality(){
+        SimulationStatistics stats = new SimulationStatistics();
+        
+        sim.addUpdateListener(s -> System.out.println("tick = " + s.getTick()));
+        sim.addUpdateListener(stats);
+
+        sim.addUpdateListener(s -> {
+            var latest = stats.getLatest();
+            if (latest != null && latest.tick() % 5 == 0) { //printing statistics each 5 ticks
+                System.out.println(latest);
+            }
+        });
+
+        sim.addUpdateListener(s -> {
+            for (Vehicle v : s.getVehicles()) {
+                System.out.println(
+                        v.getProperties().color() +
+                                " cell=" + v.getPosition().cell() +
+                                " vel=" + v.getVelocity()
+                );
+            }
+        });
+
+        sim.start();
+
+        Thread.sleep(350);
+
+        sim.pause();
+        int pausedAt = sim.getTick();
+        System.out.println("Paused at tick: " + pausedAt);
+
+        Thread.sleep(400);
+        System.out.println("Still paused tick: " + sim.getTick());
+
+        sim.resume();
+        Thread.sleep(300);
+
+        sim.stop();
+
+        System.out.println("Stopped at tick: " + sim.getTick());
+    }
 
 }
