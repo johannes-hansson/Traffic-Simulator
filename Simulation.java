@@ -228,6 +228,18 @@ public class Simulation {
         }
     }
 
+    public void addVehicle(String type, Road road, int lane, int cell) {
+        VehicleProperties properties = this.propertiesRegistry.getVehicleProperties(type);
+        RoadPosition position = new RoadPosition(road, lane, cell);
+        Vehicle vehicle = new Vehicle(properties, position, 0);
+        vehicles.add(vehicle);
+        position.road().enterVehicle(
+                vehicle,
+                position.lane(),
+                position.cell()
+        );
+    }
+
     public void addVehicle(Vehicle newVehicle, RoadPosition startPosition) {
         vehicles.add(newVehicle);
 

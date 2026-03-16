@@ -25,16 +25,6 @@ public class RoadRender {
         }
     }
 
-    public void displayPoints() {
-        for (int i=0; i<this.breakPoints.size(); i++) {
-            BreakPoint point = this.breakPoints.get(i);
-            double x = point.x();
-            double y = point.y();
-            System.out.println("Displaying breakpoint:");
-            System.out.println("x: " + Double.toString(x) + " y: " + Double.toString(y));
-        }
-    }
-
     public double getWidth() {
         return this.width;
     }
@@ -43,7 +33,9 @@ public class RoadRender {
         return this.breakPoints;
     }
 
-    public void draw(Pane root) {
+    public void draw(Pane root, Road road) {
+
+        ArrayList<Line> laneMarkings = new ArrayList<>();
 
         // Draw between each pair of points
         for (int i = 0; i < breakPoints.size() - 1; i++){
@@ -60,11 +52,48 @@ public class RoadRender {
 
             root.getChildren().add(roadSegment);
 
+            // Draw lane markings
+            double dx = p2.x() - p1.x();
+            double dy = p2.y() - p1.y();
+            double length = Math.sqrt(dx * dx + dy * dy);
+            double[] perpendicularUnitVector = new double[] {
+                    -dy / length,
+                    dx / length
+            };
+
+            double laneWidth = roadSegment.getStrokeWidth() / road.getLanes();
+            double segmentStartX = p1.x() + perpendicularUnitVector[0] * this.width / 2;
+            double segmentStartY = p1.y() + perpendicularUnitVector[1] * this.width / 2;
+            double segmentEndX = p2.x() + perpendicularUnitVector[0] * this.width / 2;
+            double segmentEndY = p2.y() + perpendicularUnitVector[1] * this.width / 2;
+
+            for (int j = 1; j < road.getLanes(); j++) {
+                double startX = segmentStartX - perpendicularUnitVector[0] * laneWidth * j;
+                double startY = segmentStartY - perpendicularUnitVector[1] * laneWidth * j;
+                double endX = segmentEndX - perpendicularUnitVector[0] * laneWidth * j;
+                double endY = segmentEndY - perpendicularUnitVector[1] * laneWidth * j;
+
+                Line laneMarking = new Line(
+                        startX, startY,
+                        endX, endY
+                );
+
+                laneMarking.setStrokeWidth(1);
+                laneMarking.setStroke(Color.BLACK);
+                laneMarking.getStrokeDashArray().addAll(5.0, 5.0);
+                laneMarkings.add(laneMarking);
+            }
+
             /*root = Pane = drawing surface / empty box
             getChildren = all that is within the box
             add = adds our lines*/
 
         }
+
+        for (Line laneMarking : laneMarkings) {
+            root.getChildren().add(laneMarking);
+        }
+
     }
 
 }

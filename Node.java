@@ -7,11 +7,9 @@ import java.util.List;
 
 public interface Node {
     public ArrayList<Road> getAvailableTurns(Road incoming);
+    public ArrayList<Road> getAvailableTurnsFromLane(Road incoming, int lane);
     public int[][] getLaneMap(Road incoming, Road outgoing);
     public boolean requestTurn(Road incoming, Road outgoing);
     public double[] getPosition();
     public double getWidth();
-
-    public List<Road> getOpenRoads();
-    public List<Road> getClosedRoads();
 }
