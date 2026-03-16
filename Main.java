@@ -65,7 +65,7 @@ public class Main extends Application {
 
         // choose amount of cars
         Label chooseVehicles = new Label("How many vehicles should participate in the simulation?");
-        Label vehicleLimit = new Label("Write a number between 0 and 1500");
+        Label vehicleLimit = new Label("Write a number between 0 and 2000");
         TextField numCarsField = new TextField();
 
         chooseVehicles.setAlignment(Pos.CENTER);
@@ -110,10 +110,10 @@ public class Main extends Application {
                 try {
                     int nCars = Integer.parseInt(numCarsField.getText());
 
-                    if(nCars < 1 || nCars > 15000){ // check if the input is within given limits
+                    if(nCars < 1 || nCars > 2000){ // check if the input is within given limits
                         Alert amountAlert = new Alert(Alert.AlertType.ERROR);
                         amountAlert.setHeaderText("Input number not within given limits");
-                        amountAlert.setContentText("Please write a number between 0 and 1500");
+                        amountAlert.setContentText("Please write a number between 0 and 2000");
                         amountAlert.showAndWait();
                         return;
                     }
@@ -129,7 +129,7 @@ public class Main extends Application {
                 } catch (NumberFormatException e) { // check if the input is a number, otherwise alert
                     Alert typeAlert = new Alert(Alert.AlertType.ERROR);
                     typeAlert.setHeaderText("Input is invalid");
-                    typeAlert.setContentText("Please write a number between 0 and 1500");
+                    typeAlert.setContentText("Please write a number between 0 and 2000");
                     typeAlert.showAndWait();
                 }
             }

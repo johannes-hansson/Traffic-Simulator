@@ -280,9 +280,9 @@ public class Map {
                 new BreakPoint(30, 405, 50),
         }, "cr12");
 
-        createRoad(ch4, ch3, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
-                new BreakPoint(450, 445, 0),
-                new BreakPoint(450, 405, 50),
+        createRoad(ch3, ch4, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                new BreakPoint(450, 405, 0),
+                new BreakPoint(450, 445, 40),
         }, "cr34");
 
         createRoad(ch4, ch5, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
@@ -438,15 +438,15 @@ public class Map {
                 new BreakPoint(600, 605, 200),
         }, "dr1926");
 
-        createRoad(dh6, dh8, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
-                new BreakPoint(755, 450, 0),
-                new BreakPoint(895, 450, 150),
-        }, "dr68");
+        createRoad(dh8, dh6, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(895, 450, 0),
+                new BreakPoint(755, 450, 150),
+        }, "dr86");
 
-        createRoad(dh9, dh10, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(905, 400, 0),
-                new BreakPoint(1165, 400, 270),
-        }, "dr910");
+        createRoad(dh10, dh9, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(1165, 400, 0),
+                new BreakPoint(905, 400, 270),
+        }, "dr109");
 
         createRoad(dh9, dh8, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(900, 405, 0),
@@ -564,9 +564,9 @@ public class Map {
                 new BreakPoint(595, 50, 150),
         }, "abr161");
 
-        createRoad(bh2, ah17, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(595, 150, 0),
-                new BreakPoint(455, 150, 150),
+        createRoad(ah17, bh2, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(455, 150, 0),
+                new BreakPoint(595, 150, 150),
         }, "bar172");
 
         createRoad(ah11, bh22, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
@@ -601,11 +601,6 @@ public class Map {
         }, "cdr259");
 
 // ZONE A
-
-        createRoad(ah3, ah4, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
-                new BreakPoint(170, 55, 0),
-                new BreakPoint(170, 95, 50),
-        }, "ar34");
 
         createRoad(ah3, ah15, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(175, 50, 0),
@@ -643,10 +638,10 @@ public class Map {
                 new BreakPoint(30, 155, 50),
         }, "ar75");
 
-        createRoad(ah7, ah8, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
-                new BreakPoint(35, 200, 0),
-                new BreakPoint(295, 200, 270),
-        }, "ar78");
+        createRoad(ah8, ah7, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(295, 200, 0),
+                new BreakPoint(35, 200, 270),
+        }, "ar87");
 
         createRoad(ah10, ah7, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
                 new BreakPoint(30, 295, 0),
@@ -678,9 +673,9 @@ public class Map {
                 new BreakPoint(300, 195, 50),
         }, "ar98");
 
-        createRoad(ah9, ah6, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(295, 150, 0),
-                new BreakPoint(175, 150, 130),
+        createRoad(ah6, ah9, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(175, 150, 0),
+                new BreakPoint(295, 150, 130),
         }, "ar96");
 
         createRoad(ah15, ah9, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
@@ -756,10 +751,10 @@ public class Map {
                 new BreakPoint(1045, 200, 150),
         }, "br1024");
 
-        createRoad(bh24, bh28, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
-                new BreakPoint(1055, 200, 0),
-                new BreakPoint(1165, 200, 120),
-        }, "br2428");
+        createRoad(bh28, bh24, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(1165, 200, 0),
+                new BreakPoint(1055, 200, 120),
+        }, "br2824");
 
         createRoad(bh3, bh4, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(900, 55, 0),
@@ -796,10 +791,10 @@ public class Map {
                 new BreakPoint(600, 155, 150),
         }, "br62");
 
-        createRoad(bh11, bh8, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
-                new BreakPoint(750, 195, 0),
-                new BreakPoint(750, 155, 50),
-        }, "br118");
+        createRoad(bh8, bh11, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                new BreakPoint(750, 155, 0),
+                new BreakPoint(750, 195, 50),
+        }, "br811");
 
         createRoad(bh11, bh10, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(755, 200, 0),
@@ -831,10 +826,10 @@ public class Map {
                 new BreakPoint(900, 295, 100),
         }, "br1020");
 
-        createRoad(bh23, bh24, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
-                new BreakPoint(1050, 295, 0),
-                new BreakPoint(1050, 205, 100),
-        }, "br2324");
+        createRoad(bh24, bh23, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                new BreakPoint(1050, 205, 0),
+                new BreakPoint(1050, 295, 100),
+        }, "br2423");
 
         createRoad(bh28, bh29, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(1170, 205, 0),
