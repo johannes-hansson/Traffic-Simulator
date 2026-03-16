@@ -39,7 +39,7 @@ public class View implements SimulationUpdateListener {
                     Rectangle nodeGraphic = new Rectangle(size, size);
                     nodeGraphic.setX(position[0] - nodeGraphic.getWidth() / 2);
                     nodeGraphic.setY(position[1] - nodeGraphic.getHeight() / 2);
-                    nodeGraphic.setFill(Color.GRAY);
+                    nodeGraphic.setFill(Color.WHITE);
                     this.roadLayer.getChildren().add(nodeGraphic);
                 }
 
