@@ -218,8 +218,8 @@ public class Main extends Application {
                         "Average velocity\nThe avrage speed of all vehicles in teh simulation.\n\n" +
                         "Maximum velocity\nThe highest speed reached be any vehicles.\n\n" +
                         "Stopped vechicles\n Vehicles with speed equal to zero.\n\n" +
-                        "Vehicles with collision risk\nVechiles whose distance to the vehicle ahead in cells is maller than or equal to" +
-                        "their current speed.\nThis showes that the vehicle dose not have enough space for good safety\n\n" +
+                        "Vehicles with collision risk\nVechiles whos distance to the vehicle ahead in cells is maller than or equal to" +
+                        "their current speed.\nThis shows that the vehicle dose not have enough space for good safety\n\n" +
                         "Vehicles in traffic jam\nVehicles moving slowly (velocity =1) and located within two cell of another vehicle ahead\n\n" +
                         "Average gap between vehicles\nThe average gap between vehicles in the simulation";
 
@@ -233,8 +233,7 @@ public class Main extends Application {
                 SimulationStatistics.TickStats latest = statistics.getLatest();
 
                 statsArea.setText(
-                        "Statistics for the simulation\n" +
-                        "-----------------------------\n" +
+                        
                         "Simulation ticks: " + latest.tick() + "\n" +
                         "Number of vehicles: " + latest.vehicleCount() + "\n" +
                         "Average velocity: " + String.format("%.2f",latest.avgVelocity()) + "\n" +
