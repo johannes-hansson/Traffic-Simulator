@@ -110,7 +110,7 @@ public class Testing {
         for(int i=1; i<100; i++){
             Vehicle vehicleX = new Vehicle(properties, pos1, 5);
             int prev_velocity = vehicleX.getVelocity();
-            int newVelocity = beh.randomisation(vehicleX, 0.5);
+            int newVelocity = beh.applyRandomBreaking(prev_velocity, 0.5);
 
             if(newVelocity == prev_velocity--){
                 decreasedVelocity = true;
@@ -132,14 +132,14 @@ public class Testing {
     @Test
     public void testAccelerate(){
         int prev_velocity = vehicle1.getVelocity();
-        int newVelocity = beh.accelerate(vehicle1);
+        int newVelocity = beh.accelerate(vehicle1, prev_velocity);
         assertEquals("Acceleration function success", prev_velocity++, newVelocity);
     }
 
     @Test
     public void testDeaccelerate(){ 
         int prev_velocity = vehicle1.getVelocity();
-        int newVelocity = beh.deaccelerate(vehicle1);
+        int newVelocity = beh.decelerate(vehicle1, prev_velocity, 0, false);
         assertTrue("Deaccelerate function success", prev_velocity >= newVelocity);
     }
 

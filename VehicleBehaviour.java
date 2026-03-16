@@ -151,7 +151,7 @@ public class VehicleBehaviour {
 
     // Returns an accelerated velocity based on the properties of a vehicle
     // Velocity = min(currentVelocity + acceleration, maxVelocity)
-    private int accelerate(Vehicle vehicle, int currentVelocity) {
+    public int accelerate(Vehicle vehicle, int currentVelocity) {
         VehicleProperties properties = vehicle.getProperties();
         int newVelocity = currentVelocity + properties.acceleration();
     
@@ -202,7 +202,7 @@ public class VehicleBehaviour {
     // Returns a decelerated velocity based on the available gap in the given lane
     // The new velocity accounts for possible turns, where it includes the gap
     // on roads ahead if the turn is possible
-    private int decelerate(Vehicle vehicle, int currentVelocity, int currentLane, boolean canChangeLane) {
+    public int decelerate(Vehicle vehicle, int currentVelocity, int currentLane, boolean canChangeLane) {
         RoadPosition position = vehicle.getPosition();
         Road road = position.road();
         int cell = position.cell();
@@ -264,7 +264,7 @@ public class VehicleBehaviour {
     }
 
     // Applies a deceleration to the given velocity of one unit based on the probability p
-    private int applyRandomBreaking(int velocity, double p){
+    public int applyRandomBreaking(int velocity, double p){
         double randomDouble = this.numberGenerator.nextDouble();  //generates a random double between 0.0 and 1.0
 
         if (randomDouble <= p) {
