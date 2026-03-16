@@ -327,7 +327,7 @@ public class Main extends Application {
     private void showSimulationWindow(Stage stage, Pane root, Simulation simulation, View view) {
 
         Scene scene = new Scene(root, 1200,800);
-        stage.setTitle("Traffic simulator demo");
+        stage.setTitle("Traffic simulator");
         stage.setScene(scene);
         stage.show();
 
