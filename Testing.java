@@ -24,6 +24,8 @@ public class Testing {
     private Simulation sim; 
     private PropertiesRegistry propertiesRegistry;
     private TrafficLight trafficlight;
+    private TrafficLight trafficlight2;
+    private ArrayList<Node> nodes;
 
     @Before //each test
    public void setUp(){
@@ -33,12 +35,14 @@ public class Testing {
         move = new VehicleMovement();
         vehicles = new ArrayList<>();
         propertiesRegistry = new PropertiesRegistry();
+        nodes = new ArrayList<>();
 
         //road objects
-        trafficlight = new TrafficLight(3);
+        trafficlight = new TrafficLight(1);
+        trafficlight2 = new TrafficLight(1);
 
         //adding roads and corner
-        roadcorner = new MockNode(new double[]{100, 100}, 10, true);
+        roadcorner = new MockNode(new double[]{100, 100}, 10, false);
         road = new Road(roadcorner, 20, 1, null, "TestRoad");
         road2 = new Road(roadcorner, 30, 1, null, "TestRoad 2");
         roadcorner.addIncomingRoad(road, CardinalDirection.WEST);
@@ -46,6 +50,7 @@ public class Testing {
         
         endroad = new Road(null, 30, 1, null, "The road which both road 1 and road 2 leads to");
         roadcorner.addOutgoingRoad(endroad, CardinalDirection.NORTH);
+        nodes.add(roadcorner);
 
         //creations of cars    
         properties = propertiesRegistry.getVehicleProperties("car");
@@ -168,12 +173,6 @@ public class Testing {
         assertTrue("Deaccelerate function success", prev_velocity >= newVelocity);
     }
 
-
-    @Test
-    public void testStatistics(){
-        
-    }
-
     @Test
     public void testScanCells(){
         
@@ -196,19 +195,26 @@ public class Testing {
     @Test
     public void testTrafficLightInitialState(){
         trafficlight.addRoad(road, 0);  //has traffic
-        trafficlight.addRoad(road2, 1); //has no traffic
+        trafficlight2.addRoad(road2, 1); //has no traffic
 
         trafficlight.update();
         assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
-        assertFalse("Road2 should have red initially", trafficlight.hasGreen(road2));  
+        assertFalse("Road2 should have red initially", trafficlight2.hasGreen(road2));  
     }
 
     @Test
     public void testTrafficLightSwitch(){
-        
+        trafficlight.addRoad(road, 0);  //has traffic
+        trafficlight2.addRoad(road2, 1); //has no traffic
 
-        //add vehicle to the road that has red
-        pos1 = new RoadPosition(road2, 0, 5);
+        assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
+        assertFalse("Road2 should have red initially", trafficlight2.hasGreen(road2));  
+
+        for(int cell=0; cell<road.getLength(); cell++){
+            road.removeVehicleAt(0, cell);
+        }
+        //add vehicle to the road2 that has curretly red light
+        pos1 = new RoadPosition(road2, 0, 25);
         pos2 = new RoadPosition(road2, 0, 20);
 
         road2.enterVehicle(vehicle1, 0, pos1.cell());
@@ -217,6 +223,7 @@ public class Testing {
         //update until min green has been reached
         for(int i = 0; i < 25; i++){
             trafficlight.update();
+            trafficlight2.update();
         }
      
         assertFalse("Road1 should be red", trafficlight.hasGreen(road));
@@ -224,46 +231,32 @@ public class Testing {
     }
 
     @Test
-    public void testSimulationButtonFunctionality(){        //Not yet fixed
+    public void testSimulationButtonFunctionality() throws InterruptedException{ 
         SimulationStatistics stats = new SimulationStatistics();
-        
-        sim.addUpdateListener(s -> System.out.println("tick = " + s.getTick()));
         sim.addUpdateListener(stats);
 
-        sim.addUpdateListener(s -> {
-            var latest = stats.getLatest();
-            if (latest != null && latest.tick() % 5 == 0) { //printing statistics each 5 ticks
-                System.out.println(latest);
-            }
-        });
-
-        sim.addUpdateListener(s -> {
-            for (Vehicle v : s.getVehicles()) {
-                System.out.println(
-                        v.getProperties().color() +
-                                " cell=" + v.getPosition().cell() +
-                                " vel=" + v.getVelocity()
-                );
-            }
-        });
-
-        /*sim.start();
-
+        //start simulation
+        sim.start();
         Thread.sleep(350);
+        int tickAfterStart = sim.getTick();
+        assertTrue("Check for simulation start", tickAfterStart > 0);
 
+        //pause simulation
         sim.pause();
         int pausedAt = sim.getTick();
-        System.out.println("Paused at tick: " + pausedAt);
-
-        Thread.sleep(400);
-        System.out.println("Still paused tick: " + sim.getTick());
+        Thread.sleep(300);
+        assertEquals("Tick should remain same when paused", pausedAt, sim.getTick());
 
         sim.resume();
+        int resumed = sim.getTick();
         Thread.sleep(300);
+        assertTrue("Check for simulation tick to continue", resumed < sim.getTick());
 
         sim.stop();
 
-        System.out.println("Stopped at tick: " + sim.getTick());*/
+        int stoppedAt = sim.getTick();
+        Thread.sleep(300);
+        assertEquals("Tick should remain same when stopped", stoppedAt, sim.getTick());
     }
 
 }
