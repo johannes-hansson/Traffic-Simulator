@@ -204,15 +204,18 @@ public class Testing {
 
     @Test
     public void testTrafficLightSwitch(){
+
         trafficlight.addRoad(road, 0);  //has traffic
-        trafficlight2.addRoad(road2, 1); //has no traffic
+        trafficlight2.addRoad(road2, 0); //has no traffic
 
         assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
         assertFalse("Road2 should have red initially", trafficlight2.hasGreen(road2));  
 
-        for(int cell=0; cell<road.getLength(); cell++){
-            road.removeVehicleAt(0, cell);
-        }
+        assertEquals(vehicle1.getPosition().cell(),1);
+        assertEquals(vehicle2.getPosition().cell(), 5);
+        
+        road.removeVehicleAt(0, 5);
+
         //add vehicle to the road2 that has curretly red light
         pos1 = new RoadPosition(road2, 0, 25);
         pos2 = new RoadPosition(road2, 0, 20);
