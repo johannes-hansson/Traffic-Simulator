@@ -1,4 +1,7 @@
 import javafx.scene.shape.Circle;
+
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 
 public class TrafficLight implements Infrastructure {
@@ -32,7 +35,7 @@ public class TrafficLight implements Infrastructure {
     private int maxGreenTime = 200;
 
     // State attributes
-    private int activeGreen;
+    public int activeGreen;
     private int currentGreenTime;
 
     // Properties

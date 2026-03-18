@@ -30,19 +30,15 @@ public class Testing {
     @Before //each test
    public void setUp(){
         //create new objects
-        sim = new Simulation();
+        sim = Simulation.createDefault();
         beh = new VehicleBehaviour();
         move = new VehicleMovement();
         vehicles = new ArrayList<>();
         propertiesRegistry = new PropertiesRegistry();
         nodes = new ArrayList<>();
 
-        //road objects
-        trafficlight = new TrafficLight(1);
-        trafficlight2 = new TrafficLight(1);
-
         //adding roads and corner
-        roadcorner = new MockNode(new double[]{100, 100}, 10, false);
+        roadcorner = new MockNode(new double[]{100, 100}, 10, true);
         road = new Road(roadcorner, 20, 1, null, "TestRoad");
         road2 = new Road(roadcorner, 30, 1, null, "TestRoad 2");
         roadcorner.addIncomingRoad(road, CardinalDirection.WEST);
@@ -51,6 +47,10 @@ public class Testing {
         endroad = new Road(null, 30, 1, null, "The road which both road 1 and road 2 leads to");
         roadcorner.addOutgoingRoad(endroad, CardinalDirection.NORTH);
         nodes.add(roadcorner);
+
+        //traffic light
+        trafficlight = roadcorner.getTrafficLight();
+        trafficlight.update();
 
         //creations of cars    
         properties = propertiesRegistry.getVehicleProperties("car");
@@ -96,7 +96,7 @@ public class Testing {
     }
 
     @Test
-    public void testBehaviorMovement(){  //check change of speed
+    public void testBehaviorVelocityComputations(){  //check change of speed
 
         int Speed1 = vehicle1.getVelocity();
         int Speed2 = vehicle2.getVelocity();
@@ -110,16 +110,17 @@ public class Testing {
         int NewSpeed2 = vehicle2.getVelocity();
         int NewSpeed3 = vehicle3.getVelocity();
 
-
-        assertTrue("No cars close enough in front to hinder to go same speed", Speed1 == NewSpeed1 || Speed1 == NewSpeed1--);       
+        //No cars close enough in front to hinder to go same speed
+        assertTrue("Vehicles in front which hinder to go current speed", Speed1 == NewSpeed1 || Speed1 == NewSpeed1--);       
         //have same speed or 1 less unit speed 
 
-        assertTrue("No cars in front of this vehicle", Speed2 == NewSpeed2 || Speed2 == NewSpeed2--);     
+        //No cars in front of this vehicle
+        assertTrue("Vehicles in front, cant go normal speed", Speed2 == NewSpeed2 || Speed2 == NewSpeed2--);     
         //have same speed or 1 less unit speed 
 
         //have a different slower speed (vehicle 2 is in front)
         assertNotEquals(Speed3, NewSpeed3); 
-        assertTrue("vehicle have succesfully slowed down", Speed3 > NewSpeed3);       
+        assertTrue("Vehicle has not succesfully slowed down", Speed3 > NewSpeed3);       
         
         //non negative velocities
         assertTrue(Speed1 > 0);
@@ -195,38 +196,63 @@ public class Testing {
     @Test
     public void testTrafficLightInitialState(){
         trafficlight.addRoad(road, 0);  //has traffic
-        trafficlight2.addRoad(road2, 1); //has no traffic
+        trafficlight.addRoad(road2, 1); //has no traffic
 
         trafficlight.update();
         assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
-        assertFalse("Road2 should have red initially", trafficlight2.hasGreen(road2));  
+        assertFalse("Road2 should have red initially", trafficlight.hasGreen(road2));  
     }
 
     @Test
     public void testTrafficLightSwitch(){
-
-        trafficlight.addRoad(road, 0);  //has traffic
-        trafficlight2.addRoad(road2, 0); //has no traffic
-
-        assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
-        assertFalse("Road2 should have red initially", trafficlight2.hasGreen(road2));  
-
-        assertEquals(vehicle1.getPosition().cell(),1);
-        assertEquals(vehicle2.getPosition().cell(), 5);
         
-        road.removeVehicleAt(0, 5);
+        trafficlight.addRoad(road, 0);  //has traffic
+        trafficlight.addRoad(road2, 1); //has no traffic
 
-        //add vehicle to the road2 that has curretly red light
-        pos1 = new RoadPosition(road2, 0, 25);
-        pos2 = new RoadPosition(road2, 0, 20);
+        trafficlight.update();
+        assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
+        assertFalse("Road2 should have red initially", trafficlight.hasGreen(road2)); 
 
-        road2.enterVehicle(vehicle1, 0, pos1.cell());
-        road2.enterVehicle(vehicle2, 0, pos2.cell());
+        pos1 = new RoadPosition(road, 0, 19);
+        pos2 = new RoadPosition(road, 0, 18);
+        pos3 = new RoadPosition(road, 0, 15);
+        vehicle1.setPosition(pos1);
+        vehicle2.setPosition(pos2);
+        vehicle3.setPosition(pos3);
+
+        road.enterVehicle(vehicle1, 0, pos1.cell());
+        road.enterVehicle(vehicle2, 0, pos2.cell());
+        road.enterVehicle(vehicle3, 0, pos3.cell());
 
         //update until min green has been reached
         for(int i = 0; i < 25; i++){
             trafficlight.update();
-            trafficlight2.update();
+            
+        }
+
+        assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
+        assertFalse("Road2 should have red initially", trafficlight.hasGreen(road2));  
+
+        road.removeVehicleAt(0, pos1.cell());
+        road.removeVehicleAt(0, pos2.cell());
+        road.removeVehicleAt(0, pos3.cell());
+
+        pos1 = new RoadPosition(road2, 0, 20);
+        pos2 = new RoadPosition(road2, 0, 24);
+        pos3 = new RoadPosition(road2, 0, 23);
+        vehicle1.setPosition(pos1);
+        vehicle2.setPosition(pos2);
+        vehicle3.setPosition(pos3);
+        road2.enterVehicle(vehicle1, 0, pos1.cell());
+        road2.enterVehicle(vehicle2, 0,pos2.cell());
+        road2.enterVehicle(vehicle3, 0, pos3.cell());
+        beh.process(vehicles);
+        move.process(vehicles);
+
+        //update until min green has been reached
+        for(int i = 0; i < 25; i++){
+            trafficlight.update();
+            assertEquals("Active red index", 0, trafficlight.activeGreen);
         }
      
         assertFalse("Road1 should be red", trafficlight.hasGreen(road));
