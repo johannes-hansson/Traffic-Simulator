@@ -18,7 +18,7 @@ public class Testing {
     private Road road; 
     private Road road2; 
     private Road endroad; 
-    private MockNode roadcorner;
+    private Intersection roadcorner;
     private VehicleBehaviour beh;
     private VehicleMovement move;
     private Simulation sim; 
@@ -37,7 +37,7 @@ public class Testing {
         nodes = new ArrayList<>();
 
         //adding roads and corner
-        roadcorner = new MockNode(new double[]{100, 100}, 10, true);
+        roadcorner = new Intersection(new double[]{100, 100}, 10);
         road = new Road(roadcorner, 20, 1, null, "TestRoad");
         road2 = new Road(roadcorner, 30, 1, null, "TestRoad 2");
         roadcorner.addIncomingRoad(road, CardinalDirection.EAST);
@@ -94,6 +94,14 @@ public class Testing {
         assertEquals("vehicle2 movevement not successfull",vehicle2.getPosition().cell(), cellposition2 + currentSpeed2);
     }
 
+    public boolean accelerationSucess(int Speed, int NewSpeed){
+        int else_ = NewSpeed-1; //speed can decrease with one unit beacuse of randomization element in nagel schrekenberg model
+        if (Speed == NewSpeed || Speed == else_){
+            return true;
+        }
+        return false;
+    }
+
     @Test
     public void testBehaviorVelocityComputations(){  //check change of speed
 
@@ -109,12 +117,16 @@ public class Testing {
         int NewSpeed2 = vehicle2.getVelocity();
         int NewSpeed3 = vehicle3.getVelocity();
 
+        //take different vehicle acceleration in consideration when vehicles is not needing to deaccelerate
+        Speed1 = Speed1 + vehicle1.getProperties().acceleration() -1;
+        Speed2 = Speed2 + vehicle2.getProperties().acceleration() -1;
+        
         //No cars close enough in front to hinder to go same speed
-        assertTrue("Vehicles in front which hinder to go current speed", Speed1 == NewSpeed1 || Speed1 == NewSpeed1--);       
-        //have same speed or 1 less unit speed 
+        assertTrue("Vehicles in front or other hinder to go current speed", accelerationSucess(Speed1, NewSpeed1));       
+        //have same speed+acc or 1 less unit speed 
 
         //No cars in front of this vehicle
-        assertTrue("Vehicles in front, cant go normal speed", Speed2 == NewSpeed2 || Speed2 == NewSpeed2--);     
+        assertTrue("Vehicles in front, cant go normal speed", accelerationSucess(Speed2, NewSpeed2));     
         //have same speed or 1 less unit speed 
 
         //have a different slower speed (vehicle 2 is in front)
@@ -162,6 +174,9 @@ public class Testing {
     @Test
     public void testAccelerate(){
         int prev_velocity = vehicle1.getVelocity();
+        int vehicle_acceleration = vehicle1.getProperties().acceleration();
+
+        prev_velocity = vehicle_acceleration + prev_velocity;
         int newVelocity = beh.accelerate(vehicle1, prev_velocity);
         assertEquals("Acceleration function success", prev_velocity++, newVelocity);
     }
@@ -204,7 +219,6 @@ public class Testing {
 
     @Test
     public void testTrafficLightSwitch(){
-  
         for(int i = 0; i < 25; i++){
             trafficlight.update();
             
