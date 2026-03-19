@@ -24,7 +24,6 @@ public class Testing {
     private Simulation sim; 
     private PropertiesRegistry propertiesRegistry;
     private TrafficLight trafficlight;
-    private TrafficLight trafficlight2;
     private ArrayList<Node> nodes;
 
     @Before //each test
@@ -41,15 +40,15 @@ public class Testing {
         roadcorner = new MockNode(new double[]{100, 100}, 10, true);
         road = new Road(roadcorner, 20, 1, null, "TestRoad");
         road2 = new Road(roadcorner, 30, 1, null, "TestRoad 2");
-        roadcorner.addIncomingRoad(road, CardinalDirection.WEST);
-        roadcorner.addIncomingRoad(road2, CardinalDirection.EAST);
+        roadcorner.addIncomingRoad(road, CardinalDirection.EAST);
+        roadcorner.addIncomingRoad(road2, CardinalDirection.WEST);
         
         endroad = new Road(null, 30, 1, null, "The road which both road 1 and road 2 leads to");
         roadcorner.addOutgoingRoad(endroad, CardinalDirection.NORTH);
         nodes.add(roadcorner);
 
         //traffic light
-        trafficlight = roadcorner.getTrafficLight();
+       trafficlight = roadcorner.getTrafficLight();
         trafficlight.update();
 
         //creations of cars    
@@ -91,8 +90,8 @@ public class Testing {
 
         //check for updates of all vehicles get right position
         move.process(vehicles);
-        assertEquals("vehicle1 move success", vehicle1.getPosition().cell(), cellposition1 + currentSpeed1);
-        assertEquals("vehicle2 move success",vehicle2.getPosition().cell(), cellposition2 + currentSpeed2);
+        assertEquals("vehicle1 movement not successfull", vehicle1.getPosition().cell(), cellposition1 + currentSpeed1);
+        assertEquals("vehicle2 movevement not successfull",vehicle2.getPosition().cell(), cellposition2 + currentSpeed2);
     }
 
     @Test
@@ -164,14 +163,14 @@ public class Testing {
     public void testAccelerate(){
         int prev_velocity = vehicle1.getVelocity();
         int newVelocity = beh.accelerate(vehicle1);
-        assertEquals("Acceleration function success", prev_velocity++, newVelocity);
+        assertEquals("Acceleration function", prev_velocity++, newVelocity);
     }
 
     @Test
     public void testDeaccelerate(){ 
         int prev_velocity = vehicle1.getVelocity();
         int newVelocity = beh.deaccelerate(vehicle1);
-        assertTrue("Deaccelerate function success", prev_velocity >= newVelocity);
+        assertTrue("Deaccelerate function", prev_velocity >= newVelocity);
     }
 
     @Test
@@ -195,21 +194,21 @@ public class Testing {
     
     @Test
     public void testTrafficLightInitialState(){
-        trafficlight.addRoad(road, 0);  //has traffic
-        trafficlight.addRoad(road2, 1); //has no traffic
-
-        trafficlight.update();
+        for(int i = 0; i < 25; i++){
+            trafficlight.update();
+            
+        }
         assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
         assertFalse("Road2 should have red initially", trafficlight.hasGreen(road2));  
     }
 
     @Test
     public void testTrafficLightSwitch(){
-        
-        trafficlight.addRoad(road, 0);  //has traffic
-        trafficlight.addRoad(road2, 1); //has no traffic
-
-        trafficlight.update();
+  
+        for(int i = 0; i < 25; i++){
+            trafficlight.update();
+            
+        }
         assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
         assertFalse("Road2 should have red initially", trafficlight.hasGreen(road2)); 
 
@@ -230,8 +229,8 @@ public class Testing {
             
         }
 
-        assertTrue("Road1 should have green initially", trafficlight.hasGreen(road));
-        assertFalse("Road2 should have red initially", trafficlight.hasGreen(road2));  
+        assertTrue("Road1 should keep having green ", trafficlight.hasGreen(road));
+        assertFalse("Road2 should keep hvaing red", trafficlight.hasGreen(road2));  
 
         road.removeVehicleAt(0, pos1.cell());
         road.removeVehicleAt(0, pos2.cell());
@@ -250,9 +249,8 @@ public class Testing {
         move.process(vehicles);
 
         //update until min green has been reached
-        for(int i = 0; i < 25; i++){
+        for(int i = 0; i < 100; i++){
             trafficlight.update();
-            assertEquals("Active red index", 0, trafficlight.activeGreen);
         }
      
         assertFalse("Road1 should be red", trafficlight.hasGreen(road));

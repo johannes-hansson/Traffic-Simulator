@@ -73,7 +73,7 @@ public class TrafficLight implements Infrastructure {
     private boolean hasIncomingTraffic(Road road) {
         int roadLength = road.getLength();
         int scanStart = Math.max(roadLength - this.trafficCheckDistance, 0);
-        boolean includeStartInScan = true;
+        boolean includeStartInScan = false;
         boolean hasTraffic = false;
 
         for (int lane = 0; lane < road.getLanes(); lane++) {
