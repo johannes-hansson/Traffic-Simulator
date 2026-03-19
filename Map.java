@@ -1,4 +1,3 @@
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 
 /** Represents the road network used by the simulation.
@@ -18,139 +17,147 @@ public class Map {
         infrastructures = new ArrayList<>();
 
         // lägg till intersections (hörn)
-
         /*
-        MockNode southNode = new MockNode(new double[] {600, 750}, 10, true);
-        MockNode northNode = new MockNode(new double[] {600, 50}, 10, true);
+        Intersection southNode = new Intersection(new double[]{600, 750}, 10);
+        Intersection northNode = new Intersection(new double[]{600, 50}, 10);
 
         this.nodes.add(northNode);
         this.nodes.add(southNode);
 
-        createRoad(southNode, northNode, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[] {
+        createRoad(southNode, northNode, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
                 new BreakPoint(600, 745, 0),
                 new BreakPoint(600, 55, 500)
-        }, "main");
+        }, 2, "main");
 
-        createRoad(northNode, southNode, CardinalDirection.EAST, CardinalDirection.EAST, new BreakPoint[] {
+        createRoad(northNode, southNode, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[] {
+                new BreakPoint(600, 45, 0),
+                new BreakPoint(600, 25, 10),
+                new BreakPoint(825, 25, 100),
+                new BreakPoint(825, 775, 700),
+                new BreakPoint(600, 775, 800),
+                new BreakPoint(600, 755, 810)
+        }, 2, "forward");
+
+        createRoad(northNode, southNode, CardinalDirection.EAST, CardinalDirection.EAST, new BreakPoint[]{
                 new BreakPoint(605, 50, 0),
-                new BreakPoint(800, 50, 100),
+                new BreakPoint(800, 50, 80),
                 new BreakPoint(800, 750, 600),
-                new BreakPoint(605, 750, 700)
-        }, "right");
+                new BreakPoint(605, 750, 680)
+        }, 1, "right");
 
-        createRoad(northNode, southNode, CardinalDirection.WEST, CardinalDirection.WEST, new BreakPoint[] {
+       createRoad(northNode, southNode, CardinalDirection.WEST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(595, 50, 0),
-                new BreakPoint(400, 50, 100),
+                new BreakPoint(400, 50, 80),
                 new BreakPoint(400, 750, 600),
-                new BreakPoint(595, 750, 700)
-        }, "left");
+                new BreakPoint(595, 750, 680)
+        }, 1, "left");
 
         for (Node node : nodes) {
-            if (node instanceof MockNode mock) {
+            if (node instanceof Intersection mock) {
                 TrafficLight trafficLight = mock.getTrafficLight();
                 if (trafficLight != null) {
                     infrastructures.add(trafficLight);
                 }
             }
         }
-        */
-
+    }
+    */
         //Zon c
-        MockNode ch1 = new MockNode(new double[]{30, 400}, 10, false);
-        MockNode ch2 = new MockNode(new double[]{30, 450}, 10, true);
-        MockNode ch3 = new MockNode(new double[]{450, 400}, 10, true);
-        MockNode ch4 = new MockNode(new double[]{450, 450}, 10, false);
-        MockNode ch5 = new MockNode(new double[]{170, 450}, 10, false);
-        MockNode ch6 = new MockNode(new double[]{30, 550}, 10, true);
-        //MockNode ch7 = new MockNode(new double[]{170, 550}, 10, false);
-        MockNode ch8 = new MockNode(new double[]{170, 500}, 10, false);
-        MockNode ch9 = new MockNode(new double[]{450, 500}, 10,  true);
-        MockNode ch10 = new MockNode(new double[]{30, 600}, 10, false);
-        //MockNode ch11 = new MockNode(new double[]{170, 600}, 10, false);
-        MockNode ch12 = new MockNode(new double[]{30, 650}, 10,true);
-        //MockNode ch13 = new MockNode(new double[]{30, 700}, 10, false);
-        MockNode ch14 = new MockNode(new double[]{170, 650}, 10, false);
-        MockNode ch15 = new MockNode(new double[]{170, 700}, 10, true);
-        MockNode ch17 = new MockNode(new double[]{300, 650}, 10, true);
-        MockNode ch18 = new MockNode(new double[]{300, 700}, 10, false);
-        //MockNode ch19 = new MockNode(new double[]{300, 600}, 10, false);
-        MockNode ch20 = new MockNode(new double[]{450, 600}, 10, true);
-        MockNode ch21 = new MockNode(new double[]{450, 700}, 10, true);
-        MockNode ch22 = new MockNode(new double[]{550, 400}, 10, false);
-        MockNode ch23 = new MockNode(new double[]{170, 400}, 10, false);
-        
+        Intersection ch1 = new Intersection(new double[]{30, 400}, 10);
+        Intersection ch2 = new Intersection(new double[]{30, 450}, 10);
+        Intersection ch3 = new Intersection(new double[]{450, 400}, 10);
+        Intersection ch4 = new Intersection(new double[]{450, 450}, 10);
+        Intersection ch5 = new Intersection(new double[]{170, 450}, 10);
+        Intersection ch6 = new Intersection(new double[]{30, 550}, 10);
+        //Intersection ch7 = new Intersection(new double[]{170, 550}, 10);
+        Intersection ch8 = new Intersection(new double[]{170, 500}, 10);
+        Intersection ch9 = new Intersection(new double[]{450, 500}, 10);
+        Intersection ch10 = new Intersection(new double[]{30, 600}, 10);
+        //Intersection ch11 = new Intersection(new double[]{170, 600}, 10);
+        Intersection ch12 = new Intersection(new double[]{30, 650}, 10);
+        //Intersection ch13 = new Intersection(new double[]{30, 700}, 10);
+        Intersection ch14 = new Intersection(new double[]{170, 650}, 10);
+        Intersection ch15 = new Intersection(new double[]{170, 700}, 10);
+        Intersection ch17 = new Intersection(new double[]{300, 650}, 10);
+        Intersection ch18 = new Intersection(new double[]{300, 700}, 10);
+        //Intersection ch19 = new Intersection(new double[]{300, 600}, 10);
+        Intersection ch20 = new Intersection(new double[]{450, 600}, 10);
+        Intersection ch21 = new Intersection(new double[]{450, 700}, 10);
+        Intersection ch22 = new Intersection(new double[]{550, 400}, 10);
+        Intersection ch23 = new Intersection(new double[]{170, 400}, 10);
+
         //zon D
-        MockNode dh1 = new MockNode(new double[]{600, 400}, 10, true);
-        MockNode dh2 = new MockNode(new double[]{750, 400}, 10, false);
-        MockNode dh3 = new MockNode(new double[]{600, 550}, 10, false);
-        MockNode dh4 = new MockNode(new double[]{750, 550}, 10, true);
-        MockNode dh6 = new MockNode(new double[]{750, 450}, 10, false);
-        MockNode dh7 = new MockNode(new double[]{750, 500}, 10, true);
-        MockNode dh8 = new MockNode(new double[]{900, 450}, 10, true);
-        MockNode dh9 = new MockNode(new double[]{900, 400}, 10, false);
-        MockNode dh10 = new MockNode(new double[]{1170, 400}, 10, true);
-        MockNode dh11 = new MockNode(new double[]{1170, 450}, 10, false);
-        MockNode dh12 = new MockNode(new double[]{900, 500}, 10, false);
-        //MockNode dh13 = new MockNode(new double[]{1050, 500}, 10, false);
-        MockNode dh14 = new MockNode(new double[]{1170, 550}, 10, true);
-        MockNode dh15 = new MockNode(new double[]{1050, 550}, 10, true);
-        MockNode dh16 = new MockNode(new double[]{900, 550}, 10, false);
-        //MockNode dh17 = new MockNode(new double[]{900, 600}, 10, false);
-        MockNode dh18 = new MockNode(new double[]{750, 600}, 10, true);
-        MockNode dh19 = new MockNode(new double[]{750, 650}, 10, true);
-        MockNode dh20 = new MockNode(new double[]{750, 700}, 10, true);
-        MockNode dh21 = new MockNode(new double[]{600, 600}, 10, true);
-        MockNode dh22 = new MockNode(new double[]{1050, 650}, 10, true);
-        //MockNode dh23 = new MockNode(new double[]{1170, 700}, 10, false);
-        MockNode dh24 = new MockNode(new double[]{1170, 650}, 10, false);
-        MockNode dh25 = new MockNode(new double[]{600, 500}, 10, true);
-        //MockNode dh26 = new MockNode(new double[]{600, 650}, 10, false);
+        Intersection dh1 = new Intersection(new double[]{600, 400}, 10);
+        Intersection dh2 = new Intersection(new double[]{750, 400}, 10);
+        Intersection dh3 = new Intersection(new double[]{600, 550}, 10);
+        Intersection dh4 = new Intersection(new double[]{750, 550}, 10);
+        Intersection dh6 = new Intersection(new double[]{750, 450}, 10);
+        Intersection dh7 = new Intersection(new double[]{750, 500}, 10);
+        Intersection dh8 = new Intersection(new double[]{900, 450}, 10);
+        Intersection dh9 = new Intersection(new double[]{900, 400}, 10);
+        Intersection dh10 = new Intersection(new double[]{1170, 400}, 10);
+        Intersection dh11 = new Intersection(new double[]{1170, 450}, 10);
+        Intersection dh12 = new Intersection(new double[]{900, 500}, 10);
+        //Intersection dh13 = new Intersection(new double[]{1050, 500}, 10);
+        Intersection dh14 = new Intersection(new double[]{1170, 550}, 10);
+        Intersection dh15 = new Intersection(new double[]{1050, 550}, 10);
+        Intersection dh16 = new Intersection(new double[]{900, 550}, 10);
+        //Intersection dh17 = new Intersection(new double[]{900, 600}, 10);
+        Intersection dh18 = new Intersection(new double[]{750, 600}, 10);
+        Intersection dh19 = new Intersection(new double[]{750, 650}, 10);
+        Intersection dh20 = new Intersection(new double[]{750, 700}, 10);
+        Intersection dh21 = new Intersection(new double[]{600, 600}, 10);
+        Intersection dh22 = new Intersection(new double[]{1050, 650}, 10);
+        //Intersection dh23 = new Intersection(new double[]{1170, 700}, 10);
+        Intersection dh24 = new Intersection(new double[]{1170, 650}, 10);
+        Intersection dh25 = new Intersection(new double[]{600, 500}, 10);
+        //Intersection dh26 = new Intersection(new double[]{600, 650}, 10);
 
 
         // lägg till i nodes lista
 
         // zon a
-        //MockNode ah1 = new MockNode(new double[]{30, 50}, 10, false);
-        MockNode ah2 = new MockNode(new double[]{30, 100}, 10, false);
-        MockNode ah3 = new MockNode(new double[]{170, 50}, 10, true);
-        MockNode ah4 = new MockNode(new double[]{170, 100}, 10, true);
-        MockNode ah5 = new MockNode(new double[]{30, 150}, 10, true);
-        MockNode ah6 = new MockNode(new double[]{170, 150}, 10, true);
-        MockNode ah7 = new MockNode(new double[]{30, 200}, 10, false);
-        MockNode ah8 = new MockNode(new double[]{300, 200}, 10, true);
-        MockNode ah9 = new MockNode(new double[]{300, 150}, 10, true);
-        MockNode ah10 = new MockNode(new double[]{30, 300}, 10, false);
-        MockNode ah11 = new MockNode(new double[]{300, 250}, 10, true);
-        MockNode ah12 = new MockNode(new double[]{300, 300}, 10, true);
-        MockNode ah13 = new MockNode(new double[]{170, 300}, 10, true);
-        MockNode ah14 = new MockNode(new double[]{550, 300}, 10, true);
-        MockNode ah15 = new MockNode(new double[]{300, 50}, 10, false);
-        MockNode ah16 = new MockNode(new double[]{450, 50}, 10, false);
-        MockNode ah17 = new MockNode(new double[]{450, 150}, 10, true);
-        MockNode ah18 = new MockNode(new double[]{450, 300}, 10, false);
+        //Intersection ah1 = new Intersection(new double[]{30, 50}, 10);
+        Intersection ah2 = new Intersection(new double[]{30, 100}, 10);
+        Intersection ah3 = new Intersection(new double[]{170, 50}, 10);
+        Intersection ah4 = new Intersection(new double[]{170, 100}, 10);
+        Intersection ah5 = new Intersection(new double[]{30, 150}, 10);
+        Intersection ah6 = new Intersection(new double[]{170, 150}, 10);
+        Intersection ah7 = new Intersection(new double[]{30, 200}, 10);
+        Intersection ah8 = new Intersection(new double[]{300, 200}, 10);
+        Intersection ah9 = new Intersection(new double[]{300, 150}, 10);
+        Intersection ah10 = new Intersection(new double[]{30, 300}, 10);
+        Intersection ah11 = new Intersection(new double[]{300, 250}, 10);
+        Intersection ah12 = new Intersection(new double[]{300, 300}, 10);
+        Intersection ah13 = new Intersection(new double[]{170, 300}, 10);
+        Intersection ah14 = new Intersection(new double[]{550, 300}, 10);
+        Intersection ah15 = new Intersection(new double[]{300, 50}, 10);
+        Intersection ah16 = new Intersection(new double[]{450, 50}, 10);
+        Intersection ah17 = new Intersection(new double[]{450, 150}, 10);
+        Intersection ah18 = new Intersection(new double[]{450, 300}, 10);
 
         // zon b
-        MockNode bh1 = new MockNode(new double[]{600, 50}, 10, true);
-        MockNode bh2 = new MockNode(new double[]{600, 150}, 10, true);
-        MockNode bh3 = new MockNode(new double[]{900, 50}, 10, false);
-        MockNode bh4 = new MockNode(new double[]{900, 100}, 10, true);
-        //MockNode bh5 = new MockNode(new double[]{750, 100}, 10, false);
-        MockNode bh6 = new MockNode(new double[]{600, 200}, 10, false);
-        MockNode bh8 = new MockNode(new double[]{750, 150}, 10, true);
-        MockNode bh9 = new MockNode(new double[]{900, 150}, 10, false);
-        MockNode bh10 = new MockNode(new double[]{900, 200}, 10, true);
-        MockNode bh11 = new MockNode(new double[]{750, 200}, 10, false);
-        MockNode bh12 = new MockNode(new double[]{600, 300}, 10, false);
-        MockNode bh16 = new MockNode(new double[]{750, 300}, 10, true);
-        MockNode bh20 = new MockNode(new double[]{900, 300}, 10, true);
-        MockNode bh22 = new MockNode(new double[]{600, 250}, 10, true);
-        MockNode bh23 = new MockNode(new double[]{1050, 300}, 10, false);
-        MockNode bh24 = new MockNode(new double[]{1050, 200}, 10, true);
-        //MockNode bh25 = new MockNode(new double[]{1170, 50}, 10, false);
-        MockNode bh26 = new MockNode(new double[]{1170, 100}, 10, false);
-        MockNode bh27 = new MockNode(new double[]{1170, 150}, 10, true);
-        MockNode bh28 = new MockNode(new double[]{1170, 200}, 10, true);
-        MockNode bh29 = new MockNode(new double[]{1170, 300}, 10, true);
+        Intersection bh1 = new Intersection(new double[]{600, 50}, 10);
+        Intersection bh2 = new Intersection(new double[]{600, 150}, 10);
+        Intersection bh3 = new Intersection(new double[]{900, 50}, 10);
+        Intersection bh4 = new Intersection(new double[]{900, 100}, 10);
+        //Intersection bh5 = new Intersection(new double[]{750, 100}, 10);
+        Intersection bh6 = new Intersection(new double[]{600, 200}, 10);
+        Intersection bh8 = new Intersection(new double[]{750, 150}, 10);
+        Intersection bh9 = new Intersection(new double[]{900, 150}, 10);
+        Intersection bh10 = new Intersection(new double[]{900, 200}, 10);
+        Intersection bh11 = new Intersection(new double[]{750, 200}, 10);
+        Intersection bh12 = new Intersection(new double[]{600, 300}, 10);
+        Intersection bh16 = new Intersection(new double[]{750, 300}, 10);
+        Intersection bh20 = new Intersection(new double[]{900, 300}, 10);
+        Intersection bh22 = new Intersection(new double[]{600, 250}, 10);
+        Intersection bh23 = new Intersection(new double[]{1050, 300}, 10);
+        Intersection bh24 = new Intersection(new double[]{1050, 200}, 10);
+        //Intersection bh25 = new Intersection(new double[]{1170, 50}, 10);
+        Intersection bh26 = new Intersection(new double[]{1170, 100}, 10);
+        Intersection bh27 = new Intersection(new double[]{1170, 150}, 10);
+        Intersection bh28 = new Intersection(new double[]{1170, 200}, 10);
+        Intersection bh29 = new Intersection(new double[]{1170, 300}, 10);
 
 
 
@@ -222,7 +229,7 @@ public class Map {
         nodes.add(ch21);
         nodes.add(ch22);
         nodes.add(ch23);
-    
+
 
         //zon D
         nodes.add(dh1);
@@ -250,18 +257,9 @@ public class Map {
         nodes.add(dh24);
         nodes.add(dh25);
         //nodes.add(dh26);
-        
-        for (Node node : nodes) {
-            if (node instanceof MockNode mock) {
-                TrafficLight trafficLight = mock.getTrafficLight();
-                if (trafficLight != null) {
-                    infrastructures.add(trafficLight);
-                }
-            }
-        }
-        
+
         // -----
-       
+
 
         // gör roads genom funktion
 
@@ -282,9 +280,9 @@ public class Map {
                 new BreakPoint(30, 405, 50),
         }, "cr12");
 
-        createRoad(ch4, ch3, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
-                new BreakPoint(450, 445, 0),
-                new BreakPoint(450, 405, 50),
+        createRoad(ch3, ch4, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                new BreakPoint(450, 405, 0),
+                new BreakPoint(450, 445, 40),
         }, "cr34");
 
         createRoad(ch4, ch5, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
@@ -371,7 +369,7 @@ public class Map {
                 new BreakPoint(35, 650, 130),
         }, "cr1412");
 
-        createRoad(ch10, ch14, CardinalDirection.WEST, CardinalDirection.NORTH, new BreakPoint[]{
+        createRoad(ch10, ch14, CardinalDirection.EAST, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(35, 600, 0),
                 new BreakPoint(170, 600, 140),
                 new BreakPoint(170, 645, 280),
@@ -440,15 +438,15 @@ public class Map {
                 new BreakPoint(600, 605, 200),
         }, "dr1926");
 
-        createRoad(dh6, dh8, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
-                new BreakPoint(755, 450, 0),
-                new BreakPoint(895, 450, 150),
-        }, "dr68");
+        createRoad(dh8, dh6, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(895, 450, 0),
+                new BreakPoint(755, 450, 150),
+        }, "dr86");
 
-        createRoad(dh9, dh10, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(905, 400, 0),
-                new BreakPoint(1165, 400, 270),
-        }, "dr910");
+        createRoad(dh10, dh9, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(1165, 400, 0),
+                new BreakPoint(905, 400, 270),
+        }, "dr109");
 
         createRoad(dh9, dh8, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(900, 405, 0),
@@ -566,9 +564,9 @@ public class Map {
                 new BreakPoint(595, 50, 150),
         }, "abr161");
 
-        createRoad(bh2, ah17, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(595, 150, 0),
-                new BreakPoint(455, 150, 150),
+        createRoad(ah17, bh2, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(455, 150, 0),
+                new BreakPoint(595, 150, 150),
         }, "bar172");
 
         createRoad(ah11, bh22, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
@@ -603,11 +601,6 @@ public class Map {
         }, "cdr259");
 
 // ZONE A
-
-        createRoad(ah3, ah4, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
-                new BreakPoint(170, 55, 0),
-                new BreakPoint(170, 95, 50),
-        }, "ar34");
 
         createRoad(ah3, ah15, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(175, 50, 0),
@@ -645,10 +638,10 @@ public class Map {
                 new BreakPoint(30, 155, 50),
         }, "ar75");
 
-        createRoad(ah7, ah8, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
-                new BreakPoint(35, 200, 0),
-                new BreakPoint(295, 200, 270),
-        }, "ar78");
+        createRoad(ah8, ah7, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(295, 200, 0),
+                new BreakPoint(35, 200, 270),
+        }, "ar87");
 
         createRoad(ah10, ah7, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
                 new BreakPoint(30, 295, 0),
@@ -680,9 +673,9 @@ public class Map {
                 new BreakPoint(300, 195, 50),
         }, "ar98");
 
-        createRoad(ah9, ah6, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
-                new BreakPoint(295, 150, 0),
-                new BreakPoint(175, 150, 130),
+        createRoad(ah6, ah9, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
+                new BreakPoint(175, 150, 0),
+                new BreakPoint(295, 150, 130),
         }, "ar96");
 
         createRoad(ah15, ah9, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
@@ -758,10 +751,10 @@ public class Map {
                 new BreakPoint(1045, 200, 150),
         }, "br1024");
 
-        createRoad(bh24, bh28, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
-                new BreakPoint(1055, 200, 0),
-                new BreakPoint(1165, 200, 120),
-        }, "br2428");
+        createRoad(bh28, bh24, CardinalDirection.WEST, CardinalDirection.EAST, new BreakPoint[]{
+                new BreakPoint(1165, 200, 0),
+                new BreakPoint(1055, 200, 120),
+        }, "br2824");
 
         createRoad(bh3, bh4, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(900, 55, 0),
@@ -798,10 +791,10 @@ public class Map {
                 new BreakPoint(600, 155, 150),
         }, "br62");
 
-        createRoad(bh11, bh8, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
-                new BreakPoint(750, 195, 0),
-                new BreakPoint(750, 155, 50),
-        }, "br118");
+        createRoad(bh8, bh11, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                new BreakPoint(750, 155, 0),
+                new BreakPoint(750, 195, 50),
+        }, "br811");
 
         createRoad(bh11, bh10, CardinalDirection.EAST, CardinalDirection.WEST, new BreakPoint[]{
                 new BreakPoint(755, 200, 0),
@@ -833,10 +826,10 @@ public class Map {
                 new BreakPoint(900, 295, 100),
         }, "br1020");
 
-        createRoad(bh23, bh24, CardinalDirection.NORTH, CardinalDirection.SOUTH, new BreakPoint[]{
-                new BreakPoint(1050, 295, 0),
-                new BreakPoint(1050, 205, 100),
-        }, "br2324");
+        createRoad(bh24, bh23, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
+                new BreakPoint(1050, 205, 0),
+                new BreakPoint(1050, 295, 100),
+        }, "br2423");
 
         createRoad(bh28, bh29, CardinalDirection.SOUTH, CardinalDirection.NORTH, new BreakPoint[]{
                 new BreakPoint(1170, 205, 0),
@@ -893,22 +886,32 @@ public class Map {
                 new BreakPoint(170, 395, 0),
                 new BreakPoint(170, 305, 100),
         }, "cra2313");
+
+        for (Node node : nodes) {
+            if (node instanceof Intersection mock) {
+                TrafficLight trafficLight = mock.getTrafficLight();
+                if (trafficLight != null) {
+                    infrastructures.add(trafficLight);
+                }
+            }
+        }
     }
 
     private Road createRoad(
-            MockNode from,
-            MockNode to,
+            Intersection from,
+            Intersection to,
             CardinalDirection outDir,
             CardinalDirection inDir,
             BreakPoint[] points,
+            int lanes,
             String name
     ) {
 
-        RoadRender render = new RoadRender(10, points);
+        RoadRender render = new RoadRender(15, points);
 
         int length = points[points.length - 1].cell();
 
-        Road road = new Road(to, length, 1, render, name);
+        Road road = new Road(to, length, lanes, render, name);
 
         from.addOutgoingRoad(road, outDir); // utgående
         to.addIncomingRoad(road, inDir); // ingående
@@ -916,6 +919,20 @@ public class Map {
         roads.add(road); // lägg till väg
 
         return road;
+    }
+
+
+
+    private Road createRoad(
+            Intersection from,
+            Intersection to,
+            CardinalDirection outDir,
+            CardinalDirection inDir,
+            BreakPoint[] points,
+            String name
+    ) {
+
+        return createRoad(from, to, outDir, inDir, points, 2, name);
     }
 
     public ArrayList<Node> getNodes() {

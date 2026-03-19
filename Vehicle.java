@@ -9,7 +9,27 @@ import javafx.scene.shape.Rectangle;
  * Subclasses (e.g., Car, Bus, Truck) typically configure different VehicleProperties */
 public class Vehicle {
 
-    private record Turn(Node node, Road road){};
+    private class Turn {
+        private Road from;
+        private Road to;
+
+        public Turn(Road from, Road to) {
+            this.from = from;
+            this.to = to;
+        }
+
+        public Road fromRoad() {
+            return this.from;
+        }
+
+        public Road toRoad() {
+            return this.to;
+        }
+
+        public void setToRoad(Road road) {
+            this.to = road;
+        }
+    };
 
     private class PathPlanner {
 
@@ -25,36 +45,52 @@ public class Vehicle {
             return possibleTurns.get(this.turnRandomizer.nextInt(possibleTurns.size()));
         }
 
-        public Road getTurnDecision(Node node, List<Road> possibleTurns) {
+        public Road getTurnDecision(Road from, List<Road> possibleTurns) {
             if (possibleTurns.isEmpty()) {
                 return null;
             }
 
-            // Find any previously planned turns for the node
+            // Find any previously planned turns for the road
+            Turn existingTurnDecision = null;
             for (Turn decision : this.plannedTurns) {
-                if (decision.node == node) {
-                    for (Road possibleTurn : possibleTurns) {
-                        if (decision.road == possibleTurn) {
-                            return decision.road;
-                        }
-                    }
+                if (decision.fromRoad() == from) {
+                    existingTurnDecision = decision;
+                    break;
                 }
             }
 
-            // If there were no planned decisions, create one and return it
-            Road road = this.chooseRoad(possibleTurns);
-            this.plannedTurns.add(new Turn(node, road));
-            return road;
+            if (existingTurnDecision == null) {
+                Road decidedRoad = this.chooseRoad(possibleTurns);
+                this.plannedTurns.add(new Turn(from, decidedRoad));
+                return decidedRoad;
+            }
+
+            // Check that the planned turn is possible
+            for (Road possibleTurn : possibleTurns) {
+                if (existingTurnDecision.toRoad() == possibleTurn) {
+                    return existingTurnDecision.toRoad();
+                }
+            }
+
+            // If the planned turn was not possible, replan it
+            existingTurnDecision.setToRoad(this.chooseRoad(possibleTurns));
+            return existingTurnDecision.toRoad();
         }
 
-        public void clearDecisions() {
-            this.plannedTurns.clear();
+        // Called by VehicleMovement when it executes a turn from a road
+        // Removes the turn decision related to that road to free its memory usage
+        // and to allow for another turn to be chosen the next time
+        public void onTurnedFromRoad(Road from) {
+            this.plannedTurns.removeIf(turnDecision -> {
+                return (turnDecision.fromRoad() == from);
+            });
         }
     }
 
     private VehicleProperties properties;
     private RoadPosition position;
     private int velocity;
+    private LaneChangeDecision laneChangeDecision;
     private PathPlanner pathPlanner;
     private Rectangle graphic;
 
@@ -63,15 +99,24 @@ public class Vehicle {
         this.properties = properties;
         this.position = position;
         this.velocity = velocity;
+        this.laneChangeDecision = LaneChangeDecision.STRAIGHT;
         this.pathPlanner = new PathPlanner();
     }
 
-    public Road chooseRoad(Node node, ArrayList<Road> roads) {
-        return this.pathPlanner.getTurnDecision(node, roads);
+    public Road chooseRoad(Road from, ArrayList<Road> possibleTurns) {
+        return this.pathPlanner.getTurnDecision(from, possibleTurns);
     }
 
-    public void clearTurnDecisions() {
-        this.pathPlanner.clearDecisions();
+    public void onTurnedFromRoad(Road from) {
+        this.pathPlanner.onTurnedFromRoad(from);
+    }
+
+    public LaneChangeDecision getLaneChangeDecision() {
+        return this.laneChangeDecision;
+    }
+
+    public void setLaneChangeDecision(LaneChangeDecision decision) {
+        this.laneChangeDecision = decision;
     }
 
     public int getVelocity() {
@@ -92,12 +137,6 @@ public class Vehicle {
 
     public RoadPosition getPosition() {
         return this.position;
-    }
-
-    public void displayDetailsVehicle(){
-        System.out.println("Vehicle details: ");
-        System.out.println("Velocity: " + velocity);
-        System.out.println("Road: " + this.position.road());
     }
 
     public void setGraphic(Rectangle r){

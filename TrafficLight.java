@@ -40,13 +40,11 @@ public class TrafficLight implements Infrastructure {
 
     // Properties
     private TrafficLightConnection[] connections;
-    private Circle[] lights;
     private int numberOfRoads;
 
     public TrafficLight(int numberOfRoads) {
         this.numberOfRoads = numberOfRoads;
         this.connections = new TrafficLightConnection[numberOfRoads];
-        this.lights = new Circle[numberOfRoads];
         this.activeGreen = 0;
         this.currentGreenTime = 0;
     }
@@ -77,7 +75,7 @@ public class TrafficLight implements Infrastructure {
         boolean hasTraffic = false;
 
         for (int lane = 0; lane < road.getLanes(); lane++) {
-            Road.ScanResult scan = road.scanCells(0, scanStart, roadLength, includeStartInScan);
+            Road.ScanResult scan = road.scanCells(lane, scanStart, roadLength, includeStartInScan);
             if (!scan.endOfRoadReached()) {
                 hasTraffic = true;
                 break;

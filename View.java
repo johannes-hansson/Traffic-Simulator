@@ -29,7 +29,7 @@ public class View implements SimulationUpdateListener {
 
             if(!roadsDrawn){
                 for (Road road : roads){
-                    road.getRoadRender().draw(roadLayer);
+                    road.getRoadRender().draw(roadLayer, road);
                 }
 
                 ArrayList<Node> nodes = map.getNodes();
@@ -39,7 +39,7 @@ public class View implements SimulationUpdateListener {
                     Rectangle nodeGraphic = new Rectangle(size, size);
                     nodeGraphic.setX(position[0] - nodeGraphic.getWidth() / 2);
                     nodeGraphic.setY(position[1] - nodeGraphic.getHeight() / 2);
-                    nodeGraphic.setFill(Color.GRAY);
+                    nodeGraphic.setFill(Color.WHITE);
                     this.roadLayer.getChildren().add(nodeGraphic);
                 }
 
@@ -69,7 +69,8 @@ public class View implements SimulationUpdateListener {
                 Road road = vehicle.getPosition().road();
                 int cell = vehicle.getPosition().cell();
 
-                ArrayList<BreakPoint> points = road.getRoadRender().getBreakPoints();
+                RoadRender vehicleRoadRender = road.getRoadRender();
+                ArrayList<BreakPoint> points = vehicleRoadRender.getBreakPoints();
                 if (points.size() < 2) continue;
 
                 int lowerBreakPointIndex = 0;
@@ -103,6 +104,23 @@ public class View implements SimulationUpdateListener {
 
                 double x = p1.x() + (breakPointsDeltaX) * t;
                 double y = p1.y() + (breakPointsDeltaY) * t;
+
+                // Move the vehicle to the correct lane
+                int laneCount = road.getLanes();
+                double laneWidth = vehicleRoadRender.getWidth() / laneCount;
+                double laneFraction = (double)vehicle.getPosition().lane() - ((double)(laneCount-1) / 2);
+                double laneOffset = laneWidth * laneFraction;
+
+                // Find the perpendicular unit vector
+                double segmentLength = Math.sqrt(breakPointsDeltaX * breakPointsDeltaX + breakPointsDeltaY * breakPointsDeltaY);
+                double[] perpendicularUnitVector = new double[] {
+                        -breakPointsDeltaY / segmentLength,
+                        breakPointsDeltaX / segmentLength
+                };
+
+                // Add the lane offset to the position
+                x -= perpendicularUnitVector[0] * laneOffset;
+                y -= perpendicularUnitVector[1] * laneOffset;
 
                 vehicleGraphic.setX(x - vehicleGraphic.getWidth()/2);
                 vehicleGraphic.setY(y - vehicleGraphic.getHeight()/2);

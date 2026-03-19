@@ -14,15 +14,6 @@ public class VehicleMovement {
     Moves a vehicle from its current position to the given position
     and sends an update to the affected roads about the position change,
     so that the roads can update their internal lookup tables.
-
-    Does not check for collisions and will cause any vehicle it collides with
-    to be overwritten in the roads lookup table. This would cause that
-    vehicle to disapear from the lookup table which would lead to significant 
-    state corruption. The availability/vacancy of the given position thus always needs
-    to be confirmed before calling the method.
-
-    NOTE: For testing purposes, the method does check that the given position
-    is available before moving. This check will be removed for performance.
     */
     private void moveVehicle(Vehicle vehicle, RoadPosition position) {
         if (position.road().isOccupied(position.lane(), position.cell())) {
@@ -79,9 +70,6 @@ public class VehicleMovement {
 
     private void processVehicle(Vehicle vehicle) {
         int velocity = vehicle.getVelocity();
-        if (velocity == 0) {
-            return;
-        }
 
         RoadPosition position = vehicle.getPosition();
 
@@ -89,6 +77,24 @@ public class VehicleMovement {
         Road currentRoad = position.road();
         int currentLane = position.lane();
         int currentCell = position.cell();
+
+        // Lane changes
+        LaneChangeDecision laneChange = vehicle.getLaneChangeDecision();
+        int newLane = currentLane + laneChange.getDirection();
+
+        if (newLane != currentLane) {
+            // Check the bounds of the lanes
+            if (newLane < 0 || newLane >= currentRoad.getLanes()) {
+                System.err.println("Vehicle wanted to change to an out of bounds lane");
+            } else {
+                if (!currentRoad.isOccupied(newLane, currentCell)) {
+                    currentLane = newLane;
+                } else {
+                    //System.out.println("Warning: Vehicle attempted to make a lane change that would have caused a collision");
+                }
+            }
+        }
+
 
         Road.ScanResult scanResult = currentRoad.scanCells(currentLane, currentCell, velocity, false);
         int distanceTravelled = scanResult.distance();
@@ -98,7 +104,7 @@ public class VehicleMovement {
         // road to turn to and, if possible, make the turn and rerun the scan
         while (scanResult.endOfRoadReached()) {
             Node node = currentRoad.getEndNode();
-            Road roadToEnter = vehicle.chooseRoad(node, node.getAvailableTurns(currentRoad));
+            Road roadToEnter = vehicle.chooseRoad(currentRoad, node.getAvailableTurns(currentRoad));
 
             // Check that the turn to the new road can be made
             boolean canTurn = node.requestTurn(currentRoad, roadToEnter);
@@ -124,10 +130,11 @@ public class VehicleMovement {
 
             // Make the turn
             scanResult = roadToEnter.scanCells(laneToEnter, 0, velocity - distanceTravelled, true);
-            if (scanResult.wasBlocked()) {
-                System.out.println("The first cell of a new road was blocked");
+            if (scanResult.distance() <= 0) {
                 break;
             }
+
+            vehicle.onTurnedFromRoad(currentRoad);
 
             currentRoad = roadToEnter;
             currentLane = laneToEnter;
@@ -136,7 +143,7 @@ public class VehicleMovement {
         }
 
         if (scanResult.wasBlocked()) {
-            System.out.println("Warning: Vehicle had a velocity that would have caused a collision");
+            //System.out.println("Warning: Vehicle had a velocity that would have caused a collision");
         }
 
         if (distanceTravelled == 0) return;
